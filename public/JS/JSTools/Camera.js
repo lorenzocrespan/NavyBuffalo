@@ -35,10 +35,11 @@ export class Camera {
 	}
 
 	moveCamera() {
-		console.log(Math.cos(THETA) * this.radiusModify(radius));
+		console.log("Camera update");
 		this.position[0] = Math.cos(THETA) * this.radiusModify(radius);
 		this.position[1] = Math.sin(THETA) * this.radiusModify(radius);
 		this.position[2] = Math.sin(PHI) * radius;
+		updateCamera = false;
 	}
 
 	// Compute the camera's matrix using look at.
@@ -79,6 +80,7 @@ export function setCameraControls(canvas, isActive) {
 
 	canvas.onmousemove = function (e) {
 		if (!drag) return false;
+		updateCamera = true;
 		dX = (-(e.pageX - old_x) * 2 * Math.PI) / canvas.width;
 		dY = (-(e.pageY - old_y) * 2 * Math.PI) / canvas.height;
 		THETA += dX;
@@ -98,6 +100,7 @@ export function setCameraControls(canvas, isActive) {
 		if (e.keyCode === 87 && radius > minRadius) radius -= 1;
 		else if (e.keyCode === 83 && radius < maxRadius) radius += 1;
 		// console.log(radius, maxRadius, minRadius);
+		updateCamera = true;
 	}
 }
 
