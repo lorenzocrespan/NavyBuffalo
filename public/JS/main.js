@@ -46,6 +46,9 @@ let core = new Core("screenCanvas");
 
 core.setScene(sceneComposition);
 
+
+core.generateCamera();
+
 console.log("Core del programma dopo il caricamento della scena");
 console.debug(core);
 console.log("Conclusione del caricamento del core del programma");

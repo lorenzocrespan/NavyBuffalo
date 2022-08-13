@@ -1,10 +1,12 @@
 import { MeshLoader } from "./MeshLoader.js";
-import { setControls } from "./Control.js";
+import { getDrag, setControls } from "./Control.js";
+import { Camera } from "./Camera.js";
 
 let gl;
 let meshlist = [];
 let delta;
 let canvas;
+let camera;
 
 // Definizione della classe "Core".
 export class Core {
@@ -15,10 +17,12 @@ export class Core {
 		// Creazione di un contesto di rendering WebGL.
 		this.gl = this.canvas.getContext("experimental-webgl");
 		if (!this.gl) return;
+		// Creazione della camera
 		// Elementi di costruzione della scena.
 		this.meshlist = [];
 		this.loader = new MeshLoader(this.meshlist);
 		// Set controlli movimento
+		// TODO: Riprogettare il movimento (Non mi piace muovere l'origine degli oggetti)
 		this.delta = { x: 0, y: 0, z: 0 };
 		setControls(this.canvas, this.delta);
 		// Passaggio alle variabili globali delle variabili appartenenti
@@ -49,6 +53,17 @@ export class Core {
 		// Aggiornamento della lista contenente i dati riguardante gli oggetti della scena
 		meshlist = this.meshlist;
 	}
+
+	generateCamera() {
+		camera = new Camera(
+			[9, 9, 4], // Cordinate in cui è collocata la camera
+			[0, 0, 1], //
+			find_actor_coords(),
+			2,
+			10,
+			70
+		);
+	}
 }
 
 let onetime = true;
@@ -61,31 +76,23 @@ export function render(time = 0) {
 	]);
 	// Tell it to use our program (pair of shaders)
 	gl.useProgram(program);
-
+	camera.moveCamera();
 	// TODO: Renderizzare solo se vi è una modifica.
-	
+	// if (getDrag()) {
 	meshlist.forEach((elem) => {
 		elem.render(
 			gl,
 			{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
 			program,
-			find_actor_coords(),
-			// [0, 0, 0],
+			camera,
 			delta
-			// Camera obj
 		);
 	});
+	// }
 
 	delta.x = 0;
 	delta.y = 0;
 	delta.z = 0;
-
-	// var modelXRotationRadians = degToRad(0);
-	// var modelYRotationRadians = degToRad(0);
-
-	// canvas.onmousedown = mouseDown;
-	// canvas.onmouseup = mouseUp;
-	// canvas.onmousemove = mouseMove;
 
 	function computeMatrix(viewProj, translation, rotX, rotY) {
 		let matrix = m4.translate(
@@ -120,39 +127,3 @@ function find_actor_coords() {
 		actor.mesh.positions[2],
 	];
 }
-
-/*================= Mouse events ======================*/
-
-function degToRad(d) {
-	return (d * Math.PI) / 180;
-}
-
-var drag;
-var THETA = degToRad(50),
-	PHI = degToRad(30);
-var old_x, old_y;
-var dX, dY;
-
-var mouseDown = function (e) {
-	drag = true;
-	(old_x = e.pageX), (old_y = e.pageY);
-	e.preventDefault();
-	return false;
-};
-
-var mouseUp = function (e) {
-	drag = false;
-};
-
-var mouseMove = function (e) {
-	if (!drag) return false;
-	dX = (-(e.pageX - old_x) * 2 * Math.PI) / canvas.width;
-	dY = (-(e.pageY - old_y) * 2 * Math.PI) / canvas.height;
-	THETA += dX;
-	PHI += dY;
-	(old_x = e.pageX), (old_y = e.pageY);
-	e.preventDefault();
-	console.log((THETA, PHI));
-};
-
-/*================= Mouse events ======================*/

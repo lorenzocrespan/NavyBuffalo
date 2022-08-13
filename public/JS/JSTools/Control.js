@@ -8,6 +8,10 @@ function degToRad(d) {
 	return (d * Math.PI) / 180;
 }
 
+export function getDrag() {
+	return drag;
+}
+
 export function setControls(canvas, delta) {
 	window.addEventListener("keydown", onKeyDown, true);
 
@@ -32,7 +36,7 @@ export function setControls(canvas, delta) {
 		old_x = e.pageX;
 		old_y = e.pageY;
 		e.preventDefault();
-		console.log(THETA, PHI);
+		// console.log(THETA, PHI);
 	};
 
 	function onKeyDown(e) {
@@ -57,6 +61,7 @@ export function setControls(canvas, delta) {
 			delta.x -= 0.05;
 			console.log("D");
 		}
-		console.log(delta.x, delta.y, delta.z);
+		console.log("Rilevato un movimento del centro dell'oggetto");
+		console.log(delta);
 	}
 }
