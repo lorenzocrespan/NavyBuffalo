@@ -13,7 +13,7 @@ export function getDrag() {
 }
 
 export function setControls(canvas, delta) {
-	window.addEventListener("keydown", onKeyDown, true);
+	// window.addEventListener("keydown", onKeyDown, true);
 
 	canvas.onmousedown = function (e) {
 		drag = true;

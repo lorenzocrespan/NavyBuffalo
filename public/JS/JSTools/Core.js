@@ -1,6 +1,6 @@
 import { MeshLoader } from "./MeshLoader.js";
 import { getDrag, setControls } from "./Control.js";
-import { Camera, setCameraControls } from "./Camera.js";
+import { Camera, setCameraControls, getUpdateCamera } from "./Camera.js";
 
 let gl;
 let meshlist = [];
@@ -58,10 +58,9 @@ export class Core {
 
 	generateCamera() {
 		camera = new Camera(
-			[9, 9, 4], // Cordinate in cui è collocata la camera
+			[0, 0, 0], // Cordinate in cui è collocata la camera
 			[0, 0, 1], //
 			find_actor_coords(),
-			10,
 			70
 		);
 	}
@@ -77,7 +76,7 @@ export function render(time = 0) {
 	]);
 	// Tell it to use our program (pair of shaders)
 	gl.useProgram(program);
-	camera.moveCamera();
+	if (getUpdateCamera()) camera.moveCamera();
 	// TODO: Renderizzare solo se vi è una modifica.
 	// if (getDrag()) {
 	meshlist.forEach((elem) => {

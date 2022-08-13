@@ -1,12 +1,16 @@
+let updateCamera = true;
 // Parametri globali utilizzati all'interno di Camera.js.
 //
 let drag;
-let THETA = 0,
-	PHI = 0;
+let THETA = degToRad(180),
+	PHI = degToRad(60);
 let old_x, old_y;
 let dX, dY;
+
 //
-var angle;
+let radius = 10;
+let maxRadius = 12,
+	minRadius = 7;
 
 // Definizione della classe "Camera".
 // A suo interno vi è la completa gestione delle caratteristiche relative
@@ -18,13 +22,12 @@ export class Camera {
 	// target, soggetto della scena.
 	// radius, distanza dal soggetto della scena.
 	// fieldOfView, ...
-	constructor(position, up, target, radius, fieldOfView) {
-		this.position = position;
+	constructor(position, up, target, fieldOfView) {
+		this.position = [0, 0, 0];
 		this.up = up;
 		this.target = target;
-		this.radius = radius;
+
 		this.fieldOfView = fieldOfView;
-		angle = 0;
 	}
 
 	radiusModify(radius) {
@@ -32,7 +35,7 @@ export class Camera {
 	}
 
 	moveCamera() {
-		const radius = 10;
+		console.log(Math.cos(THETA) * this.radiusModify(radius));
 		this.position[0] = Math.cos(THETA) * this.radiusModify(radius);
 		this.position[1] = Math.sin(THETA) * this.radiusModify(radius);
 		this.position[2] = Math.sin(PHI) * radius;
@@ -55,9 +58,14 @@ export class Camera {
 	}
 }
 
+export function getUpdateCamera() {
+	return updateCamera;
+}
+
 export function setCameraControls(canvas, isActive) {
+	window.addEventListener("keydown", onKeyDown, true);
+
 	canvas.onmousedown = function (e) {
-		console.log("Mouse down per il listener della camera.");
 		drag = true;
 		old_x = e.pageX;
 		old_y = e.pageY;
@@ -66,7 +74,6 @@ export function setCameraControls(canvas, isActive) {
 	};
 
 	canvas.onmouseup = function (e) {
-		console.log(THETA, PHI);
 		drag = false;
 	};
 
@@ -75,14 +82,25 @@ export function setCameraControls(canvas, isActive) {
 		dX = (-(e.pageX - old_x) * 2 * Math.PI) / canvas.width;
 		dY = (-(e.pageY - old_y) * 2 * Math.PI) / canvas.height;
 		THETA += dX;
-		PHI += dY;
+		PHI -= dY;
+		if (PHI > degToRad(75)) PHI = degToRad(75);
+		if (PHI < degToRad(35)) PHI = degToRad(35);
 		old_x = e.pageX;
 		old_y = e.pageY;
 		e.preventDefault();
 	};
+
+	// Lista codici - tastiera
+	// 87 >> " W "
+	// 83 >> " S "
+	function onKeyDown(e) {
+		// console.log("Rilevato un movimento del raggio della camera.");
+		if (e.keyCode === 87 && radius > minRadius) radius -= 1;
+		else if (e.keyCode === 83 && radius < maxRadius) radius += 1;
+		// console.log(radius, maxRadius, minRadius);
+	}
 }
 
-// Funzioni potenzialmente esportabili perchè utilizzate da più JS.
 function degToRad(d) {
 	return (d * Math.PI) / 180;
 }
