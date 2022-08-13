@@ -1,50 +1,46 @@
+// Parametri globali utilizzati all'interno di Camera.js.
+//
+let drag;
+let THETA = 0,
+	PHI = 0;
+let old_x, old_y;
+let dX, dY;
+//
 var angle;
+
 // Definizione della classe "Camera".
 // A suo interno vi è la completa gestione delle caratteristiche relative
 // alla camera.
 export class Camera {
 	// Costruttore della classe "Camera".
-	// position,
-	// up
-	// target
-	// nPlanets
-	// radius
-	// fieldOfView
-	constructor(position, up, target, nPlanets, radius, fieldOfView) {
+	// position, posizione spaziale (x, y, z) della camera.
+	// up, ...
+	// target, soggetto della scena.
+	// radius, distanza dal soggetto della scena.
+	// fieldOfView, ...
+	constructor(position, up, target, radius, fieldOfView) {
 		this.position = position;
 		this.up = up;
 		this.target = target;
-		this.nPlanets = nPlanets;
 		this.radius = radius;
 		this.fieldOfView = fieldOfView;
 		angle = 0;
 	}
 
-	zoom(offset) {
-		this.position[2] += offset;
+	radiusModify(radius) {
+		return radius * Math.cos(PHI);
 	}
 
 	moveCamera() {
-		console.log("Ricalcolo posizione camera");
-		console.log(angle);
-		const radius = 5;
-		angle += this.degToRad(1);
-		this.position[0] = Math.cos(angle) * radius;
-		this.position[1] = Math.sin(angle) * radius;
+		const radius = 10;
+		this.position[0] = Math.cos(THETA) * this.radiusModify(radius);
+		this.position[1] = Math.sin(THETA) * this.radiusModify(radius);
+		this.position[2] = Math.sin(PHI) * radius;
 	}
 
 	// Compute the camera's matrix using look at.
 	cameraMatrix() {
 		return m4.lookAt(this.position, this.target, this.up);
-	}
-
-	cameraMatrix2() {
-		return m4.translate(
-			m4.yRotation(this.degToRad(70)),
-			0,
-			0,
-			this.radius * 1.5
-		);
 	}
 
 	// Make a view matrix from the camera matrix.
@@ -57,42 +53,36 @@ export class Camera {
 		let aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
 		return m4.perspective(this.fieldOfView, aspect, 1, 2000);
 	}
+}
 
-	// Compute a view projection matrix
-	viewProjectionMatrix(gl) {
-		return m4.multiply(this.projectionMatrix(gl), this.viewMatrix());
-	}
+export function setCameraControls(canvas, isActive) {
+	canvas.onmousedown = function (e) {
+		console.log("Mouse down per il listener della camera.");
+		drag = true;
+		old_x = e.pageX;
+		old_y = e.pageY;
+		e.preventDefault();
+		return false;
+	};
 
-	matrixLocation(gl, program) {
-		return gl.getUniformLocation(program, "u_world");
-	}
+	canvas.onmouseup = function (e) {
+		console.log(THETA, PHI);
+		drag = false;
+	};
 
-	computeMatrix(viewProj, translation, rotX, rotY) {
-		let matrix = m4.translate(
-			viewProj,
-			translation[0],
-			translation[1],
-			translation[2]
-		);
-		matrix = m4.xRotate(matrix, rotX);
-		return m4.yRotate(matrix, rotY);
-	}
+	canvas.onmousemove = function (e) {
+		if (!drag) return false;
+		dX = (-(e.pageX - old_x) * 2 * Math.PI) / canvas.width;
+		dY = (-(e.pageY - old_y) * 2 * Math.PI) / canvas.height;
+		THETA += dX;
+		PHI += dY;
+		old_x = e.pageX;
+		old_y = e.pageY;
+		e.preventDefault();
+	};
+}
 
-	uniform(gl, program) {
-		for (let i = 0; i < this.nPlanets; i++) {
-			let angle = (i * Math.PI * 2) / this.nPlanets;
-			let x = Math.cos(angle) * this.radius;
-			let y = Math.sin(angle) * this.radius;
-
-			// starting with the view projection matrix compute a matrix for the F
-			let matrix = m4.translate(this.viewProjectionMatrix(gl), x, 0, y);
-
-			// Set the matrix.
-			gl.uniformMatrix4fv(this.matrixLocation(gl, program), false, matrix);
-		}
-	}
-
-	degToRad(d) {
-		return (d * Math.PI) / 180;
-	}
+// Funzioni potenzialmente esportabili perchè utilizzate da più JS.
+function degToRad(d) {
+	return (d * Math.PI) / 180;
 }

@@ -1,6 +1,6 @@
 import { MeshLoader } from "./MeshLoader.js";
 import { getDrag, setControls } from "./Control.js";
-import { Camera } from "./Camera.js";
+import { Camera, setCameraControls } from "./Camera.js";
 
 let gl;
 let meshlist = [];
@@ -25,6 +25,8 @@ export class Core {
 		// TODO: Riprogettare il movimento (Non mi piace muovere l'origine degli oggetti)
 		this.delta = { x: 0, y: 0, z: 0 };
 		setControls(this.canvas, this.delta);
+		// Aggiunta dei listener per gli eventi della camera
+		setCameraControls(this.canvas, true);
 		// Passaggio alle variabili globali delle variabili appartenenti
 		// al core.
 		gl = this.gl;
@@ -59,7 +61,6 @@ export class Core {
 			[9, 9, 4], // Cordinate in cui è collocata la camera
 			[0, 0, 1], //
 			find_actor_coords(),
-			2,
 			10,
 			70
 		);
