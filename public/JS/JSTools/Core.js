@@ -1,6 +1,7 @@
 import { MeshLoader } from "./MeshLoader.js";
 import { getDrag, setControls } from "./Control.js";
 import { Camera, setCameraControls, getUpdateCamera } from "./Camera.js";
+import { setUserPicking } from "./PlayerController.js";
 
 let gl;
 let meshlist = [];
@@ -27,6 +28,7 @@ export class Core {
 		setControls(this.canvas, this.delta);
 		// Aggiunta dei listener per gli eventi della camera
 		setCameraControls(this.canvas, true);
+		setUserPicking(this.canvas, this.gl);
 		// Passaggio alle variabili globali delle variabili appartenenti
 		// al core.
 		gl = this.gl;

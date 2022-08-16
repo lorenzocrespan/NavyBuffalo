@@ -11,17 +11,21 @@ let sceneComposition = new Scene("DefusesTheBomb");
 // Aggiunta elementi alla scena
 sceneComposition.addOBJToList(
 	"Bomb",
-	"./OBJModels/000_KeepTalk.obj",
-	true,
+	"./OBJModels/005_Bomb.obj",
 	false,
-	{ x: 0, y: 4, z: 0 }
+	false,
+	{
+		x: 0,
+		y: 1.1,
+		z: 0,
+	}
 );
 sceneComposition.addOBJToList(
-	"Ground",
-	"./OBJModels/Ground.obj",
+	"Table",
+	"./OBJModels/004_Table.obj",
+	true,
 	false,
-	false,
-	{ x: 0, y: 2, z: 0 }
+	{ x: 0, y: 0, z: 0 }
 );
 
 console.log("Oggetti scena");
@@ -45,7 +49,6 @@ let core = new Core("screenCanvas");
 // throw new Error("Errore lanciato per permettere la visualizzazione dello stato del core");
 
 core.setScene(sceneComposition);
-
 
 core.generateCamera();
 

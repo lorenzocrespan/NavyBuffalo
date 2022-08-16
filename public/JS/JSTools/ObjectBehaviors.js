@@ -91,7 +91,7 @@ export class ObjectBehaviors {
         // Draw the scene.
         function drawScene(time) {
             gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
-            gl.enable(gl.CULL_FACE)
+            
             gl.enable(gl.DEPTH_TEST)
 
             let matrix = m4.identity()

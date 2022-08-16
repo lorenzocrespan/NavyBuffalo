@@ -2,15 +2,15 @@ let updateCamera = true;
 // Parametri globali utilizzati all'interno di Camera.js.
 //
 let drag;
-let THETA = degToRad(180),
-	PHI = degToRad(60);
+let THETA = degToRad(170),
+	PHI = degToRad(40);
 let old_x, old_y;
 let dX, dY;
 
 //
-let radius = 10;
+let radius = 5;
 let maxRadius = 12,
-	minRadius = 7;
+	minRadius = 3;
 
 // Definizione della classe "Camera".
 // A suo interno vi è la completa gestione delle caratteristiche relative
@@ -26,7 +26,6 @@ export class Camera {
 		this.position = [0, 0, 0];
 		this.up = up;
 		this.target = target;
-
 		this.fieldOfView = fieldOfView;
 	}
 
