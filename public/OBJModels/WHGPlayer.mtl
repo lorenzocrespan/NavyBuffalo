@@ -1,10 +1,10 @@
-# Blender 3.1.0 MTL File: 'None'
+# Blender 3.1.2 MTL File: 'WHGArena.blend'
 # www.blender.org
 
-newmtl Material.002
+newmtl PlayerTexture
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
-Kd 0.034824 0.800000 0.109232
+Kd 0.001050 0.009023 0.486894
 Ks 0.500000 0.500000 0.500000
 Ke 0.000000 0.000000 0.000000
 Ni 1.450000

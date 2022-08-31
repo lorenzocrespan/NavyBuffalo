@@ -120,7 +120,7 @@ function LoadMesh(gl, mesh) {
 	var map = mesh.materials[1].parameter;
 	var path = mesh.sourceMesh.substring(0, mesh.sourceMesh.lastIndexOf("/") + 1);
 	map.set("map_Kd", loadTexture(gl, path, map.get("map_Kd")));
-
+	mesh.texture = map.get("map_Kd");
 	var x = [],
 		y = [],
 		z = [];

@@ -10,22 +10,48 @@ console.log("Inizio del caricamento degli elementi della scena");
 let sceneComposition = new Scene("DefusesTheBomb");
 // Aggiunta elementi alla scena
 sceneComposition.addOBJToList(
-	"Bomb",
-	"./OBJModels/005_Bomb.obj",
+	"Arena",
+	"./OBJModels/WHGArena.obj",
 	false,
 	false,
 	{
 		x: 0,
-		y: 1.1,
+		y: 0,
 		z: 0,
 	}
 );
 sceneComposition.addOBJToList(
-	"Table",
-	"./OBJModels/004_Table.obj",
+	"Player",
+	"./OBJModels/WHGPlayer.obj",
 	true,
 	false,
-	{ x: 0, y: 0, z: 0 }
+	{
+		x: 0,
+		y: 0,
+		z: 0,
+	}
+);
+sceneComposition.addOBJToList(
+	"Enemy",
+	"./OBJModels/WHGEnemy.obj",
+	false,
+	false,
+	{
+		x: 4,
+		y: 0,
+		z: -4,
+	}
+);
+sceneComposition.addOBJToList(
+	"Point",
+	"./OBJModels/WHGPoint.obj",
+	false,
+	false,
+	{
+		x: 8,
+		y: 0,
+		z: 8,
+	}
 );
 
 console.log("Oggetti scena");

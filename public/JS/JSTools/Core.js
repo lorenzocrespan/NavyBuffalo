@@ -62,25 +62,33 @@ export class Core {
 		camera = new Camera(
 			[0, 0, 0], // Cordinate in cui è collocata la camera
 			[0, 0, 1], //
-			find_actor_coords(),
+			[0, 0, 1],
 			70
 		);
 	}
 }
 
 let onetime = true;
-
+let pixel = new Uint8Array(4);
 export function render(time = 0) {
 	// setup GLSL program
 	let program = webglUtils.createProgramFromScripts(gl, [
 		"3d-vertex-shader",
 		"3d-fragment-shader",
 	]);
+
+	gl.clearColor(0.25, 0.5, 0.75, 1);
+	gl.clear(gl.COLOR_BUFFER_BIT);
+	
+
+	// gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, pixel);
+	// console.log(pixel);
+
 	// Tell it to use our program (pair of shaders)
 	gl.useProgram(program);
 	if (getUpdateCamera()) camera.moveCamera();
+
 	// TODO: Renderizzare solo se vi è una modifica.
-	// if (getDrag()) {
 	meshlist.forEach((elem) => {
 		elem.render(
 			gl,
@@ -90,42 +98,10 @@ export function render(time = 0) {
 			delta
 		);
 	});
-	// }
 
 	delta.x = 0;
 	delta.y = 0;
 	delta.z = 0;
 
-	function computeMatrix(viewProj, translation, rotX, rotY) {
-		let matrix = m4.translate(
-			viewProj,
-			translation[0],
-			translation[1],
-			translation[2]
-		);
-		matrix = m4.xRotate(matrix, rotX);
-		return m4.yRotate(matrix, rotY);
-	}
-
 	requestAnimationFrame(render);
-}
-
-function find_actor_coords() {
-	let actor = null;
-	for (let i = 0; i < meshlist.length; i++) {
-		if (meshlist[i].isPlayer) {
-			actor = meshlist[i];
-			break;
-		}
-	}
-	console.log(
-		actor.mesh.positions[0],
-		actor.mesh.positions[1],
-		actor.mesh.positions[2]
-	);
-	return [
-		actor.mesh.positions[0],
-		actor.mesh.positions[1],
-		actor.mesh.positions[2],
-	];
 }

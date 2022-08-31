@@ -7,8 +7,8 @@ export function setUserPicking(canvas, gl) {
 		mouseX = e.clientX - rect.left;
 		mouseY = e.clientY - rect.top;
 		gl.readPixels(
-			mouseX, // x
-			mouseY, // y
+			0, // x
+			0, // y
 			1, // width
 			1, // height
 			gl.RGBA, // format

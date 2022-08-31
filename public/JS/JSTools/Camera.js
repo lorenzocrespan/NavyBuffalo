@@ -8,8 +8,8 @@ let old_x, old_y;
 let dX, dY;
 
 //
-let radius = 5;
-let maxRadius = 12,
+let radius = 15;
+let maxRadius = 24,
 	minRadius = 3;
 
 // Definizione della classe "Camera".
