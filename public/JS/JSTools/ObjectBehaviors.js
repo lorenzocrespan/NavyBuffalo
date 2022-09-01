@@ -1,10 +1,12 @@
 export class ObjectBehaviors {
-	constructor(alias, mesh, isActive, isPlayer, offsets) {
+	constructor(alias, mesh, isActive, isPlayer, idleAnimation, offsets) {
 		this.alias = alias;
 		this.mesh = mesh;
 		this.isActive = isActive;
-		this.position = { x: offsets.x, y: offsets.y, z: offsets.z };
+		this.idleAnimation = idleAnimation;
 		this.isPlayer = isPlayer;
+		// this.isEnemy = isEnemy;
+		this.position = { x: offsets.x, y: offsets.y, z: offsets.z };
 
 		this.compute_position();
 		console.debug(this);
@@ -18,16 +20,38 @@ export class ObjectBehaviors {
 		}
 	}
 
+	// TODO: Chiedere al professore perchè rotazione + traslazione non collaborano come sperato
 	compute_new_position(delta) {
+		const rotMatX = m4.xRotation(0.01);
+		const rotMatY = m4.yRotation(0.02);
+		const rotMat = m4.multiply(rotMatX, rotMatY);
+
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
-			this.mesh.positions[i] += delta.z;
-			this.mesh.positions[i + 1] += delta.x;
+			var pos = [];
+
+			pos.push(this.mesh.positions[i + 1] - this.position.x);
+			pos.push(this.mesh.positions[i + 2] - 1 - this.position.y);
+			pos.push(this.mesh.positions[i] - this.position.z);
+
+			var res = m4.transformPoint(rotMat, pos);
+
+			this.mesh.positions[i + 1] = res[0] + this.position.x;
+			this.mesh.positions[i + 2] = res[1] + 1 + this.position.y;
+			this.mesh.positions[i] = res[2] + this.position.z;
+		}
+
+		for (let i = 0; i < this.mesh.positions.length; i += 3) {
+			this.mesh.positions[i];
+			this.mesh.positions[i + 1];
 			this.mesh.positions[i + 2] += delta.y;
 		}
 	}
 
-	render(gl, light, program, camera, delta) {
-		this.compute_new_position(delta);
+	render(time, gl, light, program, camera, delta) {
+		if (this.idleAnimation) {
+			delta.y = Math.sin(time) * 0.0025;
+			this.compute_new_position(delta);
+		}
 
 		let positionLocation = gl.getAttribLocation(program, "a_position");
 		let normalLocation = gl.getAttribLocation(program, "a_normal");
@@ -137,7 +161,7 @@ export class ObjectBehaviors {
 		);
 
 		// set the light position
-		gl.uniform3fv(lightWorldDirectionLocation, m4.normalize([-1, 3, 5]));
+		gl.uniform3fv(lightWorldDirectionLocation, m4.normalize([-1, 3, 7]));
 
 		// set the camera/view position
 		gl.uniform3fv(viewWorldPositionLocation, camera.position);

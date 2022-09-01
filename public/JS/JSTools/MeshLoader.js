@@ -8,7 +8,7 @@ export class MeshLoader {
 	}
 
 	// Funzione che permette di creare gli effettivi elementi della scena.
-	load(filepath, gl, isPlayer, isActive, coords, alias) {
+	load(filepath, gl, isPlayer, isActive, idleAnimation, coords, alias) {
 		console.log("Inizio caricamento dell'elemento della scena");
 		// Creazione array per la mesh e il path all'OBJ
 		let mesh = [];
@@ -21,7 +21,7 @@ export class MeshLoader {
 		console.log("Caricamento comportamento dell'elemento della scena");
 		//
 		this.list.push(
-			new ObjectBehaviors(alias, mesh, isActive, isPlayer, coords)
+			new ObjectBehaviors(alias, mesh, isActive, isPlayer, idleAnimation, coords)
 		);
 		console.log("Conclusione caricamento dell'elemento della scena");
 	}

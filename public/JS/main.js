@@ -14,6 +14,7 @@ sceneComposition.addOBJToList(
 	"./OBJModels/WHGArena.obj",
 	false,
 	false,
+	false,
 	{
 		x: 0,
 		y: 0,
@@ -25,6 +26,7 @@ sceneComposition.addOBJToList(
 	"./OBJModels/WHGPlayer.obj",
 	true,
 	false,
+	false,
 	{
 		x: 0,
 		y: 0,
@@ -34,6 +36,7 @@ sceneComposition.addOBJToList(
 sceneComposition.addOBJToList(
 	"Enemy",
 	"./OBJModels/WHGEnemy.obj",
+	false,
 	false,
 	false,
 	{
@@ -47,10 +50,11 @@ sceneComposition.addOBJToList(
 	"./OBJModels/WHGPoint.obj",
 	false,
 	false,
+	true,
 	{
-		x: 8,
-		y: 0,
-		z: 8,
+		x: Math.floor(Math.random() * 10 - 8),
+		y: -0.1,
+		z: Math.floor(Math.random() * 10 - 8),
 	}
 );
 

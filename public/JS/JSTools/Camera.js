@@ -23,7 +23,7 @@ export class Camera {
 	// radius, distanza dal soggetto della scena.
 	// fieldOfView, ...
 	constructor(position, up, target, fieldOfView) {
-		this.position = [0, 0, 0];
+		this.position = position;
 		this.up = up;
 		this.target = target;
 		this.fieldOfView = fieldOfView;

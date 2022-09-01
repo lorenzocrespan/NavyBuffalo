@@ -11,12 +11,13 @@ export class Scene {
 
 	// Funzione che permette di aggiungere un elemento
 	// e le sue caratteristiche ad una scena.
-	addOBJToList(alias, path, player, active, coords) {
+	addOBJToList(alias, path, player, active, idleAnimation, coords) {
 		var newObj = {
 			alias: alias,
 			path: path,
 			player: player,
 			active: active,
+			idleAnimation: idleAnimation,
 			coords: coords,
 		};
 		this.objs.push(newObj);

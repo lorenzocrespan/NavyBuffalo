@@ -1,7 +1,6 @@
 import { MeshLoader } from "./MeshLoader.js";
 import { getDrag, setControls } from "./Control.js";
 import { Camera, setCameraControls, getUpdateCamera } from "./Camera.js";
-import { setUserPicking } from "./PlayerController.js";
 
 let gl;
 let meshlist = [];
@@ -23,12 +22,10 @@ export class Core {
 		this.meshlist = [];
 		this.loader = new MeshLoader(this.meshlist);
 		// Set controlli movimento
-		// TODO: Riprogettare il movimento (Non mi piace muovere l'origine degli oggetti)
 		this.delta = { x: 0, y: 0, z: 0 };
 		setControls(this.canvas, this.delta);
 		// Aggiunta dei listener per gli eventi della camera
 		setCameraControls(this.canvas, true);
-		setUserPicking(this.canvas, this.gl);
 		// Passaggio alle variabili globali delle variabili appartenenti
 		// al core.
 		gl = this.gl;
@@ -50,6 +47,7 @@ export class Core {
 				this.gl,
 				obj.player,
 				obj.active,
+				obj.idleAnimation,
 				obj.coords,
 				obj.alias
 			);
@@ -66,10 +64,10 @@ export class Core {
 			70
 		);
 	}
+
+
 }
 
-let onetime = true;
-let pixel = new Uint8Array(4);
 export function render(time = 0) {
 	// setup GLSL program
 	let program = webglUtils.createProgramFromScripts(gl, [
@@ -79,18 +77,16 @@ export function render(time = 0) {
 
 	gl.clearColor(0.25, 0.5, 0.75, 1);
 	gl.clear(gl.COLOR_BUFFER_BIT);
-	
-
-	// gl.readPixels(0, 0, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, pixel);
-	// console.log(pixel);
 
 	// Tell it to use our program (pair of shaders)
 	gl.useProgram(program);
 	if (getUpdateCamera()) camera.moveCamera();
 
-	// TODO: Renderizzare solo se vi è una modifica.
+	// convert to seconds
+    time *= 0.002;
+
 	meshlist.forEach((elem) => {
-		elem.render(
+		elem.render(time,
 			gl,
 			{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
 			program,
@@ -98,10 +94,5 @@ export function render(time = 0) {
 			delta
 		);
 	});
-
-	delta.x = 0;
-	delta.y = 0;
-	delta.z = 0;
-
 	requestAnimationFrame(render);
 }
