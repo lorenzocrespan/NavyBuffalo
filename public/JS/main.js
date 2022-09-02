@@ -8,14 +8,15 @@ console.log("Inizio del caricamento degli elementi della scena");
 // Creazione di una variabile locale "sceneComposition" che conterrà tutti
 // gli elementi che faranno parte della scena da renderizzare.
 let sceneComposition = new Scene("DefusesTheBomb");
+
 // Aggiunta elementi alla scena
 sceneComposition.addOBJToList(
-	"Arena",
-	"./OBJModels/WHGArena.obj",
-	false,
-	false,
-	false,
-	{
+	"Arena",						// alias
+	"./OBJModels/WHGArena.obj",		// pathOBJ
+	false,							// isPlayer
+	false,							// isEnemy
+	false,							// idleAnimation
+	{								// coords
 		x: 0,
 		y: 0,
 		z: 0,
@@ -37,7 +38,7 @@ sceneComposition.addOBJToList(
 	"Enemy",
 	"./OBJModels/WHGEnemy.obj",
 	false,
-	false,
+	true,
 	false,
 	{
 		x: 4,

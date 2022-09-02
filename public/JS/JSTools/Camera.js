@@ -95,11 +95,13 @@ export function setCameraControls(canvas, isActive) {
 	// 87 >> " W "
 	// 83 >> " S "
 	function onKeyDown(e) {
-		// console.log("Rilevato un movimento del raggio della camera.");
-		if (e.keyCode === 87 && radius > minRadius) radius -= 1;
-		else if (e.keyCode === 83 && radius < maxRadius) radius += 1;
-		// console.log(radius, maxRadius, minRadius);
-		updateCamera = true;
+		if (isActive) {
+			// console.log("Rilevato un movimento del raggio della camera.");
+			if (e.keyCode === 87 && radius > minRadius) radius -= 1;
+			else if (e.keyCode === 83 && radius < maxRadius) radius += 1;
+			// console.log(radius, maxRadius, minRadius);
+			updateCamera = true;
+		}
 	}
 }
 

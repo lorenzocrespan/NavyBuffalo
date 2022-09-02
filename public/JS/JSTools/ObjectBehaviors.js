@@ -1,14 +1,26 @@
-export class ObjectBehaviors {
-	constructor(alias, mesh, isActive, isPlayer, idleAnimation, offsets) {
-		this.alias = alias;
-		this.mesh = mesh;
-		this.isActive = isActive;
-		this.idleAnimation = idleAnimation;
-		this.isPlayer = isPlayer;
-		// this.isEnemy = isEnemy;
-		this.position = { x: offsets.x, y: offsets.y, z: offsets.z };
+import { PlayerListener } from "./PlayerListener.js";
 
+let ampWaveLimiter = 0.0025;
+let rotMatX = m4.xRotation(0.01);
+let rotMatY = m4.yRotation(0.04);
+let rotMat = m4.multiply(rotMatX, rotMatY);
+
+export class ObjectBehaviors {
+	constructor(alias, mesh, isPlayer, isEnemy, idleAnimation, offsets) {
+		// Parametri discriminanti dell'OBJ
+		this.alias = alias; // Nominativo dell'OBJ da renderizzare
+		this.isPlayer = isPlayer; // OBJ rappresenta il giocatore
+		this.isEnemy = isEnemy; // OBJ rappresenta un nemico
+		this.idleAnimation = idleAnimation; // OBJ ha un'animazione di idle
+		// Parametri non discriminanti dell'OBJ
+		this.mesh = mesh; // Vettore contenente la posizione dei punti che compongono la mesh dell'OBJ
+		this.position = {
+			x: offsets.x, // Posizione del "centro" dell'OBJ rispetto alla coordinata X
+			y: offsets.y, // Posizione del "centro" dell'OBJ rispetto alla coordinata Y
+			z: offsets.z, // Posizione del "centro" dell'OBJ rispetto alla coordinata Z
+		};
 		this.compute_position();
+		if (this.isPlayer) this.playerListener = new PlayerListener();
 		console.debug(this);
 	}
 
@@ -20,16 +32,14 @@ export class ObjectBehaviors {
 		}
 	}
 
-	// TODO: Chiedere al professore perchè rotazione + traslazione non collaborano come sperato
-	compute_new_position(delta) {
-		const rotMatX = m4.xRotation(0.01);
-		const rotMatY = m4.yRotation(0.04);
-		const rotMat = m4.multiply(rotMatX, rotMatY);
-
+	// Calcolo della nuova posizione della mesh (mesh.positions e mesh.normals).
+	// TODO: Chiedere al professore perchè rotazione + traslazione portano ad un movimento anomalo.
+	compute_idleAnimation(deltaY) {
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
 			var pos = [];
 			var nor = [];
 
+			this.mesh.positions[i + 2] += deltaY;
 			pos.push(this.mesh.positions[i + 1] - this.position.x);
 			pos.push(this.mesh.positions[i + 2] - 1 - this.position.y);
 			pos.push(this.mesh.positions[i] - this.position.z);
@@ -38,7 +48,7 @@ export class ObjectBehaviors {
 			nor.push(this.mesh.normals[i]);
 
 			var pos_res = m4.transformPoint(rotMat, pos);
-			let nor_res = m4.transformPoint(rotMat, nor);
+			var nor_res = m4.transformPoint(rotMat, nor);
 
 			this.mesh.positions[i + 1] = pos_res[0] + this.position.x;
 			this.mesh.positions[i + 2] = pos_res[1] + 1 + this.position.y;
@@ -47,19 +57,27 @@ export class ObjectBehaviors {
 			this.mesh.normals[i + 2] = nor_res[1];
 			this.mesh.normals[i] = nor_res[2];
 		}
+	}
 
+	compute_player() {
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
-			this.mesh.positions[i];
-			this.mesh.positions[i + 1];
-			this.mesh.positions[i + 2] += delta.y;
+			this.mesh.positions[i + 1] += this.playerListener.delta.x;
+			this.mesh.positions[i] += this.playerListener.delta.z;
 		}
+		this.playerListener.delta.x = 0;
+		this.playerListener.delta.z = 0;
 	}
 
 	render(time, gl, light, program, camera, delta) {
-		if (this.idleAnimation) {
-			delta.y = Math.sin(time) * 0.0025;
-			this.compute_new_position(delta);
-		}
+		// Se l'oggetto passato richiede un'animazione di idle, vengono calcolate le nuove posizioni della mesh.
+		if (this.idleAnimation)
+			// Lo spostamento in altezza dell'oggetto è calcolato mediante una funzione in sen sul tempo di esecuzione del programma.
+			this.compute_idleAnimation(Math.sin(time) * ampWaveLimiter);
+
+		// Se l'oggetto passato richiede un controllo da parte dell'utente, vengono calcolate le nuove posizioni della mesh.
+		if (this.isPlayer) 
+			this.compute_player();
+		/********************************************************************************************/
 
 		let positionLocation = gl.getAttribLocation(program, "a_position");
 		let normalLocation = gl.getAttribLocation(program, "a_normal");

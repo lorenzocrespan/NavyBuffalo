@@ -1,6 +1,6 @@
 import { MeshLoader } from "./MeshLoader.js";
-import { getDrag, setControls } from "./Control.js";
 import { Camera, setCameraControls, getUpdateCamera } from "./Camera.js";
+import { setPlayerControls } from "./PlayerListener.js";
 
 let gl;
 let meshlist = [];
@@ -23,11 +23,12 @@ export class Core {
 		this.loader = new MeshLoader(this.meshlist);
 		// Set controlli movimento
 		this.delta = { x: 0, y: 0, z: 0 };
-		setControls(this.canvas, this.delta);
+		// setControls(this.canvas, this.delta);
 		// Aggiunta dei listener per gli eventi della camera
-		setCameraControls(this.canvas, true);
-		// Passaggio alle variabili globali delle variabili appartenenti
-		// al core.
+		setCameraControls(this.canvas, false);
+		// Aggiunta dei listener per gli eventi del player
+		setPlayerControls(this.canvas, true);
+		// Passaggio alle variabili globali delle variabili appartenenti al core.
 		gl = this.gl;
 		canvas = this.canvas;
 		meshlist = this.meshlist;
@@ -43,13 +44,13 @@ export class Core {
 			console.debug(obj);
 			// Richiamo della funzione di MeshLoader
 			this.loader.load(
-				obj.path,
 				this.gl,
-				obj.player,
-				obj.active,
+				obj.alias,
+				obj.pathOBJ,
+				obj.isPlayer,
+				obj.isEnemy,
 				obj.idleAnimation,
-				obj.coords,
-				obj.alias
+				obj.coords
 			);
 		}
 		// Aggiornamento della lista contenente i dati riguardante gli oggetti della scena
@@ -64,8 +65,6 @@ export class Core {
 			70
 		);
 	}
-
-
 }
 
 export function render(time = 0) {
@@ -83,10 +82,16 @@ export function render(time = 0) {
 	if (getUpdateCamera()) camera.moveCamera();
 
 	// convert to seconds
-    time *= 0.002;
+	time *= 0.002;
 
 	meshlist.forEach((elem) => {
-		elem.render(time,
+
+		if (elem.isPlayer) {
+			elem.playerListener.updatePosition();
+		}
+		
+		elem.render(
+			time,
 			gl,
 			{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
 			program,
