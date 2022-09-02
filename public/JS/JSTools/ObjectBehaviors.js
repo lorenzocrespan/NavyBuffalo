@@ -23,21 +23,29 @@ export class ObjectBehaviors {
 	// TODO: Chiedere al professore perchè rotazione + traslazione non collaborano come sperato
 	compute_new_position(delta) {
 		const rotMatX = m4.xRotation(0.01);
-		const rotMatY = m4.yRotation(0.02);
+		const rotMatY = m4.yRotation(0.04);
 		const rotMat = m4.multiply(rotMatX, rotMatY);
 
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
 			var pos = [];
+			var nor = [];
 
 			pos.push(this.mesh.positions[i + 1] - this.position.x);
 			pos.push(this.mesh.positions[i + 2] - 1 - this.position.y);
 			pos.push(this.mesh.positions[i] - this.position.z);
+			nor.push(this.mesh.normals[i + 1]);
+			nor.push(this.mesh.normals[i + 2]);
+			nor.push(this.mesh.normals[i]);
 
-			var res = m4.transformPoint(rotMat, pos);
+			var pos_res = m4.transformPoint(rotMat, pos);
+			let nor_res = m4.transformPoint(rotMat, nor);
 
-			this.mesh.positions[i + 1] = res[0] + this.position.x;
-			this.mesh.positions[i + 2] = res[1] + 1 + this.position.y;
-			this.mesh.positions[i] = res[2] + this.position.z;
+			this.mesh.positions[i + 1] = pos_res[0] + this.position.x;
+			this.mesh.positions[i + 2] = pos_res[1] + 1 + this.position.y;
+			this.mesh.positions[i] = pos_res[2] + this.position.z;
+			this.mesh.normals[i + 1] = nor_res[0];
+			this.mesh.normals[i + 2] = nor_res[1];
+			this.mesh.normals[i] = nor_res[2];
 		}
 
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
