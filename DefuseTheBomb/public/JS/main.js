@@ -1,26 +1,19 @@
 import { Scene } from "./JSTools/Scene.js";
 import { Core, render } from "./JSTools/Core.js";
 
-/********************************************************************************************/
+console.log("main.js - Start loading scene elements");
 
-console.log("Inizio del caricamento degli elementi della scena");
+// Array of objects that will be rendered in the scene 
+let sceneComposition = new Scene("sceneComposition");
 
-// Creazione di una variabile locale "sceneComposition" che conterrà tutti
-// gli elementi che faranno parte della scena da renderizzare.
-let sceneComposition = new Scene("DefusesTheBomb");
-
-// Aggiunta elementi alla scena
+// Add objects to the scene
 sceneComposition.addOBJToList(
-	"Arena",						// alias
-	"./OBJModels/WHGArena.obj",		// pathOBJ
-	false,							// isPlayer
-	false,							// isEnemy
-	false,							// idleAnimation
-	{								// coords
-		x: 0,
-		y: 0,
-		z: 0,
-	}
+	"Arena",
+	"./OBJModels/WHGArena.obj",
+	false,
+	false,
+	false,
+	{ x: 0, y: 0, z: 0 }
 );
 sceneComposition.addOBJToList(
 	"Player",
@@ -28,11 +21,7 @@ sceneComposition.addOBJToList(
 	true,
 	false,
 	false,
-	{
-		x: 0,
-		y: 0,
-		z: 0,
-	}
+	{ x: 0, y: 0, z: 0 }
 );
 sceneComposition.addOBJToList(
 	"Enemy",
@@ -40,11 +29,7 @@ sceneComposition.addOBJToList(
 	false,
 	true,
 	false,
-	{
-		x: 4,
-		y: 0,
-		z: -4,
-	}
+	{ x: 4, y: 0, z: -4 }
 );
 sceneComposition.addOBJToList(
 	"Point",
@@ -59,16 +44,16 @@ sceneComposition.addOBJToList(
 	}
 );
 
-console.log("Oggetti scena");
 console.debug(sceneComposition);
-console.log("Conclusione del caricamento degli elementi della scena");
 
-/********************************************************************************************/
+console.log("main.js - End loading scene elements");
 
-console.log("Inizio del caricamento del core del programma");
+console.log("main.js - Start rendering scene");
 
-// Creazione di una variabile locale "core" che conterrà il cuore del
-// programma per permettere la corretta renderizzazione.
+// Render the scene
+
+// TODO: Refactoring the code placeholder
+
 let core = new Core("screenCanvas");
 
 // console.log("Core del programma prima del caricamento della scena");
