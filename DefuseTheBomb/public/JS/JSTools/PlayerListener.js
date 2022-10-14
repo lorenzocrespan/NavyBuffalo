@@ -1,9 +1,10 @@
+
 let dX = 0,
 	dZ = 0;
 
 let speed = 0.075;
 
-let arenaXBounde = 8.925;
+let arenaBounde = 8.925;
 
 export class PlayerListener {
 	constructor() {
@@ -11,10 +12,10 @@ export class PlayerListener {
 	}
 
 	updateVector(position) {
-		if (position.x > arenaXBounde && dX > 0 || position.x < -arenaXBounde && dX < 0) {
+		if (position.x > arenaBounde && dX > 0 || position.x < -arenaBounde && dX < 0) {
 			dX = 0;
 		}
-		if (position.z > arenaXBounde && dZ > 0 || position.z < -arenaXBounde && dZ < 0) {
+		if (position.z > arenaBounde && dZ > 0 || position.z < -arenaBounde && dZ < 0) {
 			dZ = 0;
 		}
 		this.delta.x = dX;
@@ -37,7 +38,6 @@ export function setPlayerControls(canvas) {
 		}
 		if (e.keyCode === 83) {
 			// S
-
 			dZ = -speed;
 		}
 		if (e.keyCode === 65) {

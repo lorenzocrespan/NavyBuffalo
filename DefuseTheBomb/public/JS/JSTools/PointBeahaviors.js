@@ -1,4 +1,3 @@
-import { PlayerListener } from "./PlayerListener.js";
 
 let ampWaveLimiter = 0.0025;
 let rotMatX = m4.xRotation(0.03);
@@ -56,7 +55,7 @@ export class PointBehaviors {
         }
     }
 
-
+    
     render(time, gl, light, program, camera) {
 
         this.compute_idleAnimation(Math.sin(time) * ampWaveLimiter);

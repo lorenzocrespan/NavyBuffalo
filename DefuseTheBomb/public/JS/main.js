@@ -14,7 +14,8 @@ sceneComposition.addOBJToList(
 	false,
 	false,
 	false,
-	{ x: 0, y: 0, z: 0 }
+	{ x: 0, y: 0, z: 0 },
+	1
 );
 sceneComposition.addOBJToList(
 	"Player",
@@ -22,29 +23,37 @@ sceneComposition.addOBJToList(
 	true,
 	false,
 	false,
-	{ x: 0, y: 0, z: 0 }
+	{ x: 0, y: 0, z: 0 },
+	1
 );
-sceneComposition.addOBJToList(
-	"Enemy",
-	"./OBJModels/WHGEnemy.obj",
-	false,
-	true,
-	false,
-	{ x: 4, y: 0, z: -4 }
-);
-sceneComposition.addOBJToList(
-	"Point",
-	"./OBJModels/WHGPoint.obj",
-	false,
-	false,
-	true,
-	{
-		x: Math.floor(Math.random() * 10 - 8),
-		y: -0.1,
-		z: Math.floor(Math.random() * 10 - 8),
-	}
-);
-
+for (let i = 0; i < 2; i++) {
+	sceneComposition.addOBJToList(
+		"Enemy",
+		"./OBJModels/WHGEnemy.obj",
+		false,
+		true,
+		false,
+		{
+			x: Math.floor(Math.random() * 10 - 8),
+			y: 0,
+			z: Math.floor(Math.random() * 10 - 8),
+		}
+	);
+}
+for (let i = 0; i < 1; i++) {
+	sceneComposition.addOBJToList(
+		"Point",
+		"./OBJModels/WHGPoint.obj",
+		false,
+		false,
+		true,
+		{
+			x: Math.floor(Math.random() * 10 - 8),
+			y: -0.1,
+			z: Math.floor(Math.random() * 10 - 8),
+		}
+	);
+}
 console.debug(sceneComposition);
 
 console.log("main.js - End loading scene elements");

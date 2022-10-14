@@ -4,6 +4,7 @@ import { Camera, setCameraControls, getUpdateCamera } from "./Camera.js";
 import { setPlayerControls } from "./PlayerListener.js";
 import { PointBehaviors } from "./PointBeahaviors.js";
 import { PlayerBehaviors } from "./PlayerBeahaviors.js";
+import { EnemyBehaviors } from "./EnemyBeahaviors.js";
 
 
 let gl;
@@ -60,7 +61,7 @@ export class Core {
 		for (const obj of sceneComposition.objs) {
 			console.debug(obj);
 			// Load the mesh
-			this.meshLoader.loadMesh(
+			this.meshLoader.addMesh(
 				this.gl,
 				obj.alias,
 				obj.pathOBJ,
@@ -70,9 +71,10 @@ export class Core {
 				obj.coords
 			);
 		}
-
 		console.log("Core.js - End scene setup");
 	}
+
+	
 
 	generateCamera() {
 		camera = new Camera(
@@ -125,7 +127,16 @@ export function render(time = 0) {
 					camera,
 					moveVectore
 				);
-
+				break;
+			case elem instanceof EnemyBehaviors:
+				elem.render(
+					time,
+					gl,
+					{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
+					program,
+					camera,
+				);
+				break;
 			default:
 				elem.render(
 					time,
@@ -135,8 +146,9 @@ export function render(time = 0) {
 					camera,
 					moveVectore
 				);
-
+				break;
 		}
 	});
+
 	requestAnimationFrame(render);
 }

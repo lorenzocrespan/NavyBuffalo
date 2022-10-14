@@ -17,7 +17,7 @@ export class MeshLoader {
 	}
 
 	// Load the mesh from the .obj file and add it to the list of objects
-	loadMesh(gl, alias, pathOBJ, isPlayer, isEnemy, idleAnimation, coords) {
+	addMesh(gl, alias, pathOBJ, isPlayer, isEnemy, idleAnimation, coords) {
 
 		console.log("MeshLoader.js - Start loading mesh: " + alias);
 
@@ -47,7 +47,8 @@ export class MeshLoader {
 					new ObjectBehaviors(alias, mesh, isPlayer, isEnemy, idleAnimation, coords));
 				break;
 		}
-		
+
 		console.log("MeshLoader.js - End loading mesh: " + alias);
 	}
+
 }
