@@ -102,8 +102,8 @@ function loadMeshFromOBJ(mesh) {
 	function parseobjFile(result, status, xhr) {
 		var result = glmReadOBJ(result, new subd_mesh());
 		//scommentare/commentare per utilizzare o meno la LoadSubdivMesh
-		//         mesh.data = LoadSubdivMesh(result.mesh);
-		mesh.data = result.mesh;
+		mesh.data = LoadSubdivMesh(result.mesh);
+		// mesh.data = result.mesh;
 		mesh.fileMTL = result.fileMtl;
 	}
 	function handleError(jqXhr, textStatus, errorMessage) {
@@ -114,7 +114,6 @@ function loadMeshFromOBJ(mesh) {
 /*========== Loading and storing the geometry ==========*/
 function LoadMesh(gl, mesh) {
 	retrieveDataFromSource(mesh);
-	// Unitize(mesh.data);
 	//Ora che ho la mesh e il/i materiali associati, mi occupo di caricare
 	//la/le texture che tali materiali contengono
 	var map = mesh.materials[1].parameter;

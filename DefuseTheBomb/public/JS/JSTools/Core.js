@@ -1,49 +1,64 @@
+
 import { MeshLoader } from "./MeshLoader.js";
 import { Camera, setCameraControls, getUpdateCamera } from "./Camera.js";
 import { setPlayerControls } from "./PlayerListener.js";
 
+
 let gl;
 let meshlist = [];
-let delta;
+let moveVectore;
 let canvas;
 let camera;
 
-// Definizione della classe "Core".
 export class Core {
-	// Costruttore della classe "Core".
+
+	/**
+	 * Constructor of the class. 
+	 * It initializes the canvas, the WebGL context and all the components for the rendering.
+	 * 
+	 * @param {String} idCanvas Identifier of the canvas element
+	 */
 	constructor(idCanvas) {
-		// Acquisizione del constesto.
+		console.log("Core.js - Start WebGL Core initialization");
+
+		// Canvas and WebGL context initialization
 		this.canvas = document.getElementById(idCanvas);
-		// Creazione di un contesto di rendering WebGL.
 		this.gl = this.canvas.getContext("experimental-webgl");
 		if (!this.gl) return;
-		// Creazione della camera
-		// Elementi di costruzione della scena.
+
+		// MeshLoader initialization
 		this.meshlist = [];
-		this.loader = new MeshLoader(this.meshlist);
-		// Set controlli movimento
-		this.delta = { x: 0, y: 0, z: 0 };
-		// setControls(this.canvas, this.delta);
-		// Aggiunta dei listener per gli eventi della camera
-		setCameraControls(this.canvas, false);
-		// Aggiunta dei listener per gli eventi del player
+		this.meshLoader = new MeshLoader(this.meshlist);
+
+		// Movement controls initialization
+		this.moveVectore = { x: 0, y: 0, z: 0 };
 		setPlayerControls(this.canvas, true);
-		// Passaggio alle variabili globali delle variabili appartenenti al core.
+
+		// Setup camera controls (mouse and keyboard listeners)
+		setCameraControls(this.canvas, false);
+
+		// Global variables initialization
 		gl = this.gl;
 		canvas = this.canvas;
 		meshlist = this.meshlist;
-		delta = this.delta;
+		moveVectore = this.moveVectore;
+
+		console.log("Core.js - End WebGL Core initialization");
 	}
 
-	// Funzione che permette di aggiornare i dati contenuti nel core per la
-	// renderizzazione.
-	setScene(sceneComposition) {
-		console.log("Caricamento degli elementi che costituiscono la scena");
-		// Ciclo per ogni elemento che costituisce la scena
+	/**
+	 * Function setup all the components for the rendering.
+	 * 
+	 * @param {List} sceneComposition List of objects that will be rendered in the scene.
+	 */
+	setupScene(sceneComposition) {
+		console.log("Core.js - Start scene setup");
+
+		// Load all the meshes in the scene
 		for (const obj of sceneComposition.objs) {
 			console.debug(obj);
-			// Richiamo della funzione di MeshLoader
-			this.loader.load(
+			// Load the mesh
+			this.meshLoader.loadMesh(
 				this.gl,
 				obj.alias,
 				obj.pathOBJ,
@@ -53,8 +68,8 @@ export class Core {
 				obj.coords
 			);
 		}
-		// Aggiornamento della lista contenente i dati riguardante gli oggetti della scena
-		meshlist = this.meshlist;
+
+		console.log("Core.js - End scene setup");
 	}
 
 	generateCamera() {
@@ -89,14 +104,14 @@ export function render(time = 0) {
 		if (elem.isPlayer) {
 			elem.playerListener.updatePosition();
 		}
-		
+
 		elem.render(
 			time,
 			gl,
 			{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
 			program,
 			camera,
-			delta
+			moveVectore
 		);
 	});
 	requestAnimationFrame(render);

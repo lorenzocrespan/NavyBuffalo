@@ -6,6 +6,7 @@ let rotMatY = m4.yRotation(0.04);
 let rotMat = m4.multiply(rotMatX, rotMatY);
 
 export class ObjectBehaviors {
+	
 	constructor(alias, mesh, isPlayer, isEnemy, idleAnimation, offsets) {
 		// Parametri discriminanti dell'OBJ
 		this.alias = alias; // Nominativo dell'OBJ da renderizzare
@@ -68,7 +69,7 @@ export class ObjectBehaviors {
 		this.playerListener.delta.z = 0;
 	}
 
-	render(time, gl, light, program, camera, delta) {
+	render(time, gl, light, program, camera) {
 		// Se l'oggetto passato richiede un'animazione di idle, vengono calcolate le nuove posizioni della mesh.
 		if (this.idleAnimation)
 			// Lo spostamento in altezza dell'oggetto è calcolato mediante una funzione in sen sul tempo di esecuzione del programma.

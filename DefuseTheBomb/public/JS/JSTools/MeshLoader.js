@@ -1,26 +1,35 @@
+
 import { ObjectBehaviors } from "./ObjectBehaviors.js";
 
-// Definizione della classe "MeshLoader".
 export class MeshLoader {
-	// Costruttore della classe "MeshLoader".
-	constructor(list) {
-		this.list = list;
+	
+	/**
+	 * Constructor of the class. 
+	 * It initializes the list of all objects in the scene.
+	 * 
+	 * @param {List} objData List of all objects in the scene.
+	 */
+	constructor(objData) {
+		this.objData = objData;
 	}
 
-	// Funzione che permette di creare gli effettivi elementi della scena.
-	load(gl, alias, pathOBJ, isPlayer, isEnemy, idleAnimation, coords) {
-		console.log("Inizio caricamento dell'elemento della scena");
-		// Creazione array per la mesh e il path all'OBJ
+	// Load the mesh from the .obj file and add it to the list of objects
+	loadMesh(gl, alias, pathOBJ, isPlayer, isEnemy, idleAnimation, coords) {
+
+		console.log("MeshLoader.js - Start loading mesh: " + alias);
+		
+		// Create the mesh object
 		let mesh = [];
 		mesh.sourceMesh = pathOBJ;
 
-		console.log("Caricamento della mesh dell'elemento della scena");
+		// Load the mesh from the .obj file
 		LoadMesh(gl, mesh);
 
-		console.log("Caricamento comportamento dell'elemento della scena");
-		this.list.push(
+		// Add the mesh to the list of objects
+		this.objData.push(
 			new ObjectBehaviors(alias, mesh, isPlayer, isEnemy, idleAnimation, coords)
 		);
-		console.log("Conclusione caricamento dell'elemento della scena");
+
+		console.log("MeshLoader.js - End loading mesh: " + alias);
 	}
 }

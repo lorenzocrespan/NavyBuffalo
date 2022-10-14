@@ -36,8 +36,14 @@ export class Scene {
 			idleAnimation: idleAnimation,
 			coords: coords,
 		};
-		if(this.objs.push(newObj)) return true;
-		return false;
+		if (this.objs.push(newObj)) {
+			console.log("Scene.js - Added new object to the scene");
+			return true;
+		} else {
+			console.log("Scene.js - Error while adding new object to the scene");
+			console.debug(newObj);
+			return false;
+		}
 	}
 
 	/**
@@ -48,7 +54,7 @@ export class Scene {
 	 * @returns {boolean} - True if the object has been removed, false otherwise
 	 * 
 	 */
-	removeOBJFromList(alias) { 
+	removeOBJFromList(alias) {
 		for (var i = 0; i < this.objs.length; i++) {
 			if (this.objs[i].alias === alias) {
 				this.objs.splice(i, 1);
