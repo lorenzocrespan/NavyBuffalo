@@ -1,8 +1,11 @@
 
+import { EnemyBehaviors } from "./EnemyBeahaviors.js";
 import { ObjectBehaviors } from "./ObjectBehaviors.js";
+import { PlayerBehaviors } from "./PlayerBeahaviors.js";
+import { PointBehaviors } from "./PointBeahaviors.js";
 
 export class MeshLoader {
-	
+
 	/**
 	 * Constructor of the class. 
 	 * It initializes the list of all objects in the scene.
@@ -17,7 +20,7 @@ export class MeshLoader {
 	loadMesh(gl, alias, pathOBJ, isPlayer, isEnemy, idleAnimation, coords) {
 
 		console.log("MeshLoader.js - Start loading mesh: " + alias);
-		
+
 		// Create the mesh object
 		let mesh = [];
 		mesh.sourceMesh = pathOBJ;
@@ -26,10 +29,25 @@ export class MeshLoader {
 		LoadMesh(gl, mesh);
 
 		// Add the mesh to the list of objects
-		this.objData.push(
-			new ObjectBehaviors(alias, mesh, isPlayer, isEnemy, idleAnimation, coords)
-		);
-
+		switch (alias) {
+			case "Player":
+				this.objData.push(
+					new PlayerBehaviors(alias, mesh, coords));
+				break;
+			case "Point":
+				this.objData.push(
+					new PointBehaviors(alias, mesh, coords));
+				break;
+			case "Enemy":
+				this.objData.push(
+					new EnemyBehaviors(alias, mesh, coords));
+				break;
+			default:
+				this.objData.push(
+					new ObjectBehaviors(alias, mesh, isPlayer, isEnemy, idleAnimation, coords));
+				break;
+		}
+		
 		console.log("MeshLoader.js - End loading mesh: " + alias);
 	}
 }

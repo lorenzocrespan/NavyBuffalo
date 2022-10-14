@@ -2,6 +2,8 @@
 import { MeshLoader } from "./MeshLoader.js";
 import { Camera, setCameraControls, getUpdateCamera } from "./Camera.js";
 import { setPlayerControls } from "./PlayerListener.js";
+import { PointBehaviors } from "./PointBeahaviors.js";
+import { PlayerBehaviors } from "./PlayerBeahaviors.js";
 
 
 let gl;
@@ -32,7 +34,7 @@ export class Core {
 
 		// Movement controls initialization
 		this.moveVectore = { x: 0, y: 0, z: 0 };
-		setPlayerControls(this.canvas, true);
+		setPlayerControls(this.canvas);
 
 		// Setup camera controls (mouse and keyboard listeners)
 		setCameraControls(this.canvas, false);
@@ -74,8 +76,8 @@ export class Core {
 
 	generateCamera() {
 		camera = new Camera(
-			[0, 0, 0], // Cordinate in cui è collocata la camera
-			[0, 0, 1], //
+			[0, 0, 0],
+			[0, 0, 1],
 			[0, 0, 1],
 			70
 		);
@@ -101,18 +103,40 @@ export function render(time = 0) {
 
 	meshlist.forEach((elem) => {
 
-		if (elem.isPlayer) {
-			elem.playerListener.updatePosition();
-		}
+		switch (true) {
+			case elem instanceof PointBehaviors:
+				elem.render(
+					time,
+					gl,
+					{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
+					program,
+					camera
+				);
+				break;
+			case elem instanceof PlayerBehaviors:
+				// Update the player vector
+				elem.playerListener.updateVector(elem.position);
 
-		elem.render(
-			time,
-			gl,
-			{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
-			program,
-			camera,
-			moveVectore
-		);
+				elem.render(
+					time,
+					gl,
+					{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
+					program,
+					camera,
+					moveVectore
+				);
+
+			default:
+				elem.render(
+					time,
+					gl,
+					{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
+					program,
+					camera,
+					moveVectore
+				);
+
+		}
 	});
 	requestAnimationFrame(render);
 }

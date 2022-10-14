@@ -3,12 +3,20 @@ let dX = 0,
 
 let speed = 0.075;
 
+let arenaXBounde = 8.925;
+
 export class PlayerListener {
 	constructor() {
 		this.delta = { x: 0, y: 0, z: 0 };
 	}
 
-	updatePosition() {
+	updateVector(position) {
+		if (position.x > arenaXBounde && dX > 0 || position.x < -arenaXBounde && dX < 0) {
+			dX = 0;
+		}
+		if (position.z > arenaXBounde && dZ > 0 || position.z < -arenaXBounde && dZ < 0) {
+			dZ = 0;
+		}
 		this.delta.x = dX;
 		this.delta.z = dZ;
 	}
@@ -19,7 +27,7 @@ export class PlayerListener {
 	}
 }
 
-export function setPlayerControls(canvas, delta) {
+export function setPlayerControls(canvas) {
 	window.addEventListener("keydown", onKeyDown, true);
 
 	function onKeyDown(e) {
@@ -29,6 +37,7 @@ export function setPlayerControls(canvas, delta) {
 		}
 		if (e.keyCode === 83) {
 			// S
+
 			dZ = -speed;
 		}
 		if (e.keyCode === 65) {
