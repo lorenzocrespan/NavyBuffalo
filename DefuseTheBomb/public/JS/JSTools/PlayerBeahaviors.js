@@ -36,7 +36,7 @@ export class PlayerBehaviors {
 		this.playerListener.delta.z = 0;
 	}
 
-	render(time, gl, light, program, camera) {
+	render(time, gl, light, program, camera, isScreen) {
 
 		// Se l'oggetto passato richiede un controllo da parte dell'utente, vengono calcolate le nuove posizioni della mesh.
 		this.compute_player();
@@ -163,7 +163,8 @@ export class PlayerBehaviors {
 
 		// Draw the scene.
 		function drawScene(time, mesh) {
-			gl.bindTexture(gl.TEXTURE_2D, mesh.texture);
+			if(isScreen) gl.bindTexture(gl.TEXTURE_2D, mesh.mainTexture);
+            else gl.bindTexture(gl.TEXTURE_2D, mesh.sideTexture);
 			gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
 			gl.enable(gl.DEPTH_TEST);

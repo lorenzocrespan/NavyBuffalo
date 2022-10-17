@@ -5,27 +5,27 @@
 export class Scene {
 
 	/**
-	 * Costuctor of the Scene class.
+	 * Costuctor of the class.
 	 * 
-	 * @param {string} name - The name of the scene
-	 * @param {object} objs - An array of objects that will be rendered in the scene
+	 * @param {string} name - The name of the scene.
+	 * @param {object} sceneObj - An array of objects that will be rendered in the scene.
 	 */
-	constructor(name, objs = []) {
-		this.sceneName = name;
-		this.objs = objs;
+	constructor(name = "defaultSceneComposition", sceneObj = []) {
+		this.sceneName;
+		this.sceneObj = sceneObj;
 	}
 
 	/**
 	 * Add an object to the scene.
 	 * 
-	 * @param {string} alias - A string that will be used to identify the object
-	 * @param {string} pathOBJ - The path to the .obj file
-	 * @param {boolean} isPlayer - A boolean that indicates if the object is the player
-	 * @param {boolean} isEnemy - A boolean that indicates if the object is an enemy
-	 * @param {boolean} idleAnimation - A boolean that indicates if the object has an idle animation
-	 * @param {object} coords - An object that contains the coordinates of the object inside the scene
+	 * @param {String} alias A string that will be used to identify the object
+	 * @param {String} pathOBJ The path to the .obj file
+	 * @param {boolean} isPlayer A boolean that indicates if the object is the player
+	 * @param {boolean} isEnemy A boolean that indicates if the object is an enemy
+	 * @param {boolean} idleAnimation A boolean that indicates if the object has an idle animation
+	 * @param {object} coords An object that contains the coordinates of the object inside the scene
 	 * 
-	 * @returns {boolean} - True if the object has been added, false otherwise
+	 * @returns {boolean} True if the object has been added, false otherwise
 	 */
 	addOBJToList(alias, pathOBJ, isPlayer, isEnemy, idleAnimation, coords) {
 		var newObj = {
@@ -36,7 +36,7 @@ export class Scene {
 			idleAnimation: idleAnimation,
 			coords: coords,
 		};
-		if (this.objs.push(newObj)) {
+		if (this.sceneObj.push(newObj)) {
 			console.log("Scene.js - Added new object to the scene");
 			return true;
 		} else {
@@ -55,9 +55,9 @@ export class Scene {
 	 * 
 	 */
 	removeOBJFromList(alias) {
-		for (var i = 0; i < this.objs.length; i++) {
-			if (this.objs[i].alias === alias) {
-				this.objs.splice(i, 1);
+		for (var i = 0; i < this.sceneObj.length; i++) {
+			if (this.sceneObj[i].alias === alias) {
+				this.sceneObj.splice(i, 1);
 				return true;
 			}
 		}

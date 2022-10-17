@@ -1,13 +1,20 @@
 
 import { Scene } from "./JSTools/Scene.js";
-import { Core, render } from "./JSTools/Core.js";
+import { Core, initProgramRender, render } from "./JSTools/Core.js";
+
 
 console.log("main.js - Start loading scene elements");
 
 // Array of objects that will be rendered in the scene 
-let sceneComposition = new Scene("sceneComposition");
-
-// Add objects to the scene
+let sceneComposition = new Scene();
+// Counter for the number of objects that have to be added to the scene
+let countEnemies = 2;
+let countPoints = 1;
+// Add objects to the scene:
+//		-	Arena
+//		-	Player
+//		-	Enemies
+//		-	Points
 sceneComposition.addOBJToList(
 	"Arena",
 	"./OBJModels/WHGArena.obj",
@@ -26,7 +33,7 @@ sceneComposition.addOBJToList(
 	{ x: 0, y: 0, z: 0 },
 	1
 );
-for (let i = 0; i < 2; i++) {
+for (let i = 0; i < countEnemies; i++) {
 	sceneComposition.addOBJToList(
 		"Enemy",
 		"./OBJModels/WHGEnemy.obj",
@@ -40,7 +47,7 @@ for (let i = 0; i < 2; i++) {
 		}
 	);
 }
-for (let i = 0; i < 1; i++) {
+for (let i = 0; i < countPoints; i++) {
 	sceneComposition.addOBJToList(
 		"Point",
 		"./OBJModels/WHGPoint.obj",
@@ -58,7 +65,9 @@ console.debug(sceneComposition);
 
 console.log("main.js - End loading scene elements");
 
-console.log("main.js - Start rendering scene");
+
+
+console.log("main.js - Start loading core");
 
 let core = new Core("screenCanvas", "screenCanvasPlane");
 
@@ -66,13 +75,14 @@ core.setupScene(sceneComposition);
 
 core.generateCamera();
 
-core.generatePlaneCamera();
-
 console.log("Core del programma dopo il caricamento della scena");
 console.debug(core);
-console.log("Conclusione del caricamento del core del programma");
 
-/********************************************************************************************/
+console.log("main.js - End loading core");
 
-console.log("Rendering del core");
+
+
+console.log("main.js - Loop rendering");	
+
+initProgramRender();
 render();

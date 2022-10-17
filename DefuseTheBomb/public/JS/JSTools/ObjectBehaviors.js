@@ -7,12 +7,10 @@ let rotMat = m4.multiply(rotMatX, rotMatY);
 
 export class ObjectBehaviors {
 	
-	constructor(alias, mesh, isPlayer, isEnemy, idleAnimation, offsets) {
+	constructor(alias, mesh, offsets) {
 		// Parametri discriminanti dell'OBJ
 		this.alias = alias; // Nominativo dell'OBJ da renderizzare
-		this.isPlayer = isPlayer; // OBJ rappresenta il giocatore
-		this.isEnemy = isEnemy; // OBJ rappresenta un nemico
-		this.idleAnimation = idleAnimation; // OBJ ha un'animazione di idle
+		
 		// Parametri non discriminanti dell'OBJ
 		this.mesh = mesh; // Vettore contenente la posizione dei punti che compongono la mesh dell'OBJ
 		this.position = {
@@ -21,7 +19,6 @@ export class ObjectBehaviors {
 			z: offsets.z, // Posizione del "centro" dell'OBJ rispetto alla coordinata Z
 		};
 		this.compute_position();
-		if (this.isPlayer) this.playerListener = new PlayerListener();
 		console.debug(this);
 	}
 
@@ -69,15 +66,8 @@ export class ObjectBehaviors {
 		this.playerListener.delta.z = 0;
 	}
 
-	render(time, gl, light, program, camera) {
-		// Se l'oggetto passato richiede un'animazione di idle, vengono calcolate le nuove posizioni della mesh.
-		if (this.idleAnimation)
-			// Lo spostamento in altezza dell'oggetto è calcolato mediante una funzione in sen sul tempo di esecuzione del programma.
-			this.compute_idleAnimation(Math.sin(time) * ampWaveLimiter);
+	render(time, gl, light, program, camera, isScreen) {
 
-		// Se l'oggetto passato richiede un controllo da parte dell'utente, vengono calcolate le nuove posizioni della mesh.
-		if (this.isPlayer) 
-			this.compute_player();
 		/********************************************************************************************/
 
 		let positionLocation = gl.getAttribLocation(program, "a_position");
@@ -201,10 +191,9 @@ export class ObjectBehaviors {
 
 		// Draw the scene.
 		function drawScene(time, mesh) {
-			gl.bindTexture(gl.TEXTURE_2D, mesh.texture);
+			if(isScreen) gl.bindTexture(gl.TEXTURE_2D, mesh.mainTexture);
+            else gl.bindTexture(gl.TEXTURE_2D, mesh.sideTexture);
 			gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-
-			gl.enable(gl.DEPTH_TEST);
 
 			let matrix = m4.identity();
 			gl.uniformMatrix4fv(matrixLocation, false, matrix);

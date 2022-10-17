@@ -2,18 +2,26 @@
 import { MeshLoader } from "./MeshLoader.js";
 import { Camera, setCameraControls, getUpdateCamera } from "./Camera.js";
 import { setPlayerControls } from "./PlayerListener.js";
+
 import { PointBehaviors } from "./PointBeahaviors.js";
 import { PlayerBehaviors } from "./PlayerBeahaviors.js";
 import { EnemyBehaviors } from "./EnemyBeahaviors.js";
 
-
-let gl;
-let glPlane;
+// WebGL context
+let glMainScreen;
+let glSideScreen;
+let isMainScreen = true;
+// Camera
+let cameraMainScreen;
+let cameraSideScreen;
+let actCamera;
+// List of objects to render
 let meshlist = [];
+
+let listPrograms = [];
+
+// TODO: Evaluate if this is the best way to do this
 let moveVectore;
-let canvas;
-let camera;
-let cameraPlane;
 
 export class Core {
 
@@ -21,36 +29,34 @@ export class Core {
 	 * Constructor of the class. 
 	 * It initializes the canvas, the WebGL context and all the components for the rendering.
 	 * 
-	 * @param {String} idCanvas Identifier of the canvas element
+	 * @param {String} idMainCanvas Identifier of the canvas element (Main screen).
+	 * @param {String} idSideCanvas Identifier of the canvas element (Side screen for the minimap).
 	 */
-	constructor(idCanvas, screenCanvasPlane) {
+	constructor(idMainCanvas, idSideCanvas) {
 		console.log("Core.js - Start WebGL Core initialization");
 
 		// Canvas and WebGL context initialization
-		this.canvas = document.getElementById(idCanvas);
-		this.gl = this.canvas.getContext("webgl");
-		if (!this.gl) return;
+		this.mainCanvas = document.getElementById(idMainCanvas);
+		this.glMainScreen = this.mainCanvas.getContext("webgl");
+		this.sideCanvas = document.getElementById(idSideCanvas);
+		this.glSideScreen = this.sideCanvas.getContext("webgl");
+		// Global variables initialization
+		glMainScreen = this.glMainScreen;
+		glSideScreen = this.glSideScreen;
 
-		this.cameraPlane = document.getElementById(screenCanvasPlane);
-		this.glPlane = this.cameraPlane.getContext("webgl");
-		if (!this.glPlane) return;
+		if (!this.glSideScreen || !this.glMainScreen) return;
 
 		// MeshLoader initialization
 		this.meshlist = [];
 		this.meshLoader = new MeshLoader(this.meshlist);
-
-		// Movement controls initialization
-		this.moveVectore = { x: 0, y: 0, z: 0 };
-		setPlayerControls(this.canvas);
-
-		// Setup camera controls (mouse and keyboard listeners)
-		setCameraControls(this.canvas, false);
-
 		// Global variables initialization
-		gl = this.gl;
-		glPlane = this.glPlane;
-		canvas = this.canvas;
 		meshlist = this.meshlist;
+
+		// Movement and camera controls initialization
+		this.moveVectore = { x: 0, y: 0, z: 0 };
+		setPlayerControls(this.mainCanvas);
+		setCameraControls(this.mainCanvas, false);
+		// Global variables initialization
 		moveVectore = this.moveVectore;
 
 		console.log("Core.js - End WebGL Core initialization");
@@ -65,12 +71,11 @@ export class Core {
 		console.log("Core.js - Start scene setup");
 
 		// Load all the meshes in the scene
-		for (const obj of sceneComposition.objs) {
-			console.debug(obj);
+		for (const obj of sceneComposition.sceneObj) {
 			// Load the mesh
 			this.meshLoader.addMesh(
-				this.gl,
-				this.glPlane,
+				this.glMainScreen,
+				this.glSideScreen,
 				obj.alias,
 				obj.pathOBJ,
 				obj.isPlayer,
@@ -79,106 +84,111 @@ export class Core {
 				obj.coords
 			);
 		}
+
 		console.log("Core.js - End scene setup");
 	}
 
+	/**
+	 * Function that generates the camera for the rendering.
+	 * 
+	 */
 	generateCamera() {
-		camera = new Camera(
+		console.log("Core.js - Start camera setup");
+
+		cameraMainScreen = new Camera(
 			[0, 0, 0],
 			[0, 0, 1],
 			[0, 0, 1],
 			70
 		);
-	}
 
-	generatePlaneCamera() {
-		cameraPlane = new Camera(
-			[0, 2, 50], 
-			[0, 0, 1],  
-			[0, 0, 1], 
+		cameraSideScreen = new Camera(
+			[0, 2, 50],
+			[0, 0, 1],
+			[0, 0, 1],
 			12.1
 		);
+
+		console.log("Core.js - End camera setup");
 	}
+
 }
 
-export function render(time = 0) {
+export function initProgramRender() {
 	// setup GLSL program
-	let program = webglUtils.createProgramFromScripts(gl, [
+	let mainProgram = webglUtils.createProgramFromScripts(glMainScreen, [
 		"3d-vertex-shader",
 		"3d-fragment-shader",
 	]);
 
-	let programPlane = webglUtils.createProgramFromScripts(glPlane, [
+	let sideProgram = webglUtils.createProgramFromScripts(glSideScreen, [
 		"3d-vertex-shader",
 		"3d-fragment-shader",
 	]);
 
-	gl.clearColor(0.25, 0.5, 0.75, 1);
-	gl.clear(gl.COLOR_BUFFER_BIT);
+	glMainScreen.useProgram(mainProgram);
+	glSideScreen.useProgram(sideProgram);
 
-	// Tell it to use our program (pair of shaders)
-	gl.useProgram(program);
-	glPlane.useProgram(programPlane);
-	if (getUpdateCamera()) camera.moveCamera();
+	// List of list of programs
+	listPrograms = [[mainProgram, glMainScreen], [sideProgram, glSideScreen]];
 
-	// convert to seconds
-	time *= 0.002;
+	actCamera = cameraMainScreen;
+}
 
-	meshlist.forEach((elem) => {
+/**
+ * Rendering functions for the main screen.
+ * 
+ * @param {*} time 
+ */
+export function render(time = 0) {
 
-		switch (true) {
-			case elem instanceof PointBehaviors:
-				elem.render(
-					time,
-					gl,
-					{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
-					program,
-					camera,
-					true
-				);
-				elem.render(
-					time,
-					glPlane,
-					{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
-					programPlane,
-					cameraPlane,
-					false
-				);
-				break;
-			case elem instanceof PlayerBehaviors:
-				// Update the player vector
-				elem.playerListener.updateVector(elem.position);
+	for (const program of listPrograms) {
 
-				elem.render(
-					time,
-					gl,
-					{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
-					program,
-					camera,
-					moveVectore
-				);
-				break;
-			case elem instanceof EnemyBehaviors:
-				elem.render(
-					time,
-					gl,
-					{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
-					program,
-					camera,
-				);
-				break;
-			default:
-				elem.render(
-					time,
-					gl,
-					{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
-					program,
-					camera,
-					moveVectore
-				);
-				break;
+		if (getUpdateCamera()) cameraMainScreen.moveCamera();
+
+		// Convert to seconds
+		time *= 0.002;
+
+		meshlist.forEach((elem) => {
+
+			switch (true) {
+				case elem instanceof PlayerBehaviors:
+					// Update the player vector
+					elem.playerListener.updateVector(elem.position);
+
+					elem.render(
+						time,
+						program[1],
+						{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
+						program[0],
+						actCamera,
+						isMainScreen
+					);
+					break;
+				default:
+					elem.render(
+						time,
+						program[1],
+						{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
+						program[0],
+						actCamera,
+						isMainScreen
+					);
+					break;
+			}
 		}
-	});
+		);
+
+		if (actCamera == cameraMainScreen){
+			isMainScreen = false;
+			actCamera = cameraSideScreen;
+		}
+		else{
+			actCamera = cameraMainScreen;
+			isMainScreen = true;
+		}
+
+	}
 
 	requestAnimationFrame(render);
 }

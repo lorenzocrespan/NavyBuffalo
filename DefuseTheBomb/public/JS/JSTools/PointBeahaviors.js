@@ -182,9 +182,9 @@ export class PointBehaviors {
 
         // Draw the scene.
         function drawScene(time, mesh) {
-            // TODO: Correggi mesh.texture
-            if(isScreen) gl.bindTexture(gl.TEXTURE_2D, mesh.texture);
-            else gl.bindTexture(gl.TEXTURE_2D, mesh.texture_mirror);
+            if(isScreen) gl.bindTexture(gl.TEXTURE_2D, mesh.mainTexture);
+            else gl.bindTexture(gl.TEXTURE_2D, mesh.sideTexture);
+            
             gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
             let matrix = m4.identity();

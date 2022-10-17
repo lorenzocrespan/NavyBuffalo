@@ -16,19 +16,28 @@ export class MeshLoader {
 		this.objData = objData;
 	}
 
-	// Load the mesh from the .obj file and add it to the list of objects
-	addMesh(gl, glPlane, alias, pathOBJ, isPlayer, isEnemy, idleAnimation, coords) {
+	/**
+	 * Load the mesh from the .obj file and add it to the list of objects specialized.
+	 * 
+	 * @param {Object} glMainScreen WebGL context of the main screen.
+	 * @param {Object} glSideScreen WebGL context of the side screen.
+	 * @param {String} alias A string that will be used to identify the object.
+	 * @param {String} pathOBJ The path to the .obj file.
+	 * @param {boolean} isPlayer A boolean that indicates if the object is the player.
+	 * @param {boolean} isEnemy A boolean that indicates if the object is an enemy.
+	 * @param {boolean} idleAnimation A boolean that indicates if the object has an idle animation.
+	 * @param {Object} coords An object that contains the coordinates of the object inside the scene.
+	 */
+	addMesh(glMainScreen, glSideScreen, alias, pathOBJ, isPlayer, isEnemy, idleAnimation, coords) {
 
-		console.log("MeshLoader.js - Start loading mesh: " + alias);
+		console.log("MeshLoader.js - Loading mesh: " + alias);
 
 		// Create the mesh object
 		let mesh = [];
 		mesh.sourceMesh = pathOBJ;
 
 		// Load the mesh from the .obj file
-		LoadMesh(gl, glPlane, mesh);
-		
-		console.debug(gl);
+		LoadMesh(glMainScreen, glSideScreen, mesh);
 
 		// Add the mesh to the list of objects
 		switch (alias) {
@@ -46,7 +55,7 @@ export class MeshLoader {
 				break;
 			default:
 				this.objData.push(
-					new ObjectBehaviors(alias, mesh, isPlayer, isEnemy, idleAnimation, coords));
+					new ObjectBehaviors(alias, mesh, coords));
 				break;
 		}
 
