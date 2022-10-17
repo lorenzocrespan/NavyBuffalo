@@ -56,7 +56,7 @@ export class PointBehaviors {
     }
 
     
-    render(time, gl, light, program, camera) {
+    render(time, gl, light, program, camera, isScreen) {
 
         this.compute_idleAnimation(Math.sin(time) * ampWaveLimiter);
         /********************************************************************************************/
@@ -182,10 +182,10 @@ export class PointBehaviors {
 
         // Draw the scene.
         function drawScene(time, mesh) {
-            gl.bindTexture(gl.TEXTURE_2D, mesh.texture);
+            // TODO: Correggi mesh.texture
+            if(isScreen) gl.bindTexture(gl.TEXTURE_2D, mesh.texture);
+            else gl.bindTexture(gl.TEXTURE_2D, mesh.texture_mirror);
             gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-
-            gl.enable(gl.DEPTH_TEST);
 
             let matrix = m4.identity();
             gl.uniformMatrix4fv(matrixLocation, false, matrix);

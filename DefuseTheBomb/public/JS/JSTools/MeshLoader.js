@@ -17,7 +17,7 @@ export class MeshLoader {
 	}
 
 	// Load the mesh from the .obj file and add it to the list of objects
-	addMesh(gl, alias, pathOBJ, isPlayer, isEnemy, idleAnimation, coords) {
+	addMesh(gl, glPlane, alias, pathOBJ, isPlayer, isEnemy, idleAnimation, coords) {
 
 		console.log("MeshLoader.js - Start loading mesh: " + alias);
 
@@ -26,7 +26,9 @@ export class MeshLoader {
 		mesh.sourceMesh = pathOBJ;
 
 		// Load the mesh from the .obj file
-		LoadMesh(gl, mesh);
+		LoadMesh(gl, glPlane, mesh);
+		
+		console.debug(gl);
 
 		// Add the mesh to the list of objects
 		switch (alias) {

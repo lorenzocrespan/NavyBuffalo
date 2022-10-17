@@ -112,13 +112,15 @@ function loadMeshFromOBJ(mesh) {
 }
 
 /*========== Loading and storing the geometry ==========*/
-function LoadMesh(gl, mesh) {
+function LoadMesh(gl, glScreen, mesh) {
 	retrieveDataFromSource(mesh);
 	//Ora che ho la mesh e il/i materiali associati, mi occupo di caricare
 	//la/le texture che tali materiali contengono
 	var map = mesh.materials[1].parameter;
 	var path = mesh.sourceMesh.substring(0, mesh.sourceMesh.lastIndexOf("/") + 1);
-	map.set("map_Kd", loadTexture(gl, path, map.get("map_Kd")));
+	let a = this.loadTexture(gl, path, map.get("map_Kd"));
+    let b = this.loadTexture(glScreen, path, map.get("map_Kd"));
+	map.set("map_Kd", a);
 	mesh.texture = map.get("map_Kd");
 	var x = [],
 		y = [],
@@ -130,6 +132,8 @@ function LoadMesh(gl, mesh) {
 	var nface = mesh.data.nface;
 	var ntexcoord = mesh.data.textCoords.length;
 	mesh.positions = [];
+	mesh.texture = a;
+    mesh.texture_mirror = b;
 	mesh.normals = [];
 	mesh.texcoords = [];
 

@@ -187,8 +187,6 @@ export class EnemyBehaviors {
 			gl.bindTexture(gl.TEXTURE_2D, mesh.texture);
 			gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
-			gl.enable(gl.DEPTH_TEST);
-
 			let matrix = m4.identity();
 			gl.uniformMatrix4fv(matrixLocation, false, matrix);
 
