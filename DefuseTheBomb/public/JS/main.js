@@ -60,11 +60,13 @@ console.log("main.js - End loading scene elements");
 
 console.log("main.js - Start rendering scene");
 
-let core = new Core("screenCanvas");
+let core = new Core("screenCanvas", "screenCanvasPlane");
 
 core.setupScene(sceneComposition);
 
 core.generateCamera();
+
+core.generatePlaneCamera();
 
 console.log("Core del programma dopo il caricamento della scena");
 console.debug(core);

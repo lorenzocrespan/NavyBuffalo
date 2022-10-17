@@ -8,10 +8,12 @@ import { EnemyBehaviors } from "./EnemyBeahaviors.js";
 
 
 let gl;
+let glPlane;
 let meshlist = [];
 let moveVectore;
 let canvas;
 let camera;
+let cameraPlane;
 
 export class Core {
 
@@ -21,13 +23,17 @@ export class Core {
 	 * 
 	 * @param {String} idCanvas Identifier of the canvas element
 	 */
-	constructor(idCanvas) {
+	constructor(idCanvas, screenCanvasPlane) {
 		console.log("Core.js - Start WebGL Core initialization");
 
 		// Canvas and WebGL context initialization
 		this.canvas = document.getElementById(idCanvas);
-		this.gl = this.canvas.getContext("experimental-webgl");
+		this.gl = this.canvas.getContext("webgl");
 		if (!this.gl) return;
+
+		this.cameraPlane = document.getElementById(screenCanvasPlane);
+		this.glPlane = this.cameraPlane.getContext("webgl");
+		if (!this.glPlane) return;
 
 		// MeshLoader initialization
 		this.meshlist = [];
@@ -42,6 +48,7 @@ export class Core {
 
 		// Global variables initialization
 		gl = this.gl;
+		glPlane = this.glPlane;
 		canvas = this.canvas;
 		meshlist = this.meshlist;
 		moveVectore = this.moveVectore;
@@ -63,6 +70,7 @@ export class Core {
 			// Load the mesh
 			this.meshLoader.addMesh(
 				this.gl,
+				this.glPlane,
 				obj.alias,
 				obj.pathOBJ,
 				obj.isPlayer,
@@ -74,14 +82,21 @@ export class Core {
 		console.log("Core.js - End scene setup");
 	}
 
-	
-
 	generateCamera() {
 		camera = new Camera(
 			[0, 0, 0],
 			[0, 0, 1],
 			[0, 0, 1],
 			70
+		);
+	}
+
+	generatePlaneCamera() {
+		cameraPlane = new Camera(
+			[0, 2, 50], 
+			[0, 0, 1],  
+			[0, 0, 1], 
+			12.1
 		);
 	}
 }
@@ -93,11 +108,17 @@ export function render(time = 0) {
 		"3d-fragment-shader",
 	]);
 
+	let programPlane = webglUtils.createProgramFromScripts(glPlane, [
+		"3d-vertex-shader",
+		"3d-fragment-shader",
+	]);
+
 	gl.clearColor(0.25, 0.5, 0.75, 1);
 	gl.clear(gl.COLOR_BUFFER_BIT);
 
 	// Tell it to use our program (pair of shaders)
 	gl.useProgram(program);
+	glPlane.useProgram(programPlane);
 	if (getUpdateCamera()) camera.moveCamera();
 
 	// convert to seconds
@@ -112,7 +133,16 @@ export function render(time = 0) {
 					gl,
 					{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
 					program,
-					camera
+					camera,
+					true
+				);
+				elem.render(
+					time,
+					glPlane,
+					{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
+					programPlane,
+					cameraPlane,
+					false
 				);
 				break;
 			case elem instanceof PlayerBehaviors:
