@@ -8,7 +8,7 @@ let old_x, old_y;
 let dX, dY;
 
 //
-let radius = 15;
+let radius = 24;
 let maxRadius = 24,
 	minRadius = 3;
 
@@ -20,7 +20,6 @@ export class Camera {
 	// position, posizione spaziale (x, y, z) della camera.
 	// up, ...
 	// target, soggetto della scena.
-	// radius, distanza dal soggetto della scena.
 	// fieldOfView, ...
 	constructor(position, up, target, fieldOfView) {
 		this.position = position;

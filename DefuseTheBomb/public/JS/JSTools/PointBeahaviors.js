@@ -1,6 +1,6 @@
 
 let ampWaveLimiter = 0.0025;
-let rotMatX = m4.xRotation(0.03);
+let rotMatX = m4.xRotation(0.02);
 let rotMatY = m4.yRotation(0.04);
 let rotMat = m4.multiply(rotMatX, rotMatY);
 
@@ -58,7 +58,7 @@ export class PointBehaviors {
     
     render(time, gl, light, program, camera, isScreen) {
 
-        this.compute_idleAnimation(Math.sin(time) * ampWaveLimiter);
+        if(isScreen) this.compute_idleAnimation(Math.sin(time) * ampWaveLimiter);
         /********************************************************************************************/
 
         let positionLocation = gl.getAttribLocation(program, "a_position");
@@ -184,7 +184,7 @@ export class PointBehaviors {
         function drawScene(time, mesh) {
             if(isScreen) gl.bindTexture(gl.TEXTURE_2D, mesh.mainTexture);
             else gl.bindTexture(gl.TEXTURE_2D, mesh.sideTexture);
-            
+
             gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
             let matrix = m4.identity();

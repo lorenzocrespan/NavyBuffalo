@@ -1,11 +1,10 @@
 
 import { MeshLoader } from "./MeshLoader.js";
+
 import { Camera, setCameraControls, getUpdateCamera } from "./Camera.js";
 import { setPlayerControls } from "./PlayerListener.js";
-
-import { PointBehaviors } from "./PointBeahaviors.js";
+import { CollisionAgent } from "./CollisionAgent.js";
 import { PlayerBehaviors } from "./PlayerBeahaviors.js";
-import { EnemyBehaviors } from "./EnemyBeahaviors.js";
 
 // WebGL context
 let glMainScreen;
@@ -19,6 +18,9 @@ let actCamera;
 let meshlist = [];
 
 let listPrograms = [];
+
+// Collision agent
+let collisionAgent = new CollisionAgent();
 
 // TODO: Evaluate if this is the best way to do this
 let moveVectore;
@@ -78,13 +80,11 @@ export class Core {
 				this.glSideScreen,
 				obj.alias,
 				obj.pathOBJ,
-				obj.isPlayer,
-				obj.isEnemy,
-				obj.idleAnimation,
-				obj.coords
+				obj.coords,
+				collisionAgent
 			);
 		}
-
+		collisionAgent.countCollisionObject();
 		console.log("Core.js - End scene setup");
 	}
 
@@ -103,10 +103,10 @@ export class Core {
 		);
 
 		cameraSideScreen = new Camera(
-			[0, 2, 50],
-			[0, 0, 1],
-			[0, 0, 1],
-			12.1
+			[0, 1, 40],
+			[-1, 0, 0],
+			[0, 0, 0],
+			12
 		);
 
 		console.log("Core.js - End camera setup");
@@ -155,7 +155,6 @@ export function render(time = 0) {
 				case elem instanceof PlayerBehaviors:
 					// Update the player vector
 					elem.playerListener.updateVector(elem.position);
-
 					elem.render(
 						time,
 						program[1],
@@ -179,11 +178,13 @@ export function render(time = 0) {
 		}
 		);
 
-		if (actCamera == cameraMainScreen){
+		if (actCamera == cameraMainScreen) {
+			collisionAgent.printPlayerPosition();
+			// collisionAgent.checkCollisionEnemy();
 			isMainScreen = false;
 			actCamera = cameraSideScreen;
 		}
-		else{
+		else {
 			actCamera = cameraMainScreen;
 			isMainScreen = true;
 		}

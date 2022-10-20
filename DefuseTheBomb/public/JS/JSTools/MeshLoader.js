@@ -28,7 +28,7 @@ export class MeshLoader {
 	 * @param {boolean} idleAnimation A boolean that indicates if the object has an idle animation.
 	 * @param {Object} coords An object that contains the coordinates of the object inside the scene.
 	 */
-	addMesh(glMainScreen, glSideScreen, alias, pathOBJ, isPlayer, isEnemy, idleAnimation, coords) {
+	addMesh(glMainScreen, glSideScreen, alias, pathOBJ, coords, collisionAgent) {
 
 		console.log("MeshLoader.js - Loading mesh: " + alias);
 
@@ -58,6 +58,8 @@ export class MeshLoader {
 					new ObjectBehaviors(alias, mesh, coords));
 				break;
 		}
+		console.debug("MeshLoader.js - OBJ loaded: " + this.objData[this.objData.length - 1].position.x + ", " + this.objData[this.objData.length - 1].position.y + ", " + this.objData[this.objData.length - 1].position.z);
+		collisionAgent.addCollisionObject(this.objData[this.objData.length - 1]);
 
 		console.log("MeshLoader.js - End loading mesh: " + alias);
 	}

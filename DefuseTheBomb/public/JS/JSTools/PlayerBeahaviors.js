@@ -38,6 +38,7 @@ export class PlayerBehaviors {
 
 	render(time, gl, light, program, camera, isScreen) {
 
+
 		// Se l'oggetto passato richiede un controllo da parte dell'utente, vengono calcolate le nuove posizioni della mesh.
 		this.compute_player();
 		/********************************************************************************************/
