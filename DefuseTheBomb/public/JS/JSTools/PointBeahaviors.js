@@ -4,6 +4,8 @@ let rotMatX = m4.xRotation(0.02);
 let rotMatY = m4.yRotation(0.04);
 let rotMat = m4.multiply(rotMatX, rotMatY);
 
+let offdeltaY = 0;
+
 export class PointBehaviors {
 
     constructor(alias, mesh, offsets) {
@@ -28,17 +30,35 @@ export class PointBehaviors {
         }
     }
 
+    changePosition() {
+        let newX = Math.floor(Math.random() * 10 - 7);
+        let newZ = Math.floor(Math.random() * 10 - 7);
+        let deltaX = Math.abs(newX - this.position.x);
+        let deltaZ = Math.abs(newZ - this.position.z);
+        for (let i = 0; i < this.mesh.positions.length; i += 3) {
+            if (this.mesh.positions[i + 1] < newX) this.mesh.positions[i + 1] += deltaX;
+            else this.mesh.positions[i + 1] -= deltaX;
+            if (this.mesh.positions[i] < newZ) this.mesh.positions[i] += deltaZ;
+            else this.mesh.positions[i] -= deltaZ;
+        }
+        this.position.x = newX;
+        this.position.z = newZ;
+    }
+
     // Calcolo della nuova posizione della mesh (mesh.positions e mesh.normals).
     // TODO: Chiedere al professore perchè rotazione + traslazione portano ad un movimento anomalo.
     compute_idleAnimation(deltaY) {
+        offdeltaY = deltaY
         for (let i = 0; i < this.mesh.positions.length; i += 3) {
             var pos = [];
             var nor = [];
 
             this.mesh.positions[i + 2] += deltaY;
+
             pos.push(this.mesh.positions[i + 1] - this.position.x);
             pos.push(this.mesh.positions[i + 2] - 1 - this.position.y);
             pos.push(this.mesh.positions[i] - this.position.z);
+
             nor.push(this.mesh.normals[i + 1]);
             nor.push(this.mesh.normals[i + 2]);
             nor.push(this.mesh.normals[i]);
@@ -49,16 +69,17 @@ export class PointBehaviors {
             this.mesh.positions[i + 1] = pos_res[0] + this.position.x;
             this.mesh.positions[i + 2] = pos_res[1] + 1 + this.position.y;
             this.mesh.positions[i] = pos_res[2] + this.position.z;
+
             this.mesh.normals[i + 1] = nor_res[0];
             this.mesh.normals[i + 2] = nor_res[1];
             this.mesh.normals[i] = nor_res[2];
         }
     }
 
-    
+
     render(time, gl, light, program, camera, isScreen) {
 
-        if(isScreen) this.compute_idleAnimation(Math.sin(time) * ampWaveLimiter);
+        if (isScreen) this.compute_idleAnimation(Math.sin(time) * ampWaveLimiter);
         /********************************************************************************************/
 
         let positionLocation = gl.getAttribLocation(program, "a_position");
@@ -182,7 +203,7 @@ export class PointBehaviors {
 
         // Draw the scene.
         function drawScene(time, mesh) {
-            if(isScreen) gl.bindTexture(gl.TEXTURE_2D, mesh.mainTexture);
+            if (isScreen) gl.bindTexture(gl.TEXTURE_2D, mesh.mainTexture);
             else gl.bindTexture(gl.TEXTURE_2D, mesh.sideTexture);
 
             gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);

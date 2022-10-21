@@ -154,7 +154,7 @@ export function render(time = 0) {
 			switch (true) {
 				case elem instanceof PlayerBehaviors:
 					// Update the player vector
-					elem.playerListener.updateVector(elem.position);
+					if (isMainScreen) elem.playerListener.updateVector(elem.position);
 					elem.render(
 						time,
 						program[1],
@@ -179,8 +179,8 @@ export function render(time = 0) {
 		);
 
 		if (actCamera == cameraMainScreen) {
-			collisionAgent.printPlayerPosition();
-			// collisionAgent.checkCollisionEnemy();
+			collisionAgent.checkCollisionEnemy();
+			collisionAgent.checkCollisionPoint();
 			isMainScreen = false;
 			actCamera = cameraSideScreen;
 		}

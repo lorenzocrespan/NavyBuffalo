@@ -52,15 +52,20 @@ export class EnemyBehaviors {
 
 		this.check_collision_arena();
 
+		let speed = 0.175;
+
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
-			this.mesh.positions[i + 1] += this.vector.x;
-			this.mesh.positions[i] += this.vector.z;
+			this.mesh.positions[i + 1] += this.vector.x * speed;
+			this.mesh.positions[i] += this.vector.z * speed;
 		}
+
+		this.position.x += this.vector.x * speed;
+		this.position.z += this.vector.z * speed;
 	}
 
 	render(time, gl, light, program, camera, isScreen) {
 
-		this.compute_enemy();
+		if(isScreen) this.compute_enemy();
 		/********************************************************************************************/
 
 		let positionLocation = gl.getAttribLocation(program, "a_position");
@@ -184,8 +189,8 @@ export class EnemyBehaviors {
 
 		// Draw the scene.
 		function drawScene(time, mesh) {
-			if(isScreen) gl.bindTexture(gl.TEXTURE_2D, mesh.mainTexture);
-            else gl.bindTexture(gl.TEXTURE_2D, mesh.sideTexture);
+			if (isScreen) gl.bindTexture(gl.TEXTURE_2D, mesh.mainTexture);
+			else gl.bindTexture(gl.TEXTURE_2D, mesh.sideTexture);
 			gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
 			let matrix = m4.identity();

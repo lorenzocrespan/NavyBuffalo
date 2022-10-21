@@ -8,7 +8,7 @@ console.log("main.js - Start loading scene elements");
 // Array of objects that will be rendered in the scene 
 let sceneComposition = new Scene();
 // Counter for the number of objects that have to be added to the scene
-let countEnemies = 2;
+let countEnemies = 1;
 let countPoints = 1;
 // Add objects to the scene:
 //		-	Arena
@@ -55,9 +55,9 @@ for (let i = 0; i < countPoints; i++) {
 		false,
 		true,
 		{
-			x: Math.floor(Math.random() * 10 - 8),
+			x: -2,
 			y: -0.1,
-			z: Math.floor(Math.random() * 10 - 8),
+			z: 2,
 		}
 	);
 }
@@ -82,7 +82,7 @@ console.log("main.js - End loading core");
 
 
 
-console.log("main.js - Loop rendering");	
+console.log("main.js - Loop rendering");
 
 initProgramRender();
 render();

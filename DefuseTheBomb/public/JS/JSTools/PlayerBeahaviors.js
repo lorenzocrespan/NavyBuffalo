@@ -40,7 +40,7 @@ export class PlayerBehaviors {
 
 
 		// Se l'oggetto passato richiede un controllo da parte dell'utente, vengono calcolate le nuove posizioni della mesh.
-		this.compute_player();
+		if(isScreen) this.compute_player();
 		/********************************************************************************************/
 
 		let positionLocation = gl.getAttribLocation(program, "a_position");
