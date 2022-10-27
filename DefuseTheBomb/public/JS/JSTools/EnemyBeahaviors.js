@@ -1,5 +1,6 @@
 
 let arenaBounde = 9;
+let speed = 0.175;
 
 export class EnemyBehaviors {
 
@@ -48,11 +49,14 @@ export class EnemyBehaviors {
 		}
 	}
 
-	compute_enemy() {
+	changeDirection() {
+		this.vector.x *= -1;
+		this.vector.z *= -1;
+	}
 
+	compute_enemy(collisionAgent) {
+		collisionAgent.checkCollisionEnemyWithEnemy();
 		this.check_collision_arena();
-
-		let speed = 0.175;
 
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
 			this.mesh.positions[i + 1] += this.vector.x * speed;
@@ -63,9 +67,9 @@ export class EnemyBehaviors {
 		this.position.z += this.vector.z * speed;
 	}
 
-	render(time, gl, light, program, camera, isScreen) {
+	render(time, gl, light, program, camera, isScreen, collisionAgent) {
 
-		if(isScreen) this.compute_enemy();
+		if(isScreen) this.compute_enemy(collisionAgent);
 		/********************************************************************************************/
 
 		let positionLocation = gl.getAttribLocation(program, "a_position");

@@ -161,7 +161,8 @@ export function render(time = 0) {
 						{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
 						program[0],
 						actCamera,
-						isMainScreen
+						isMainScreen,
+						collisionAgent
 					);
 					break;
 				default:
@@ -171,7 +172,8 @@ export function render(time = 0) {
 						{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
 						program[0],
 						actCamera,
-						isMainScreen
+						isMainScreen,
+						collisionAgent
 					);
 					break;
 			}
@@ -179,8 +181,6 @@ export function render(time = 0) {
 		);
 
 		if (actCamera == cameraMainScreen) {
-			collisionAgent.checkCollisionEnemy();
-			collisionAgent.checkCollisionPoint();
 			isMainScreen = false;
 			actCamera = cameraSideScreen;
 		}

@@ -1,7 +1,6 @@
 import { PlayerListener } from "./PlayerListener.js";
 
 export class PlayerBehaviors {
-	
 	constructor(alias, mesh, offsets) {
 		// Parametri discriminanti dell'OBJ
 		this.alias = alias; // Nominativo dell'OBJ da renderizzare
@@ -25,7 +24,9 @@ export class PlayerBehaviors {
 		}
 	}
 
-	compute_player() {
+	compute_player(collisionAgent) {
+		collisionAgent.checkCollisionEnemy(this.position, this.playerListener.delta, 10);
+		collisionAgent.checkCollisionPoint(this.position, this.playerListener.delta, 10)
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
 			this.mesh.positions[i + 1] += this.playerListener.delta.x;
 			this.mesh.positions[i] += this.playerListener.delta.z;
@@ -36,11 +37,9 @@ export class PlayerBehaviors {
 		this.playerListener.delta.z = 0;
 	}
 
-	render(time, gl, light, program, camera, isScreen) {
-
-
+	render(time, gl, light, program, camera, isScreen, collisionAgent) {
 		// Se l'oggetto passato richiede un controllo da parte dell'utente, vengono calcolate le nuove posizioni della mesh.
-		if(isScreen) this.compute_player();
+		if (isScreen) this.compute_player(collisionAgent);
 		/********************************************************************************************/
 
 		let positionLocation = gl.getAttribLocation(program, "a_position");
@@ -164,8 +163,8 @@ export class PlayerBehaviors {
 
 		// Draw the scene.
 		function drawScene(time, mesh) {
-			if(isScreen) gl.bindTexture(gl.TEXTURE_2D, mesh.mainTexture);
-            else gl.bindTexture(gl.TEXTURE_2D, mesh.sideTexture);
+			if (isScreen) gl.bindTexture(gl.TEXTURE_2D, mesh.mainTexture);
+			else gl.bindTexture(gl.TEXTURE_2D, mesh.sideTexture);
 			gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
 			gl.enable(gl.DEPTH_TEST);

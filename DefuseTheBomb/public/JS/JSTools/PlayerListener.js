@@ -3,7 +3,6 @@ let dX = 0,
 	dZ = 0;
 
 let speed = 0.075;
-
 let arenaBounde = 8.925;
 
 export class PlayerListener {
