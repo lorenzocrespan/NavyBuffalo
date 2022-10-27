@@ -19,14 +19,64 @@
 					Disinnesca la bomba completando i minigiochi prima che il timer
 					scada. Attento a non fare troppi errori.
 				</p>
-				<div class="relative bg-slate-400 mx-auto">
-					<canvas class="bg-blue-300 rounded-md border-2 border-slate-400" id="screenCanvas" width="1280"
-						height="720">
-					</canvas>
-					<div class="inset-0 z-10">
-						<canvas class="absolute left-2 top-2 bg-blue-300 rounded-md border-4 border-blue-800"
-							id="screenCanvasPlane" width="300" height="169">
+				<div class="flex items-center justify-center">
+					<div class="relative bg-slate-400 mx-auto">
+						<canvas class="bg-blue-300 rounded-md border-2 border-slate-400" id="screenCanvas" width="1280"
+							height="720">
 						</canvas>
+						<div class="inset-0 z-10">
+							<canvas class="absolute left-2 top-2 bg-blue-300 rounded-md border-4 border-blue-800"
+								id="screenCanvasPlane" width="300" height="169">
+							</canvas>
+						</div>
+					</div>
+					<div class="flex flex-col space-y-4 items-center justify-center mx-auto">
+						<h2 class="font-semibold  sm:text-3xl">Punteggio</h2>
+						<h2 class="font-semibold  sm:text-xl">0000</h2>
+						<h2 class="font-semibold  sm:text-3xl">Setup</h2>
+						<div class="flex flex-col space-y-4">
+							<div class="flex justify-center space-x-4">
+								<label class="dark:text-gray-400 grow" for="name">Difficoltà</label>
+								<select class="border-2 border-gray-300 text-gray-400 rounded-md p-2">
+									<option value="1">Facile</option>
+									<option value="2">Medio</option>
+									<option value="3">Difficile</option>
+								</select>
+							</div>
+							<div class="flex justify-center space-x-4">
+								<label class="dark:text-gray-400 grow" for="name">Max nemici</label>
+								<select class="border-2 border-gray-300 text-gray-400 rounded-md p-2">
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+								</select>
+							</div>
+						</div>
+						<h2 class="font-semibold  sm:text-3xl">Comandi</h2>
+						<form class="flex flex-col justify-center">
+							<div class="flex space-x-4 justify-center">
+								<label class="dark:text-gray-400 grow" for="name">Trasparenza</label>
+								<input type="checkbox" id="fullscreen" class="my-2" />
+								<label class="dark:text-gray-400" title="Spiegazione">?</label>
+							</div>
+							<div class="flex space-x-4 justify-center">
+								<label class="dark:text-gray-400 grow" for="name">Ombre</label>
+								<input type="checkbox" id="fullscreen" class="my-2" />
+								<label class="dark:text-gray-400" title="Spiegazione">?</label>
+							</div>
+							<div class="flex space-x-4 justify-center">
+								<label class="dark:text-gray-400 grow" for="name">Camera secondaria</label>
+								<input type="checkbox" id="fullscreen" class="my-2" />
+								<label class="dark:text-gray-400" title="Spiegazione">?</label>
+							</div>
+						</form>
+						<div class="flex justify-center space-x-4">
+							<button class="grow-1 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+								Avvia
+							<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+								id="startButton">
+								Reset
+						</div>
 					</div>
 				</div>
 			</div>
