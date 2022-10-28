@@ -49,9 +49,9 @@ export class EnemyBehaviors {
 		}
 	}
 
-	changeDirection() {
-		this.vector.x *= -1;
-		this.vector.z *= -1;
+	changeDirection(directionAfterCollisionX, directionAfterCollisionZ) {
+		this.vector.x = directionAfterCollisionX;
+		this.vector.z = directionAfterCollisionZ;
 	}
 
 	compute_enemy(collisionAgent) {

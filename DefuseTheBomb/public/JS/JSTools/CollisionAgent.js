@@ -77,14 +77,29 @@ export class CollisionAgent {
 		return dx * dx + dy * dy <= radius * radius;
 	}
 
+	checkOverlapCircle(circle1, circle2, radius) {
+		var dx = circle1.position.x - circle2.position.x;
+		var dy = circle1.position.z - circle2.position.z;
+		var distance = Math.sqrt(dx * dx + dy * dy);
+
+		if (distance < radius) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+
+
     checkCollisionEnemyWithEnemy() {
         for (let i = 0; i < this.collisionEnemy.length; i++) {
             for (let j = 0; j < this.collisionEnemy.length; j++) {
                 if (i != j) {
-                    if (this.checkOverlap(this.collisionEnemy[i], this.collisionEnemy[j].position, 0.5)) {
-                        console.log("CollisionAgent.js - Collision between enemy " + i + " and enemy " + j);
-                        this.collisionEnemy[i].changeDirection();
-                        this.collisionEnemy[j].changeDirection();
+                    if (this.checkOverlapCircle(this.collisionEnemy[i], this.collisionEnemy[j], 0.5)) {
+                        let directionAfterCollisionX = this.collisionEnemy[i].position.x - this.collisionEnemy[j].position.x;
+						let directionAfterCollisionZ = this.collisionEnemy[i].position.z - this.collisionEnemy[j].position.z;
+						// console.log("CollisionAgent.js - Collision between enemy " + i + " and enemy " + j);
+                        this.collisionEnemy[i].changeDirection(directionAfterCollisionX, directionAfterCollisionZ);
                     }
                 }
             }
