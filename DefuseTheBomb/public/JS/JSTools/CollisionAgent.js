@@ -3,6 +3,7 @@ import { PlayerBehaviors } from "./PlayerBeahaviors.js";
 import { PointBehaviors } from "./PointBeahaviors.js";
 
 let cubeDimension = 1;
+let playerScore;
 
 export class CollisionAgent {
 	constructor() {
@@ -10,6 +11,8 @@ export class CollisionAgent {
 		this.collisionEnemy = [];
 		this.collisionPoint = [];
 		this.collisionUpgrade = [];
+		playerScore = 100;
+		document.getElementById("playerScore").textContent = playerScore;
 	}
 
 	/**
@@ -89,22 +92,33 @@ export class CollisionAgent {
 		}
 	}
 
-
-
-    checkCollisionEnemyWithEnemy() {
-        for (let i = 0; i < this.collisionEnemy.length; i++) {
-            for (let j = 0; j < this.collisionEnemy.length; j++) {
-                if (i != j) {
-                    if (this.checkOverlapCircle(this.collisionEnemy[i], this.collisionEnemy[j], 0.5)) {
-                        let directionAfterCollisionX = this.collisionEnemy[i].position.x - this.collisionEnemy[j].position.x;
-						let directionAfterCollisionZ = this.collisionEnemy[i].position.z - this.collisionEnemy[j].position.z;
+	checkCollisionEnemyWithEnemy(precision) {
+		for (let i = 0; i < this.collisionEnemy.length; i++) {
+			for (let j = 0; j < this.collisionEnemy.length; j++) {
+				if (i != j) {
+					if (
+						this.checkOverlapCircle(
+							this.collisionEnemy[i],
+							this.collisionEnemy[j],
+							0.5
+						)
+					) {
+						let directionAfterCollisionX =
+							this.collisionEnemy[i].position.x -
+							this.collisionEnemy[j].position.x;
+						let directionAfterCollisionZ =
+							this.collisionEnemy[i].position.z -
+							this.collisionEnemy[j].position.z;
 						// console.log("CollisionAgent.js - Collision between enemy " + i + " and enemy " + j);
-                        this.collisionEnemy[i].changeDirection(directionAfterCollisionX, directionAfterCollisionZ);
-                    }
-                }
-            }
-        }
-    }
+						this.collisionEnemy[i].changeDirection(
+							directionAfterCollisionX,
+							directionAfterCollisionZ
+						);
+					}
+				}
+			}
+		}
+	}
 
 	/**
 	 * Check if the player is colliding with any object.
@@ -123,7 +137,7 @@ export class CollisionAgent {
 				position.x += distanceX;
 				position.z += distanceZ;
 				if (this.checkOverlap(this.collisionEnemy[i], position, 0.5)) {
-					console.log("Game Over, restart and try again");
+					
 					collision = true;
 					break;
 				}
@@ -151,6 +165,9 @@ export class CollisionAgent {
 					j += 20;
 					positionNew.x = j * distanceX;
 					positionNew.z = j * distanceZ;
+					playerScore += 1;
+					// Update html score
+					document.getElementById("playerScore").textContent = playerScore;
 					this.collisionPoint[i].changePosition();
 					collision = true;
 					break;

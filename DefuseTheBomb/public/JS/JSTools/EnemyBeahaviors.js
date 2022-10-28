@@ -55,7 +55,7 @@ export class EnemyBehaviors {
 	}
 
 	compute_enemy(collisionAgent) {
-		collisionAgent.checkCollisionEnemyWithEnemy();
+		collisionAgent.checkCollisionEnemyWithEnemy(10);
 		this.check_collision_arena();
 
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {

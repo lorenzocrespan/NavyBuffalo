@@ -8,6 +8,7 @@ let sceneComposition = new Scene();
 // Counter for the number of objects that have to be added to the scene
 let countEnemies = 4;
 let countPoints = 1;
+let isGameOver = false;
 // Add objects to the scene:
 //		-	Arena
 //		-	Player
@@ -79,4 +80,4 @@ console.log("main.js - End loading core");
 console.log("main.js - Loop rendering");
 
 initProgramRender();
-render();
+render(isGameOver);

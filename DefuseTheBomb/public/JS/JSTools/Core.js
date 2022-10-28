@@ -1,4 +1,3 @@
-
 import { MeshLoader } from "./MeshLoader.js";
 
 import { Camera, setCameraControls, getUpdateCamera } from "./Camera.js";
@@ -26,11 +25,10 @@ let collisionAgent = new CollisionAgent();
 let moveVectore;
 
 export class Core {
-
 	/**
-	 * Constructor of the class. 
+	 * Constructor of the class.
 	 * It initializes the canvas, the WebGL context and all the components for the rendering.
-	 * 
+	 *
 	 * @param {String} idMainCanvas Identifier of the canvas element (Main screen).
 	 * @param {String} idSideCanvas Identifier of the canvas element (Side screen for the minimap).
 	 */
@@ -66,7 +64,7 @@ export class Core {
 
 	/**
 	 * Function setup all the components for the rendering.
-	 * 
+	 *
 	 * @param {List} sceneComposition List of objects that will be rendered in the scene.
 	 */
 	setupScene(sceneComposition) {
@@ -90,28 +88,17 @@ export class Core {
 
 	/**
 	 * Function that generates the camera for the rendering.
-	 * 
+	 *
 	 */
 	generateCamera() {
 		console.log("Core.js - Start camera setup");
 
-		cameraMainScreen = new Camera(
-			[0, 0, 0],
-			[0, 0, 1],
-			[0, 0, 1],
-			70
-		);
+		cameraMainScreen = new Camera([0, 0, 0], [0, 0, 1], [0, 0, 1], 70);
 
-		cameraSideScreen = new Camera(
-			[0, 1, 40],
-			[-1, 0, 0],
-			[0, 0, 0],
-			12
-		);
+		cameraSideScreen = new Camera([0, 1, 40], [-1, 0, 0], [0, 0, 0], 12);
 
 		console.log("Core.js - End camera setup");
 	}
-
 }
 
 export function initProgramRender() {
@@ -130,66 +117,71 @@ export function initProgramRender() {
 	glSideScreen.useProgram(sideProgram);
 
 	// List of list of programs
-	listPrograms = [[mainProgram, glMainScreen], [sideProgram, glSideScreen]];
+	listPrograms = [
+		[mainProgram, glMainScreen],
+		[sideProgram, glSideScreen],
+	];
 
 	actCamera = cameraMainScreen;
 }
 
+document.getElementById("resetButton").onclick = function () {
+	console.log("Reset button pressed");
+	meshlist.forEach((elem) => {
+		// Reset the position of the object
+		console.log("Hola");
+	});
+};
+
 /**
  * Rendering functions for the main screen.
- * 
- * @param {*} time 
+ *
+ * @param {*} time
  */
-export function render(time = 0) {
-
+export function render(time = 0, isGameOver = false) {
 	for (const program of listPrograms) {
-
 		if (getUpdateCamera()) cameraMainScreen.moveCamera();
 
 		// Convert to seconds
 		time *= 0.002;
-
-		meshlist.forEach((elem) => {
-
-			switch (true) {
-				case elem instanceof PlayerBehaviors:
-					// Update the player vector
-					if (isMainScreen) elem.playerListener.updateVector(elem.position);
-					elem.render(
-						time,
-						program[1],
-						{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
-						program[0],
-						actCamera,
-						isMainScreen,
-						collisionAgent
-					);
-					break;
-				default:
-					elem.render(
-						time,
-						program[1],
-						{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
-						program[0],
-						actCamera,
-						isMainScreen,
-						collisionAgent
-					);
-					break;
-			}
+		if (!isGameOver) {
+			meshlist.forEach((elem) => {
+				switch (true) {
+					case elem instanceof PlayerBehaviors:
+						// Update the player vector
+						if (isMainScreen) elem.playerListener.updateVector(elem.position);
+						elem.render(
+							time,
+							program[1],
+							{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
+							program[0],
+							actCamera,
+							isMainScreen,
+							collisionAgent
+						);
+						break;
+					default:
+						elem.render(
+							time,
+							program[1],
+							{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
+							program[0],
+							actCamera,
+							isMainScreen,
+							collisionAgent
+						);
+						break;
+				}
+			});
 		}
-		);
 
 		if (actCamera == cameraMainScreen) {
 			isMainScreen = false;
 			actCamera = cameraSideScreen;
-		}
-		else {
+		} else {
 			actCamera = cameraMainScreen;
 			isMainScreen = true;
 		}
-
 	}
-
 	requestAnimationFrame(render);
 }
