@@ -6,6 +6,11 @@ export class PlayerBehaviors {
 		this.alias = alias; // Nominativo dell'OBJ da renderizzare
 		// Parametri non discriminanti dell'OBJa
 		this.mesh = mesh; // Vettore contenente la posizione dei punti che compongono la mesh dell'OBJ
+		this.originalPosition = {
+			x: offsets.x, // Posizione del "centro" dell'OBJ rispetto alla coordinata X
+			y: offsets.y, // Posizione del "centro" dell'OBJ rispetto alla coordinata Y
+			z: offsets.z, // Posizione del "centro" dell'OBJ rispetto alla coordinata Z
+		};
 		this.position = {
 			x: offsets.x, // Posizione del "centro" dell'OBJ rispetto alla coordinata X
 			y: offsets.y, // Posizione del "centro" dell'OBJ rispetto alla coordinata Y
@@ -14,6 +19,29 @@ export class PlayerBehaviors {
 		this.compute_position();
 		this.playerListener = new PlayerListener();
 		console.debug(this);
+	}
+
+	reset_position() {
+		this.reset_mesh();
+		this.position.x = this.originalPosition.x;
+		this.position.z = this.originalPosition.z;
+		this.playerListener.stop();
+	}
+
+	reset_mesh() {
+		console.log(this.position.x + " " + this.position.z);
+		console.log(this.originalPosition.x + " " + this.originalPosition.z);
+		let deltaX = Math.abs(this.position.x - this.originalPosition.x);
+		let deltaZ = Math.abs(this.position.z - this.originalPosition.z);
+		console.log(deltaX, deltaZ);
+		for (let i = 0; i < this.mesh.positions.length; i += 3) {
+			if (this.position.x > this.originalPosition.x)
+				this.mesh.positions[i + 1] -= deltaX;
+			else this.mesh.positions[i + 1] += deltaX;
+			if (this.position.z > this.originalPosition.z)
+				this.mesh.positions[i] -= deltaZ;
+			else this.mesh.positions[i] += deltaZ;
+		}
 	}
 
 	compute_position() {
@@ -25,8 +53,16 @@ export class PlayerBehaviors {
 	}
 
 	compute_player(collisionAgent) {
-		collisionAgent.checkCollisionEnemy(this.position, this.playerListener.delta, 10);
-		collisionAgent.checkCollisionPoint(this.position, this.playerListener.delta, 10)
+		collisionAgent.checkCollisionEnemy(
+			this.position,
+			this.playerListener.delta,
+			15
+		);
+		collisionAgent.checkCollisionPoint(
+			this.position,
+			this.playerListener.delta,
+			15
+		);
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
 			this.mesh.positions[i + 1] += this.playerListener.delta.x;
 			this.mesh.positions[i] += this.playerListener.delta.z;
@@ -37,9 +73,11 @@ export class PlayerBehaviors {
 		this.playerListener.delta.z = 0;
 	}
 
-	render(time, gl, light, program, camera, isScreen, collisionAgent) {
-		// Se l'oggetto passato richiede un controllo da parte dell'utente, vengono calcolate le nuove posizioni della mesh.
-		if (isScreen) this.compute_player(collisionAgent);
+	render(time, gl, light, program, camera, isScreen, collisionAgent, isReset) {
+		if (isScreen && !isReset) this.compute_player(collisionAgent);
+		if (isReset) this.reset_position();
+		console.log(isReset);
+
 		/********************************************************************************************/
 
 		let positionLocation = gl.getAttribLocation(program, "a_position");

@@ -21,6 +21,9 @@ let listPrograms = [];
 // Collision agent
 let collisionAgent = new CollisionAgent();
 
+let isReset = false;
+let isGameOver = false;
+
 // TODO: Evaluate if this is the best way to do this
 let moveVectore;
 
@@ -128,52 +131,59 @@ export function initProgramRender() {
 document.getElementById("resetButton").onclick = function () {
 	console.log("Reset button pressed");
 	meshlist.forEach((elem) => {
-		// Reset the position of the object
-		console.log("Hola");
+		// creare una nuova funzione render che riporta tutto allo stato iniziale
+		elem.reset_position();
 	});
+	setGameOver();
+	isReset = true;
+	render();
 };
+
+export function setGameOver() {
+	isGameOver = !isGameOver;
+}
 
 /**
  * Rendering functions for the main screen.
  *
  * @param {*} time
  */
-export function render(time = 0, isGameOver = false) {
+export function render(time = 0) {
 	for (const program of listPrograms) {
 		if (getUpdateCamera()) cameraMainScreen.moveCamera();
 
 		// Convert to seconds
 		time *= 0.002;
-		if (!isGameOver) {
-			meshlist.forEach((elem) => {
-				switch (true) {
-					case elem instanceof PlayerBehaviors:
-						// Update the player vector
-						if (isMainScreen) elem.playerListener.updateVector(elem.position);
-						elem.render(
-							time,
-							program[1],
-							{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
-							program[0],
-							actCamera,
-							isMainScreen,
-							collisionAgent
-						);
-						break;
-					default:
-						elem.render(
-							time,
-							program[1],
-							{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
-							program[0],
-							actCamera,
-							isMainScreen,
-							collisionAgent
-						);
-						break;
-				}
-			});
-		}
+
+		meshlist.forEach((elem) => {
+			switch (true) {
+				case elem instanceof PlayerBehaviors:
+					// Update the player vector
+					if (isMainScreen) elem.playerListener.updateVector(elem.position);
+					elem.render(
+						time,
+						program[1],
+						{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
+						program[0],
+						actCamera,
+						isMainScreen,
+						collisionAgent,
+						isReset
+					);
+					break;
+				default:
+					elem.render(
+						time,
+						program[1],
+						{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
+						program[0],
+						actCamera,
+						isMainScreen,
+						collisionAgent
+					);
+					break;
+			}
+		});
 
 		if (actCamera == cameraMainScreen) {
 			isMainScreen = false;
@@ -183,5 +193,6 @@ export function render(time = 0, isGameOver = false) {
 			isMainScreen = true;
 		}
 	}
-	requestAnimationFrame(render);
+	if (isReset) isReset = false;
+	if(!isGameOver) requestAnimationFrame(render);
 }

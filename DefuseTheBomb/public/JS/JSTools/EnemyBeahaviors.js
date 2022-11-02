@@ -24,6 +24,10 @@ export class EnemyBehaviors {
 		console.debug(this);
 	}
 
+	reset_position() {
+		console.log("Reset position");
+	}
+
 	compute_position() {
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
 			this.mesh.positions[i] += parseFloat(this.position.z);

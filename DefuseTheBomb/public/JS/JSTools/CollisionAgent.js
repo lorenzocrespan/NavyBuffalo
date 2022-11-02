@@ -1,9 +1,10 @@
+import { setGameOver } from "./Core.js";
 import { EnemyBehaviors } from "./EnemyBeahaviors.js";
 import { PlayerBehaviors } from "./PlayerBeahaviors.js";
 import { PointBehaviors } from "./PointBeahaviors.js";
 
 let cubeDimension = 1;
-let playerScore;
+let playerScore = 0;
 
 export class CollisionAgent {
 	constructor() {
@@ -137,7 +138,7 @@ export class CollisionAgent {
 				position.x += distanceX;
 				position.z += distanceZ;
 				if (this.checkOverlap(this.collisionEnemy[i], position, 0.5)) {
-					
+					setGameOver();
 					collision = true;
 					break;
 				}
@@ -162,7 +163,7 @@ export class CollisionAgent {
 				if (this.checkOverlap(this.collisionPoint[i], position, 0.5)) {
 					console.log("Collision with point");
 					// Setup new center of player
-					j += 20;
+					j += 30;
 					positionNew.x = j * distanceX;
 					positionNew.z = j * distanceZ;
 					playerScore += 1;

@@ -1,4 +1,3 @@
-
 let dX = 0,
 	dZ = 0;
 
@@ -11,10 +10,16 @@ export class PlayerListener {
 	}
 
 	updateVector(position) {
-		if (position.x > arenaBounde && dX > 0 || position.x < -arenaBounde && dX < 0) {
+		if (
+			(position.x > arenaBounde && dX > 0) ||
+			(position.x < -arenaBounde && dX < 0)
+		) {
 			dX = 0;
 		}
-		if (position.z > arenaBounde && dZ > 0 || position.z < -arenaBounde && dZ < 0) {
+		if (
+			(position.z > arenaBounde && dZ > 0) ||
+			(position.z < -arenaBounde && dZ < 0)
+		) {
 			dZ = 0;
 		}
 		this.delta.x = dX;
@@ -25,6 +30,14 @@ export class PlayerListener {
 		dX = 0;
 		dZ = 0;
 	}
+
+	stop() {
+		console.log("stop");
+		dX = 0;
+		dZ = 0;
+		this.delta.x = 0;
+		this.delta.z = 0;
+	}
 }
 
 export function setPlayerControls(canvas) {
@@ -33,6 +46,7 @@ export function setPlayerControls(canvas) {
 	function onKeyDown(e) {
 		if (e.keyCode === 87) {
 			// W
+			console.log("Weee");
 			dZ = speed;
 		}
 		if (e.keyCode === 83) {
