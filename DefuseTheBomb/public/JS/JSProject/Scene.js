@@ -1,12 +1,9 @@
+import { visibleLog } from "./ControlPanel.js";
 
-// Note:	In Javascript, the "export" keyword permits to export the class to other files.
-//			When we export the class, we can use all the methods and properties of the class in other 
-//			files.
 export class Scene {
-
 	/**
 	 * Costuctor of the class.
-	 * 
+	 *
 	 * @param {string} name - The name of the scene.
 	 * @param {object} sceneObj - An array of objects that will be rendered in the scene.
 	 */
@@ -17,14 +14,14 @@ export class Scene {
 
 	/**
 	 * Add an object to the scene.
-	 * 
+	 *
 	 * @param {String} alias A string that will be used to identify the object
 	 * @param {String} pathOBJ The path to the .obj file
 	 * @param {boolean} isPlayer A boolean that indicates if the object is the player
 	 * @param {boolean} isEnemy A boolean that indicates if the object is an enemy
 	 * @param {boolean} idleAnimation A boolean that indicates if the object has an idle animation
 	 * @param {object} coords An object that contains the coordinates of the object inside the scene
-	 * 
+	 *
 	 * @returns {boolean} True if the object has been added, false otherwise
 	 */
 	addOBJToList(alias, pathOBJ, isPlayer, isEnemy, idleAnimation, coords) {
@@ -37,7 +34,7 @@ export class Scene {
 			coords: coords,
 		};
 		if (this.sceneObj.push(newObj)) {
-			console.log("Scene.js - Added new object to the scene");
+			if (visibleLog) console.log("Scene.js - Added new object to the scene");
 			return true;
 		} else {
 			console.log("Scene.js - Error while adding new object to the scene");
@@ -48,11 +45,11 @@ export class Scene {
 
 	/**
 	 * Remove an object from the scene.
-	 * 
+	 *
 	 * @param {string} alias - The alias of the object that will be removed
-	 * 
+	 *
 	 * @returns {boolean} - True if the object has been removed, false otherwise
-	 * 
+	 *
 	 */
 	removeOBJFromList(alias) {
 		for (var i = 0; i < this.sceneObj.length; i++) {
@@ -63,5 +60,4 @@ export class Scene {
 		}
 		return false;
 	}
-
 }

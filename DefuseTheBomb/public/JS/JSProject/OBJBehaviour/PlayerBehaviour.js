@@ -1,29 +1,47 @@
-import { PlayerListener } from "./PlayerListener.js";
+import { PlayerListener } from "../Agent/PlayerAgent.js";
 
-let ampWaveLimiter = 0.0025;
-let rotMatX = m4.xRotation(0.01);
-let rotMatY = m4.yRotation(0.04);
-let rotMat = m4.multiply(rotMatX, rotMatY);
-
-export class ObjectBehaviors {
-	
+export class PlayerBehaviour {
 	constructor(alias, mesh, offsets) {
 		// Parametri discriminanti dell'OBJ
 		this.alias = alias; // Nominativo dell'OBJ da renderizzare
-		
-		// Parametri non discriminanti dell'OBJ
+		// Parametri non discriminanti dell'OBJa
 		this.mesh = mesh; // Vettore contenente la posizione dei punti che compongono la mesh dell'OBJ
-		this.position = {
+		this.originalPosition = {
 			x: offsets.x, // Posizione del "centro" dell'OBJ rispetto alla coordinata X
 			y: offsets.y, // Posizione del "centro" dell'OBJ rispetto alla coordinata Y
 			z: offsets.z, // Posizione del "centro" dell'OBJ rispetto alla coordinata Z
 		};
+		this.position = {
+			x: offsets.x, // Posizione del "centro" dell'OBJ rispetto alla coordinata X
+			y: offsets.y, // Posizione del "centro" dell'OBJ rispetto alla coordinata Y
+			z: offsets.z, // Posizione del "centro" dell'OBJ rispetto alla cowaordinata Z
+		};
 		this.compute_position();
+		this.playerListener = new PlayerListener();
 		console.debug(this);
 	}
 
 	reset_position() {
-		console.log("Reset position");
+		this.reset_mesh();
+		this.position.x = this.originalPosition.x;
+		this.position.z = this.originalPosition.z;
+		this.playerListener.stop();
+	}
+
+	reset_mesh() {
+		console.log(this.position.x + " " + this.position.z);
+		console.log(this.originalPosition.x + " " + this.originalPosition.z);
+		let deltaX = Math.abs(this.position.x - this.originalPosition.x);
+		let deltaZ = Math.abs(this.position.z - this.originalPosition.z);
+		console.log(deltaX, deltaZ);
+		for (let i = 0; i < this.mesh.positions.length; i += 3) {
+			if (this.position.x > this.originalPosition.x)
+				this.mesh.positions[i + 1] -= deltaX;
+			else this.mesh.positions[i + 1] += deltaX;
+			if (this.position.z > this.originalPosition.z)
+				this.mesh.positions[i] -= deltaZ;
+			else this.mesh.positions[i] += deltaZ;
+		}
 	}
 
 	compute_position() {
@@ -34,43 +52,31 @@ export class ObjectBehaviors {
 		}
 	}
 
-	// Calcolo della nuova posizione della mesh (mesh.positions e mesh.normals).
-	// TODO: Chiedere al professore perchè rotazione + traslazione portano ad un movimento anomalo.
-	compute_idleAnimation(deltaY) {
-		for (let i = 0; i < this.mesh.positions.length; i += 3) {
-			var pos = [];
-			var nor = [];
-
-			this.mesh.positions[i + 2] += deltaY;
-			pos.push(this.mesh.positions[i + 1] - this.position.x);
-			pos.push(this.mesh.positions[i + 2] - 1 - this.position.y);
-			pos.push(this.mesh.positions[i] - this.position.z);
-			nor.push(this.mesh.normals[i + 1]);
-			nor.push(this.mesh.normals[i + 2]);
-			nor.push(this.mesh.normals[i]);
-
-			var pos_res = m4.transformPoint(rotMat, pos);
-			var nor_res = m4.transformPoint(rotMat, nor);
-
-			this.mesh.positions[i + 1] = pos_res[0] + this.position.x;
-			this.mesh.positions[i + 2] = pos_res[1] + 1 + this.position.y;
-			this.mesh.positions[i] = pos_res[2] + this.position.z;
-			this.mesh.normals[i + 1] = nor_res[0];
-			this.mesh.normals[i + 2] = nor_res[1];
-			this.mesh.normals[i] = nor_res[2];
-		}
-	}
-
-	compute_player() {
+	compute_player(collisionAgent) {
+		collisionAgent.checkCollisionEnemy(
+			this.position,
+			this.playerListener.delta,
+			15
+		);
+		collisionAgent.checkCollisionPoint(
+			this.position,
+			this.playerListener.delta,
+			15
+		);
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
 			this.mesh.positions[i + 1] += this.playerListener.delta.x;
 			this.mesh.positions[i] += this.playerListener.delta.z;
 		}
+		this.position.x += this.playerListener.delta.x;
+		this.position.z += this.playerListener.delta.z;
 		this.playerListener.delta.x = 0;
 		this.playerListener.delta.z = 0;
 	}
 
-	render(time, gl, light, program, camera, isScreen) {
+	render(time, gl, light, program, camera, isScreen, collisionAgent, isReset) {
+		if (isScreen && !isReset) this.compute_player(collisionAgent);
+		if (isReset) this.reset_position();
+		console.log(isReset);
 
 		/********************************************************************************************/
 
@@ -195,9 +201,11 @@ export class ObjectBehaviors {
 
 		// Draw the scene.
 		function drawScene(time, mesh) {
-			if(isScreen) gl.bindTexture(gl.TEXTURE_2D, mesh.mainTexture);
-            else gl.bindTexture(gl.TEXTURE_2D, mesh.sideTexture);
+			if (isScreen) gl.bindTexture(gl.TEXTURE_2D, mesh.mainTexture);
+			else gl.bindTexture(gl.TEXTURE_2D, mesh.sideTexture);
 			gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
+			gl.enable(gl.DEPTH_TEST);
 
 			let matrix = m4.identity();
 			gl.uniformMatrix4fv(matrixLocation, false, matrix);

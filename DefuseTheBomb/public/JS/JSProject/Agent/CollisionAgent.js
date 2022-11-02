@@ -1,7 +1,7 @@
-import { setGameOver } from "./Core.js";
-import { EnemyBehaviors } from "./EnemyBeahaviors.js";
-import { PlayerBehaviors } from "./PlayerBeahaviors.js";
-import { PointBehaviors } from "./PointBeahaviors.js";
+import { setGameOver } from "../Core.js";
+import { EnemyBehaviour } from "../OBJBehaviour/EnemyBehaviour.js";
+import { PlayerBehaviour } from "../OBJBehaviour/PlayerBehaviour.js";
+import { PointBehaviour } from "../OBJBehaviour/PointBeahaviour.js";
 
 let cubeDimension = 1;
 let playerScore = 0;
@@ -24,13 +24,13 @@ export class CollisionAgent {
 			"CollisionAgent.js - Adding collision object: " + collisionObject
 		);
 		switch (true) {
-			case collisionObject instanceof PlayerBehaviors:
+			case collisionObject instanceof PlayerBehaviour:
 				this.collisionPlayer = collisionObject;
 				break;
-			case collisionObject instanceof EnemyBehaviors:
+			case collisionObject instanceof EnemyBehaviour:
 				this.collisionEnemy.push(collisionObject);
 				break;
-			case collisionObject instanceof PointBehaviors:
+			case collisionObject instanceof PointBehaviour:
 				this.collisionPoint.push(collisionObject);
 				break;
 			default:

@@ -6,7 +6,7 @@ let rotMat = m4.multiply(rotMatX, rotMatY);
 
 let offdeltaY = 0;
 
-export class PointBehaviors {
+export class PointBehaviour {
 
     constructor(alias, mesh, offsets) {
         // Parametri discriminanti dell'OBJ

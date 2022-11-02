@@ -1,9 +1,13 @@
 import { MeshLoader } from "./MeshLoader.js";
 
-import { Camera, setCameraControls, getUpdateCamera } from "./Camera.js";
-import { setPlayerControls } from "./PlayerListener.js";
-import { CollisionAgent } from "./CollisionAgent.js";
-import { PlayerBehaviors } from "./PlayerBeahaviors.js";
+import {
+	Camera,
+	setCameraControls,
+	getUpdateCamera,
+} from "./Agent/CameraAgent.js";
+import { setPlayerControls } from "./Agent/PlayerAgent.js";
+import { CollisionAgent } from "./Agent/CollisionAgent.js";
+import { PlayerBehaviour } from "./OBJBehaviour/PlayerBehaviour.js";
 
 // WebGL context
 let glMainScreen;
@@ -157,7 +161,7 @@ export function render(time = 0) {
 
 		meshlist.forEach((elem) => {
 			switch (true) {
-				case elem instanceof PlayerBehaviors:
+				case elem instanceof PlayerBehaviour:
 					// Update the player vector
 					if (isMainScreen) elem.playerListener.updateVector(elem.position);
 					elem.render(
@@ -194,5 +198,5 @@ export function render(time = 0) {
 		}
 	}
 	if (isReset) isReset = false;
-	if(!isGameOver) requestAnimationFrame(render);
+	if (!isGameOver) requestAnimationFrame(render);
 }

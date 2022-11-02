@@ -1,19 +1,22 @@
-import { Scene } from "./JSTools/Scene.js";
-import { Core, initProgramRender, render } from "./JSTools/Core.js";
+import {
+	visibleLog,
+	countEnemies,
+	countPoints,
+} from "./JSProject/ControlPanel.js";
 
-console.log("main.js - Start loading scene elements");
+import { Scene } from "./JSProject/Scene.js";
+import { Core, initProgramRender, render } from "./JSProject/Core.js";
+
+if (visibleLog) console.log("main.js - Start loading scene elements");
 
 // Array of objects that will be rendered in the scene
 let sceneComposition = new Scene();
-// Counter for the number of objects that have to be added to the scene
-let countEnemies = 4;
-let countPoints = 1;
 
 // Add objects to the scene:
 //		-	Arena
-//		-	Player
 //		-	Enemies
 //		-	Points
+//		-	Player
 sceneComposition.addOBJToList(
 	"Arena",
 	"./OBJModels/WHGArena.obj",
@@ -21,7 +24,6 @@ sceneComposition.addOBJToList(
 	false,
 	false,
 	{ x: 0, y: 0, z: 0 },
-	1
 );
 for (let i = 0; i < countEnemies; i++) {
 	sceneComposition.addOBJToList(
@@ -57,14 +59,12 @@ sceneComposition.addOBJToList(
 	true,
 	false,
 	false,
-	{ x: 0, y: 0, z: 0 },
-	1
+	{ x: 0, y: 0, z: 0 }
 );
-console.debug(sceneComposition);
 
-console.log("main.js - End loading scene elements");
-
-console.log("main.js - Start loading core");
+if (visibleLog) console.debug(sceneComposition);
+if (visibleLog) console.log("main.js - End loading scene elements");
+if (visibleLog) console.log("main.js - Start loading core");
 
 let core = new Core("screenCanvas", "screenCanvasPlane");
 
@@ -72,12 +72,9 @@ core.setupScene(sceneComposition);
 
 core.generateCamera();
 
-console.log("Core del programma dopo il caricamento della scena");
-console.debug(core);
-
-console.log("main.js - End loading core");
-
-console.log("main.js - Loop rendering");
+if (visibleLog) console.debug(core);
+if (visibleLog) console.log("main.js - End loading core");
+if (visibleLog) console.log("main.js - Loop rendering");
 
 initProgramRender();
 render();

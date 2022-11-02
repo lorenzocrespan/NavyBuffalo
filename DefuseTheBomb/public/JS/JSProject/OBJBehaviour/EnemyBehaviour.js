@@ -1,47 +1,29 @@
-import { PlayerListener } from "./PlayerListener.js";
+let arenaBounde = 9;
+let speed = 0.175;
 
-export class PlayerBehaviors {
+export class EnemyBehaviour {
 	constructor(alias, mesh, offsets) {
 		// Parametri discriminanti dell'OBJ
 		this.alias = alias; // Nominativo dell'OBJ da renderizzare
-		// Parametri non discriminanti dell'OBJa
+		// Parametri non discriminanti dell'OBJ
 		this.mesh = mesh; // Vettore contenente la posizione dei punti che compongono la mesh dell'OBJ
-		this.originalPosition = {
+		this.position = {
 			x: offsets.x, // Posizione del "centro" dell'OBJ rispetto alla coordinata X
 			y: offsets.y, // Posizione del "centro" dell'OBJ rispetto alla coordinata Y
 			z: offsets.z, // Posizione del "centro" dell'OBJ rispetto alla coordinata Z
 		};
-		this.position = {
-			x: offsets.x, // Posizione del "centro" dell'OBJ rispetto alla coordinata X
-			y: offsets.y, // Posizione del "centro" dell'OBJ rispetto alla coordinata Y
-			z: offsets.z, // Posizione del "centro" dell'OBJ rispetto alla cowaordinata Z
+		this.vector = {
+			x: (Math.random() - 0.5) * 0.5,
+			y: offsets.y,
+			z: (Math.random() - 0.5) * 0.5,
 		};
+
 		this.compute_position();
-		this.playerListener = new PlayerListener();
 		console.debug(this);
 	}
 
 	reset_position() {
-		this.reset_mesh();
-		this.position.x = this.originalPosition.x;
-		this.position.z = this.originalPosition.z;
-		this.playerListener.stop();
-	}
-
-	reset_mesh() {
-		console.log(this.position.x + " " + this.position.z);
-		console.log(this.originalPosition.x + " " + this.originalPosition.z);
-		let deltaX = Math.abs(this.position.x - this.originalPosition.x);
-		let deltaZ = Math.abs(this.position.z - this.originalPosition.z);
-		console.log(deltaX, deltaZ);
-		for (let i = 0; i < this.mesh.positions.length; i += 3) {
-			if (this.position.x > this.originalPosition.x)
-				this.mesh.positions[i + 1] -= deltaX;
-			else this.mesh.positions[i + 1] += deltaX;
-			if (this.position.z > this.originalPosition.z)
-				this.mesh.positions[i] -= deltaZ;
-			else this.mesh.positions[i] += deltaZ;
-		}
+		console.log("Reset position");
 	}
 
 	compute_position() {
@@ -52,32 +34,43 @@ export class PlayerBehaviors {
 		}
 	}
 
-	compute_player(collisionAgent) {
-		collisionAgent.checkCollisionEnemy(
-			this.position,
-			this.playerListener.delta,
-			15
-		);
-		collisionAgent.checkCollisionPoint(
-			this.position,
-			this.playerListener.delta,
-			15
-		);
+	check_collision_arena() {
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
-			this.mesh.positions[i + 1] += this.playerListener.delta.x;
-			this.mesh.positions[i] += this.playerListener.delta.z;
+			if (this.mesh.positions[i + 1] >= arenaBounde) {
+				this.vector.x *= -1;
+			}
+			if (this.mesh.positions[i + 1] <= -arenaBounde) {
+				this.vector.x *= -1;
+			}
+			if (this.mesh.positions[i] >= arenaBounde) {
+				this.vector.z *= -1;
+			}
+			if (this.mesh.positions[i] <= -arenaBounde) {
+				this.vector.z *= -1;
+			}
 		}
-		this.position.x += this.playerListener.delta.x;
-		this.position.z += this.playerListener.delta.z;
-		this.playerListener.delta.x = 0;
-		this.playerListener.delta.z = 0;
 	}
 
-	render(time, gl, light, program, camera, isScreen, collisionAgent, isReset) {
-		if (isScreen && !isReset) this.compute_player(collisionAgent);
-		if (isReset) this.reset_position();
-		console.log(isReset);
+	changeDirection(directionAfterCollisionX, directionAfterCollisionZ) {
+		this.vector.x = directionAfterCollisionX;
+		this.vector.z = directionAfterCollisionZ;
+	}
 
+	compute_enemy(collisionAgent) {
+		collisionAgent.checkCollisionEnemyWithEnemy(10);
+		this.check_collision_arena();
+
+		for (let i = 0; i < this.mesh.positions.length; i += 3) {
+			this.mesh.positions[i + 1] += this.vector.x * speed;
+			this.mesh.positions[i] += this.vector.z * speed;
+		}
+
+		this.position.x += this.vector.x * speed;
+		this.position.z += this.vector.z * speed;
+	}
+
+	render(time, gl, light, program, camera, isScreen, collisionAgent) {
+		if (isScreen) this.compute_enemy(collisionAgent);
 		/********************************************************************************************/
 
 		let positionLocation = gl.getAttribLocation(program, "a_position");
@@ -204,8 +197,6 @@ export class PlayerBehaviors {
 			if (isScreen) gl.bindTexture(gl.TEXTURE_2D, mesh.mainTexture);
 			else gl.bindTexture(gl.TEXTURE_2D, mesh.sideTexture);
 			gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-
-			gl.enable(gl.DEPTH_TEST);
 
 			let matrix = m4.identity();
 			gl.uniformMatrix4fv(matrixLocation, false, matrix);
