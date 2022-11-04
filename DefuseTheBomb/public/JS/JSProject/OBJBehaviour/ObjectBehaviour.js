@@ -1,7 +1,3 @@
-let ampWaveLimiter = 0.0025;
-let rotMatX = m4.xRotation(0.01);
-let rotMatY = m4.yRotation(0.04);
-let rotMat = m4.multiply(rotMatX, rotMatY);
 
 export class ObjectBehaviour {
 	constructor(alias, mesh, offsets) {
@@ -31,44 +27,7 @@ export class ObjectBehaviour {
 		}
 	}
 
-	// Calcolo della nuova posizione della mesh (mesh.positions e mesh.normals).
-	// TODO: Chiedere al professore perchè rotazione + traslazione portano ad un movimento anomalo.
-	compute_idleAnimation(deltaY) {
-		for (let i = 0; i < this.mesh.positions.length; i += 3) {
-			var pos = [];
-			var nor = [];
-
-			this.mesh.positions[i + 2] += deltaY;
-			pos.push(this.mesh.positions[i + 1] - this.position.x);
-			pos.push(this.mesh.positions[i + 2] - 1 - this.position.y);
-			pos.push(this.mesh.positions[i] - this.position.z);
-			nor.push(this.mesh.normals[i + 1]);
-			nor.push(this.mesh.normals[i + 2]);
-			nor.push(this.mesh.normals[i]);
-
-			var pos_res = m4.transformPoint(rotMat, pos);
-			var nor_res = m4.transformPoint(rotMat, nor);
-
-			this.mesh.positions[i + 1] = pos_res[0] + this.position.x;
-			this.mesh.positions[i + 2] = pos_res[1] + 1 + this.position.y;
-			this.mesh.positions[i] = pos_res[2] + this.position.z;
-			this.mesh.normals[i + 1] = nor_res[0];
-			this.mesh.normals[i + 2] = nor_res[1];
-			this.mesh.normals[i] = nor_res[2];
-		}
-	}
-
-	compute_player() {
-		for (let i = 0; i < this.mesh.positions.length; i += 3) {
-			this.mesh.positions[i + 1] += this.playerListener.delta.x;
-			this.mesh.positions[i] += this.playerListener.delta.z;
-		}
-		this.playerListener.delta.x = 0;
-		this.playerListener.delta.z = 0;
-	}
-
 	render(time, gl, light, program, camera, isScreen) {
-		/********************************************************************************************/
 
 		let positionLocation = gl.getAttribLocation(program, "a_position");
 		let normalLocation = gl.getAttribLocation(program, "a_normal");

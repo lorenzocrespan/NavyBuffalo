@@ -1,22 +1,16 @@
+import { ObjectBehaviour } from "./ObjectBehaviour.js";
+
 import { PlayerListener } from "../Agent/PlayerAgent.js";
 
-export class PlayerBehaviour {
+export class PlayerBehaviour extends ObjectBehaviour {
+
 	constructor(alias, mesh, offsets) {
-		// Parametri discriminanti dell'OBJ
-		this.alias = alias; // Nominativo dell'OBJ da renderizzare
-		// Parametri non discriminanti dell'OBJa
-		this.mesh = mesh; // Vettore contenente la posizione dei punti che compongono la mesh dell'OBJ
+		super(alias, mesh, offsets);
 		this.originalPosition = {
 			x: offsets.x, // Posizione del "centro" dell'OBJ rispetto alla coordinata X
 			y: offsets.y, // Posizione del "centro" dell'OBJ rispetto alla coordinata Y
 			z: offsets.z, // Posizione del "centro" dell'OBJ rispetto alla coordinata Z
 		};
-		this.position = {
-			x: offsets.x, // Posizione del "centro" dell'OBJ rispetto alla coordinata X
-			y: offsets.y, // Posizione del "centro" dell'OBJ rispetto alla coordinata Y
-			z: offsets.z, // Posizione del "centro" dell'OBJ rispetto alla cowaordinata Z
-		};
-		this.compute_position();
 		this.playerListener = new PlayerListener();
 		console.debug(this);
 	}
@@ -41,14 +35,6 @@ export class PlayerBehaviour {
 			if (this.position.z > this.originalPosition.z)
 				this.mesh.positions[i] -= deltaZ;
 			else this.mesh.positions[i] += deltaZ;
-		}
-	}
-
-	compute_position() {
-		for (let i = 0; i < this.mesh.positions.length; i += 3) {
-			this.mesh.positions[i] += parseFloat(this.position.z);
-			this.mesh.positions[i + 1] += parseFloat(this.position.x);
-			this.mesh.positions[i + 2] += parseFloat(this.position.y);
 		}
 	}
 

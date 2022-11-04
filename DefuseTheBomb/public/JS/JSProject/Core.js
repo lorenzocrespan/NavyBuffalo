@@ -28,9 +28,6 @@ let collisionAgent = new CollisionAgent();
 let isReset = false;
 let isGameOver = false;
 
-// TODO: Evaluate if this is the best way to do this
-let moveVectore;
-
 export class Core {
 	/**
 	 * Constructor of the class.
@@ -63,8 +60,6 @@ export class Core {
 		this.moveVectore = { x: 0, y: 0, z: 0 };
 		setPlayerControls(this.mainCanvas);
 		setCameraControls(this.mainCanvas, false);
-		// Global variables initialization
-		moveVectore = this.moveVectore;
 
 		console.log("Core.js - End WebGL Core initialization");
 	}

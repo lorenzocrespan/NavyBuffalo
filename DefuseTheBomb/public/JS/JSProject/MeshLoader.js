@@ -35,7 +35,7 @@ export class MeshLoader {
 
 		// Load the mesh from the .obj file
 		LoadMesh(glMainScreen, glSideScreen, mesh);
-
+	
 		// Add the mesh to the list of objects
 		switch (alias) {
 			case "Player":
