@@ -1,9 +1,9 @@
 
 export class ObjectBehaviour {
+
 	constructor(alias, mesh, offsets) {
 		// Parametri discriminanti dell'OBJ
 		this.alias = alias; // Nominativo dell'OBJ da renderizzare
-
 		// Parametri non discriminanti dell'OBJ
 		this.mesh = mesh; // Vettore contenente la posizione dei punti che compongono la mesh dell'OBJ
 		this.position = {
@@ -12,7 +12,6 @@ export class ObjectBehaviour {
 			z: offsets.z, // Posizione del "centro" dell'OBJ rispetto alla coordinata Z
 		};
 		this.compute_position();
-		console.debug(this);
 	}
 
 	reset_position() {
@@ -160,4 +159,5 @@ export class ObjectBehaviour {
 			gl.drawArrays(gl.TRIANGLES, 0, vertNumber);
 		}
 	}
+
 }

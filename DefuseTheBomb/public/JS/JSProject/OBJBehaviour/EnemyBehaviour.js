@@ -1,37 +1,16 @@
-let arenaBounde = 9;
-let speed = 0.175;
+import { ObjectBehaviour } from "./ObjectBehaviour.js";
 
-export class EnemyBehaviour {
+let arenaBounde = 9;
+export class EnemyBehaviour extends ObjectBehaviour{
+
 	constructor(alias, mesh, offsets) {
-		// Parametri discriminanti dell'OBJ
-		this.alias = alias; // Nominativo dell'OBJ da renderizzare
-		// Parametri non discriminanti dell'OBJ
-		this.mesh = mesh; // Vettore contenente la posizione dei punti che compongono la mesh dell'OBJ
-		this.position = {
-			x: offsets.x, // Posizione del "centro" dell'OBJ rispetto alla coordinata X
-			y: offsets.y, // Posizione del "centro" dell'OBJ rispetto alla coordinata Y
-			z: offsets.z, // Posizione del "centro" dell'OBJ rispetto alla coordinata Z
-		};
+		super(alias, mesh, offsets);
+		this.speed = 0.175;
 		this.vector = {
 			x: (Math.random() - 0.5) * 0.5,
 			y: offsets.y,
 			z: (Math.random() - 0.5) * 0.5,
 		};
-
-		this.compute_position();
-		console.debug(this);
-	}
-
-	reset_position() {
-		console.log("Reset position");
-	}
-
-	compute_position() {
-		for (let i = 0; i < this.mesh.positions.length; i += 3) {
-			this.mesh.positions[i] += parseFloat(this.position.z);
-			this.mesh.positions[i + 1] += parseFloat(this.position.x);
-			this.mesh.positions[i + 2] += parseFloat(this.position.y);
-		}
 	}
 
 	check_collision_arena() {
@@ -61,12 +40,12 @@ export class EnemyBehaviour {
 		this.check_collision_arena();
 
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
-			this.mesh.positions[i + 1] += this.vector.x * speed;
-			this.mesh.positions[i] += this.vector.z * speed;
+			this.mesh.positions[i + 1] += this.vector.x * this.speed;
+			this.mesh.positions[i] += this.vector.z * this.speed;
 		}
 
-		this.position.x += this.vector.x * speed;
-		this.position.z += this.vector.z * speed;
+		this.position.x += this.vector.x * this.speed;
+		this.position.z += this.vector.z * this.speed;
 	}
 
 	render(time, gl, light, program, camera, isScreen, collisionAgent) {

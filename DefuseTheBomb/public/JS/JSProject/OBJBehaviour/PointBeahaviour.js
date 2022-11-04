@@ -71,7 +71,8 @@ export class PointBehaviour extends ObjectBehaviour {
 	}
 
 	render(time, gl, light, program, camera, isScreen) {
-		if (isScreen) this.compute_idleAnimation(Math.sin(time) * this.ampWaveLimiter);
+		if (isScreen)
+			this.compute_idleAnimation(Math.sin(time) * this.ampWaveLimiter);
 		/********************************************************************************************/
 
 		let positionLocation = gl.getAttribLocation(program, "a_position");
@@ -206,4 +207,5 @@ export class PointBehaviour extends ObjectBehaviour {
 			gl.drawArrays(gl.TRIANGLES, 0, vertNumber);
 		}
 	}
+	
 }

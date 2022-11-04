@@ -12,7 +12,6 @@ export class PlayerBehaviour extends ObjectBehaviour {
 			z: offsets.z, // Posizione del "centro" dell'OBJ rispetto alla coordinata Z
 		};
 		this.playerListener = new PlayerListener();
-		console.debug(this);
 	}
 
 	reset_position() {
