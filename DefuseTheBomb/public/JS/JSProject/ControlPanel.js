@@ -4,15 +4,27 @@
 export const visibleLog = false;
 
 // Counter for the number of objects that have to be added to the scene
-export let countEnemies = 4;
+export let countEnemies = 0;
 export let countPoints = 1;
 
 let isGameOver = true;
 
 export function setGameOver(isGameOver) {
-    isGameOver = isGameOver;
+	isGameOver = isGameOver;
 }
 
 export function getGameOver() {
-    return isGameOver;
+	return isGameOver;
+}
+
+export function disableDefaultPageScroll() {
+    document.addEventListener(
+        "keydown",
+        function (e) {
+            if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+                e.preventDefault();
+            }
+        },
+        false
+    );
 }

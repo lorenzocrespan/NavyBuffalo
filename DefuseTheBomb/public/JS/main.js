@@ -1,4 +1,5 @@
 import {
+	disableDefaultPageScroll,
 	visibleLog,
 	countEnemies,
 	countPoints,
@@ -6,6 +7,12 @@ import {
 
 import { Scene } from "./JSProject/Scene.js";
 import { Core, initProgramRender, render } from "./JSProject/Core.js";
+
+if (visibleLog) console.log("main.js - Start setup page");
+
+disableDefaultPageScroll();
+
+if (visibleLog) console.log("main.js - End setup page");
 
 if (visibleLog) console.log("main.js - Start loading scene elements");
 
@@ -23,7 +30,7 @@ sceneComposition.addOBJToList(
 	false,
 	false,
 	false,
-	{ x: 0, y: 0, z: 0 },
+	{ x: 0, y: 0, z: 0 }
 );
 for (let i = 0; i < countEnemies; i++) {
 	sceneComposition.addOBJToList(
@@ -64,16 +71,16 @@ sceneComposition.addOBJToList(
 
 if (visibleLog) console.debug(sceneComposition);
 if (visibleLog) console.log("main.js - End loading scene elements");
+
 if (visibleLog) console.log("main.js - Start loading core");
 
 let core = new Core("screenCanvas", "screenCanvasPlane");
 
 core.setupScene(sceneComposition);
 
-core.generateCamera();
-
 if (visibleLog) console.debug(core);
 if (visibleLog) console.log("main.js - End loading core");
+
 if (visibleLog) console.log("main.js - Loop rendering");
 
 initProgramRender();

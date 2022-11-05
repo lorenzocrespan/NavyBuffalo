@@ -15,14 +15,6 @@ export class PointBehaviour extends ObjectBehaviour {
 		this.offdeltaY = 0;
 	}
 
-	compute_position() {
-		for (let i = 0; i < this.mesh.positions.length; i += 3) {
-			this.mesh.positions[i] += parseFloat(this.position.z);
-			this.mesh.positions[i + 1] += parseFloat(this.position.x);
-			this.mesh.positions[i + 2] += parseFloat(this.position.y);
-		}
-	}
-
 	changePosition() {
 		let newX = Math.floor(Math.random() * 10 - 7);
 		let newZ = Math.floor(Math.random() * 10 - 7);

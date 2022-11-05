@@ -3,6 +3,11 @@ import { EnemyBehaviour } from "../OBJBehaviour/EnemyBehaviour.js";
 import { PlayerBehaviour } from "../OBJBehaviour/PlayerBehaviour.js";
 import { PointBehaviour } from "../OBJBehaviour/PointBeahaviour.js";
 
+// TODO: Impostare che il player è "immortale" fino a quando non effettua la prima mossa
+// TODO: Resettare l'immortalità ad ogni reset
+// TODO: Mettere in active il pulsante di reset solo a game over
+// TODO: Fare un pulsante di pause/play 
+
 let cubeDimension = 1;
 let playerScore = 0;
 
@@ -177,4 +182,23 @@ export class CollisionAgent {
 			return collision;
 		}
 	}
+
+	check_collision_arena(objElem) {
+		let arenaBounde = 9;
+		for (let i = 0; i < objElem.mesh.positions.length; i += 3) {
+			if (objElem.mesh.positions[i + 1] >= arenaBounde) {
+				objElem.vector.x *= -1;
+			}
+			if (objElem.mesh.positions[i + 1] <= -arenaBounde) {
+				objElem.vector.x *= -1;
+			}
+			if (objElem.mesh.positions[i] >= arenaBounde) {
+				objElem.vector.z *= -1;
+			}
+			if (objElem.mesh.positions[i] <= -arenaBounde) {
+				objElem.vector.z *= -1;
+			}
+		}
+	}
 }
+

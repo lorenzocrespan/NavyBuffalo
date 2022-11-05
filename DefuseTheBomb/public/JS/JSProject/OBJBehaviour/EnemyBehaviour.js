@@ -1,8 +1,6 @@
 import { ObjectBehaviour } from "./ObjectBehaviour.js";
 
-let arenaBounde = 9;
-export class EnemyBehaviour extends ObjectBehaviour{
-
+export class EnemyBehaviour extends ObjectBehaviour {
 	constructor(alias, mesh, offsets) {
 		super(alias, mesh, offsets);
 		this.speed = 0.175;
@@ -13,43 +11,22 @@ export class EnemyBehaviour extends ObjectBehaviour{
 		};
 	}
 
-	check_collision_arena() {
-		for (let i = 0; i < this.mesh.positions.length; i += 3) {
-			if (this.mesh.positions[i + 1] >= arenaBounde) {
-				this.vector.x *= -1;
-			}
-			if (this.mesh.positions[i + 1] <= -arenaBounde) {
-				this.vector.x *= -1;
-			}
-			if (this.mesh.positions[i] >= arenaBounde) {
-				this.vector.z *= -1;
-			}
-			if (this.mesh.positions[i] <= -arenaBounde) {
-				this.vector.z *= -1;
-			}
-		}
-	}
-
 	changeDirection(directionAfterCollisionX, directionAfterCollisionZ) {
 		this.vector.x = directionAfterCollisionX;
 		this.vector.z = directionAfterCollisionZ;
 	}
 
-	compute_enemy(collisionAgent) {
-		collisionAgent.checkCollisionEnemyWithEnemy(10);
-		this.check_collision_arena();
-
+	compute_enemy() {
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
 			this.mesh.positions[i + 1] += this.vector.x * this.speed;
 			this.mesh.positions[i] += this.vector.z * this.speed;
 		}
-
 		this.position.x += this.vector.x * this.speed;
 		this.position.z += this.vector.z * this.speed;
 	}
 
 	render(time, gl, light, program, camera, isScreen, collisionAgent) {
-		if (isScreen) this.compute_enemy(collisionAgent);
+		if (isScreen) this.compute_enemy();
 		/********************************************************************************************/
 
 		let positionLocation = gl.getAttribLocation(program, "a_position");

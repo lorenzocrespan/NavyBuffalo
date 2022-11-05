@@ -1,6 +1,8 @@
 import { MeshLoader } from "./MeshLoader.js";
+import { visibleLog } from "./ControlPanel.js";
 
 import {
+	typeCamera,
 	Camera,
 	setCameraControls,
 	getUpdateCamera,
@@ -8,6 +10,7 @@ import {
 import { setPlayerControls } from "./Agent/PlayerAgent.js";
 import { CollisionAgent } from "./Agent/CollisionAgent.js";
 import { PlayerBehaviour } from "./OBJBehaviour/PlayerBehaviour.js";
+import { EnemyBehaviour } from "./OBJBehaviour/EnemyBehaviour.js";
 
 // WebGL context
 let glMainScreen;
@@ -37,7 +40,7 @@ export class Core {
 	 * @param {String} idSideCanvas Identifier of the canvas element (Side screen for the minimap).
 	 */
 	constructor(idMainCanvas, idSideCanvas) {
-		console.log("Core.js - Start WebGL Core initialization");
+		if (visibleLog) console.log("Core.js - Start WebGL Core initialization");
 
 		// Canvas and WebGL context initialization
 		this.mainCanvas = document.getElementById(idMainCanvas);
@@ -59,9 +62,9 @@ export class Core {
 		// Movement and camera controls initialization
 		this.moveVectore = { x: 0, y: 0, z: 0 };
 		setPlayerControls(this.mainCanvas);
-		setCameraControls(this.mainCanvas, false);
+		setCameraControls(this.mainCanvas);
 
-		console.log("Core.js - End WebGL Core initialization");
+		if (visibleLog) console.log("Core.js - End WebGL Core initialization");
 	}
 
 	/**
@@ -70,7 +73,25 @@ export class Core {
 	 * @param {List} sceneComposition List of objects that will be rendered in the scene.
 	 */
 	setupScene(sceneComposition) {
-		console.log("Core.js - Start scene setup");
+		if (visibleLog) console.log("Core.js - Start scene setup");
+
+		cameraMainScreen = new Camera(
+			typeCamera.MainCamera,
+			true,
+			[0, 0, 0],
+			[0, 0, 1],
+			[0, 0, 1],
+			70
+		);
+
+		cameraSideScreen = new Camera(
+			typeCamera.SideCamera,
+			false,
+			[0, 0, 40],
+			[-1, 0, 0],
+			[0, 0, 0],
+			100
+		);
 
 		// Load all the meshes in the scene
 		for (const obj of sceneComposition.sceneObj) {
@@ -84,22 +105,8 @@ export class Core {
 				collisionAgent
 			);
 		}
-		collisionAgent.countCollisionObject();
-		console.log("Core.js - End scene setup");
-	}
 
-	/**
-	 * Function that generates the camera for the rendering.
-	 *
-	 */
-	generateCamera() {
-		console.log("Core.js - Start camera setup");
-
-		cameraMainScreen = new Camera([0, 0, 0], [0, 0, 1], [0, 0, 1], 70);
-
-		cameraSideScreen = new Camera([0, 1, 40], [-1, 0, 0], [0, 0, 0], 12);
-
-		console.log("Core.js - End camera setup");
+		if (visibleLog) console.log("Core.js - End scene setup");
 	}
 }
 
@@ -128,7 +135,7 @@ export function initProgramRender() {
 }
 
 document.getElementById("resetButton").onclick = function () {
-	console.log("Reset button pressed");
+	if (visibleLog) console.log("Reset button pressed");
 	meshlist.forEach((elem) => {
 		// creare una nuova funzione render che riporta tutto allo stato iniziale
 		elem.reset_position();
@@ -159,6 +166,21 @@ export function render(time = 0) {
 				case elem instanceof PlayerBehaviour:
 					// Update the player vector
 					if (isMainScreen) elem.playerListener.updateVector(elem.position);
+					elem.render(
+						time,
+						program[1],
+						{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
+						program[0],
+						actCamera,
+						isMainScreen,
+						collisionAgent,
+						isReset
+					);
+					break;
+				case elem instanceof EnemyBehaviour:
+					// Update the player vector
+					if (isMainScreen) collisionAgent.check_collision_arena(elem);
+					if (isMainScreen) collisionAgent.checkCollisionEnemyWithEnemy(10);
 					elem.render(
 						time,
 						program[1],
