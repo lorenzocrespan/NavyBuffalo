@@ -4,8 +4,7 @@ import { visibleLog } from "./ControlPanel.js";
 import {
 	typeCamera,
 	Camera,
-	setCameraControls,
-	getUpdateCamera,
+	setCameraControls
 } from "./Agent/CameraAgent.js";
 import { setPlayerControls } from "./Agent/PlayerAgent.js";
 import { CollisionAgent } from "./Agent/CollisionAgent.js";
@@ -156,7 +155,7 @@ export function setGameOver() {
  */
 export function render(time = 0) {
 	for (const program of listPrograms) {
-		if (getUpdateCamera()) cameraMainScreen.moveCamera();
+		cameraMainScreen.moveCamera();
 
 		// Convert to seconds
 		time *= 0.002;

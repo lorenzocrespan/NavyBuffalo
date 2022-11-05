@@ -1,34 +1,21 @@
-// TODO: Fare una capera con visuale fissa non collocata nella sfera.
-// TODO: Funzione che riporta "lentamente" la telecamera principale alla posizione di partenza.
-// TODO: Bind delle frecce direzionali per il zoom in e zoom out.
+import { maxRadius, minRadius } from "../ControlPanel.js";
 
-// Global variables
-
-let updateCamera = true;
-// Parametri globali utilizzati all'interno di Camera.js.
-let drag;
-let THETA = degToRad(180),
-	PHI = degToRad(45);
-let old_x, old_y;
-let dX, dY;
-
-//
 let radius = 24;
-let maxRadius = 24,
-	minRadius = 3;
+let updateCamera = true;
+let zoomIn = false;
+let zoomOut = false;
+let drag;
+let angleX = degToRad(180);
+let angleY = degToRad(45);
+let oldX, oldY;
+let deltaX, deltaY;
+let isResetCamera = false;
 
 // Enum typeCamera
 export const typeCamera = {
 	MainCamera: 0,
 	SideCamera: 1,
 };
-
-// Global methods
-
-// Convert degrees to radians.
-function degToRad(d) {
-	return (d * Math.PI) / 180;
-}
 
 export class Camera {
 	constructor(
@@ -47,16 +34,50 @@ export class Camera {
 		this.cameraControlsEnabled = cameraControlsEnabled;
 	}
 
+	smoothZoomIn() {
+		if (radius > minRadius) {
+			radius -= 0.1;
+			updateCamera = true;
+		}
+	}
+
+	smoothZoomOut() {
+		if (radius < maxRadius) {
+			radius += 0.1;
+			updateCamera = true;
+		}
+	}
+
+	smoothReset(){
+		if (angleX > degToRad(180)) angleX -= 0.01;
+		if (angleX < degToRad(180)) angleX += 0.01;
+		if (angleY > degToRad(45)) angleY -= 0.01;
+		if (angleY < degToRad(45)) angleY += 0.01;
+	}
+
 	radiusModify(radius) {
-		return radius * Math.cos(PHI);
+		return radius * Math.cos(angleY);
+	}
+
+	resetCamera() {
+		updateCamera = true;
+		this.smoothReset();
+		if (angleX > degToRad(179) && angleX < degToRad(181))  angleX = degToRad(180)
+		if (angleY > degToRad(44) && angleY < degToRad(46)) angleY = degToRad(45)
+		if (angleX == degToRad(180) && angleY == degToRad(45)){
+			console.log("Resetting camera");
+			isResetCamera = false;
+		}
 	}
 
 	moveCamera() {
-		if (this.cameraControlsEnabled) {
-			console.log("Camera update");
-			this.position[0] = this.radiusModify(radius) * Math.cos(THETA);
-			this.position[1] = this.radiusModify(radius) * Math.sin(THETA);
-			this.position[2] = radius * Math.sin(PHI);
+		if (isResetCamera) this.resetCamera();
+		if (zoomIn) this.smoothZoomIn();
+		if (zoomOut) this.smoothZoomOut();
+		if (this.cameraControlsEnabled & updateCamera) {
+			this.position[0] = this.radiusModify(radius) * Math.cos(angleX);
+			this.position[1] = this.radiusModify(radius) * Math.sin(angleX);
+			this.position[2] = radius * Math.sin(angleY);
 		}
 		updateCamera = false;
 	}
@@ -78,65 +99,67 @@ export class Camera {
 	}
 }
 
-export function getUpdateCamera() {
-	return updateCamera;
-}
-
 export function setCameraControls(canvas) {
-	window.addEventListener("keydown", onKeyDown, true);
-
+	// Mouse camera controls.
 
 	canvas.addEventListener("mousedown", function (event) {
 		drag = true;
-		old_x = event.pageX,
-		old_y = event.pageY;
+		(oldX = event.pageX), (oldY = event.pageY);
 		return false;
 	});
 
 	canvas.addEventListener("mouseup", function (event) {
 		drag = false;
-		
 	});
 
 	canvas.addEventListener("mousemove", function (event) {
-		// Print data mouse
-		console.log("X: " + event.pageX + " Y: " + event.pageY);
 		if (!drag) return false;
+		deltaY = (-(event.pageY - oldY) * 2 * Math.PI) / canvas.height;
+		deltaX = (-(event.pageX - oldX) * 2 * Math.PI) / canvas.width;
+		angleX += deltaX;
+		angleY -= deltaY;
+		if (angleY > degToRad(75)) angleY = degToRad(75);
+		if (angleY < degToRad(25)) angleY = degToRad(25);
+		oldY = event.pageY;
+		oldX = event.pageX;
 		updateCamera = true;
-		dY = (-(event.pageY - old_y) * 2 * Math.PI) / canvas.height;
-		PHI -= dY;
-		if (PHI > degToRad(75)) PHI = degToRad(75);
-		if (PHI < degToRad(25)) PHI = degToRad(25);
-		old_y = event.pageY;
-		dX = (-(event.pageX - old_x) * 2 * Math.PI) / canvas.width;
-		THETA += dX;
-		old_x = event.pageX;
 	});
 
-	function smoothZoomInOut() {
-		if (radius > minRadius) {
-			radius -= 0.1;
-			updateCamera = true;
-		}
-	}
+	// Arrow keys zoom in and out camera controls.
 
-	function smoothZoomOut() {
-		if (radius < maxRadius) {
-			radius += 0.1;
-			updateCamera = true;
-		}
-	}
-
-	function onKeyDown(event) {
-		switch (event.keyCode) {
-			case 38:
-				// Up
-				smoothZoomInOut();
+	window.addEventListener("keydown", function (event) {
+		switch (event.key) {
+			case "ArrowUp":
+				zoomIn = true;
 				break;
-			case 40:
-				// Down
-				smoothZoomOut();
+			case "ArrowDown":
+				zoomOut = true;
+				break;
+			case "r":
+				isResetCamera = true;
 				break;
 		}
-	}
+		updateCamera = true;
+	});
+
+	window.addEventListener("keyup", function (event) {
+		switch (event.key) {
+			case "ArrowUp":
+				zoomIn = false;
+				break;
+			case "ArrowDown":
+				zoomOut = false;
+				break;
+		}
+		updateCamera = false;
+	});
+}
+
+// Convert degrees to radians.
+function degToRad(d) {
+	return (d * Math.PI) / 180;
+}
+
+function radToDeg(r) {
+	return (r * 180) / Math.PI;
 }

@@ -7,6 +7,10 @@ export const visibleLog = false;
 export let countEnemies = 0;
 export let countPoints = 1;
 
+// Camera data
+export let maxRadius = 30;
+export let minRadius = 3;
+
 let isGameOver = true;
 
 export function setGameOver(isGameOver) {
