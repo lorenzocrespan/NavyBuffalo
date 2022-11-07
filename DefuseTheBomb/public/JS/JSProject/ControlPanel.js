@@ -11,6 +11,10 @@ export let countPoints = 1;
 export let maxRadius = 30;
 export let minRadius = 3;
 
+export let arenaSide = 8.925;
+
+export let originSpeed = 0.075;
+
 let isGameOver = true;
 
 export function setGameOver(isGameOver) {

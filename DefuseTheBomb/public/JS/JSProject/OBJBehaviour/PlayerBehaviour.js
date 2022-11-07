@@ -18,7 +18,8 @@ export class PlayerBehaviour extends ObjectBehaviour {
 		this.reset_mesh();
 		this.position.x = this.originalPosition.x;
 		this.position.z = this.originalPosition.z;
-		this.playerListener.stop();
+		this.playerListener.resetPosition();
+		this.playerListener.resetVector();
 	}
 
 	reset_mesh() {

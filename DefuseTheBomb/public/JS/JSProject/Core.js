@@ -59,7 +59,6 @@ export class Core {
 		meshlist = this.meshlist;
 
 		// Movement and camera controls initialization
-		this.moveVectore = { x: 0, y: 0, z: 0 };
 		setPlayerControls(this.mainCanvas);
 		setCameraControls(this.mainCanvas);
 

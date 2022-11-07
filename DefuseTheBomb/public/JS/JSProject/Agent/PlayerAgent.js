@@ -1,65 +1,68 @@
-let dX = 0,
-	dZ = 0;
+import { arenaSide, originSpeed } from "../ControlPanel.js";
 
-let speed = 0.075;
-let arenaBounde = 8.925;
+let deltaX, deltaZ;
+let speed;
 
 export class PlayerListener {
 	constructor() {
-		this.delta = { x: 0, y: 0, z: 0 };
+		this.delta = { x: 0, z: 0 };
+		deltaX = 0;
+		deltaZ = 0;
+		speed = originSpeed;
 	}
 
 	updateVector(position) {
 		if (
-			(position.x > arenaBounde && dX > 0) ||
-			(position.x < -arenaBounde && dX < 0)
+			(position.x > arenaSide && deltaX > 0) ||
+			(position.x < -arenaSide && deltaX < 0)
 		) {
-			dX = 0;
+			deltaX = 0;
 		}
 		if (
-			(position.z > arenaBounde && dZ > 0) ||
-			(position.z < -arenaBounde && dZ < 0)
+			(position.z > arenaSide && deltaZ > 0) ||
+			(position.z < -arenaSide && deltaZ < 0)
 		) {
-			dZ = 0;
+			deltaZ = 0;
 		}
-		this.delta.x = dX;
-		this.delta.z = dZ;
+		this.delta.x = deltaX;
+		this.delta.z = deltaZ;
+	}
+
+	buffSpeed() {
+		speed += 0.01;
+	}
+
+	debuffSpeed() {
+		speed -= 0.01;
 	}
 
 	resetPosition() {
-		dX = 0;
-		dZ = 0;
+		deltaX = 0;
+		deltaZ = 0;
 	}
 
-	stop() {
-		console.log("stop");
-		dX = 0;
-		dZ = 0;
+	resetVector() {
 		this.delta.x = 0;
 		this.delta.z = 0;
 	}
 }
 
 export function setPlayerControls(canvas) {
-	window.addEventListener("keydown", onKeyDown, true);
 
-	function onKeyDown(e) {
-		if (e.keyCode === 87) {
-			// W
-			console.log("Weee");
-			dZ = speed;
+	window.addEventListener("keydown", function (event) {
+		switch (event.key) {
+			case "w":
+				deltaZ = speed;
+				break;
+			case "s":
+				deltaZ = -speed;
+				break;
+			case "a":
+				deltaX = speed;
+				break;
+			case "d":
+				deltaX = -speed;
+				break;
 		}
-		if (e.keyCode === 83) {
-			// S
-			dZ = -speed;
-		}
-		if (e.keyCode === 65) {
-			// A
-			dX = speed;
-		}
-		if (e.keyCode === 68) {
-			// D
-			dX = -speed;
-		}
-	}
+	});
 }
