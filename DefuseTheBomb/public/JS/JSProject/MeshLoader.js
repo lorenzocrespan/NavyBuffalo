@@ -27,7 +27,6 @@ export class MeshLoader {
 	 * @param {Object} coords An object that contains the coordinates of the object inside the scene.
 	 */
 	addMesh(glMainScreen, glSideScreen, alias, pathOBJ, coords, collisionAgent) {
-		console.log("MeshLoader.js - Loading mesh: " + alias);
 
 		// Create the mesh object
 		let mesh = [];
@@ -51,16 +50,6 @@ export class MeshLoader {
 				this.objData.push(new ObjectBehaviour(alias, mesh, coords));
 				break;
 		}
-		console.debug(
-			"MeshLoader.js - OBJ loaded: " +
-				this.objData[this.objData.length - 1].position.x +
-				", " +
-				this.objData[this.objData.length - 1].position.y +
-				", " +
-				this.objData[this.objData.length - 1].position.z
-		);
 		collisionAgent.addCollisionObject(this.objData[this.objData.length - 1]);
-
-		console.log("MeshLoader.js - End loading mesh: " + alias);
 	}
 }

@@ -48,7 +48,7 @@ export class Camera {
 		}
 	}
 
-	smoothReset(){
+	smoothReset() {
 		if (angleX > degToRad(180)) angleX -= 0.01;
 		if (angleX < degToRad(180)) angleX += 0.01;
 		if (angleY > degToRad(45)) angleY -= 0.01;
@@ -62,12 +62,9 @@ export class Camera {
 	resetCamera() {
 		updateCamera = true;
 		this.smoothReset();
-		if (angleX > degToRad(179) && angleX < degToRad(181))  angleX = degToRad(180)
-		if (angleY > degToRad(44) && angleY < degToRad(46)) angleY = degToRad(45)
-		if (angleX == degToRad(180) && angleY == degToRad(45)){
-			console.log("Resetting camera");
-			isResetCamera = false;
-		}
+		if (angleX > degToRad(179) && angleX < degToRad(181)) angleX = degToRad(180);
+		if (angleY > degToRad(44) && angleY < degToRad(46)) angleY = degToRad(45);
+		if (angleX == degToRad(180) && angleY == degToRad(45)) isResetCamera = false;
 	}
 
 	moveCamera() {

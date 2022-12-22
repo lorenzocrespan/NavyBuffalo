@@ -1,12 +1,10 @@
-import { setGameOver } from "../Core.js";
+import { setGameOver } from "../ControlPanel.js";
 import { EnemyBehaviour } from "../OBJBehaviour/EnemyBehaviour.js";
 import { PlayerBehaviour } from "../OBJBehaviour/PlayerBehaviour.js";
 import { PointBehaviour } from "../OBJBehaviour/PointBeahaviour.js";
 
-// TODO: Impostare che il player è "immortale" fino a quando non effettua la prima mossa
-// TODO: Resettare l'immortalità ad ogni reset
 // TODO: Mettere in active il pulsante di reset solo a game over
-// TODO: Fare un pulsante di pause/play 
+// TODO: Fare un pulsante di pause/play
 
 let cubeDimension = 1;
 let playerScore = 0;
@@ -98,7 +96,7 @@ export class CollisionAgent {
 		}
 	}
 
-	checkCollisionEnemyWithEnemy(precision) {
+	checkCollisionEnemyWithEnemy(ray) {
 		for (let i = 0; i < this.collisionEnemy.length; i++) {
 			for (let j = 0; j < this.collisionEnemy.length; j++) {
 				if (i != j) {
@@ -106,20 +104,18 @@ export class CollisionAgent {
 						this.checkOverlapCircle(
 							this.collisionEnemy[i],
 							this.collisionEnemy[j],
-							0.5
+							ray
 						)
 					) {
-						let directionAfterCollisionX =
-							this.collisionEnemy[i].position.x -
-							this.collisionEnemy[j].position.x;
-						let directionAfterCollisionZ =
-							this.collisionEnemy[i].position.z -
-							this.collisionEnemy[j].position.z;
-						// console.log("CollisionAgent.js - Collision between enemy " + i + " and enemy " + j);
-						this.collisionEnemy[i].changeDirection(
-							directionAfterCollisionX,
-							directionAfterCollisionZ
-						);
+						let dx = this.collisionEnemy[i].position.x - this.collisionEnemy[j].position.x;
+						let dz = this.collisionEnemy[i].position.z - this.collisionEnemy[j].position.z;
+						let collisionAngle = Math.atan2(dz, dx);
+						
+						let direction = Math.atan2(this.collisionEnemy[i].vector.z, this.collisionEnemy[i].vector.x);
+
+						let vectorX = 0.075 * Math.cos(collisionAngle);
+						let vectorZ = 0.075 * Math.sin(collisionAngle);
+						this.collisionEnemy[i].changeDirection(vectorX, vectorZ);
 					}
 				}
 			}
@@ -129,10 +125,9 @@ export class CollisionAgent {
 	/**
 	 * Check if the player is colliding with any object.
 	 */
-	checkCollisionEnemy(positionOld, positionNew, precision) {
-		let collision = false;
-		let distanceX = positionNew.x / precision;
-		let distanceZ = positionNew.z / precision;
+	checkCollisionEnemy(positionOld, totalDelta, precision) {
+		let atomicDeltaX = totalDelta.x / precision;
+		let atomicDeltaZ = totalDelta.z / precision;
 		let position = {
 			x: positionOld.x,
 			z: positionOld.z,
@@ -140,16 +135,18 @@ export class CollisionAgent {
 		for (let i = 0; i < this.collisionEnemy.length; i++) {
 			// Check if in intermediate positions there is a collision
 			for (let j = 0; j < precision; j++) {
-				position.x += distanceX;
-				position.z += distanceZ;
+				position.x += atomicDeltaX;
+				position.z += atomicDeltaZ;
 				if (this.checkOverlap(this.collisionEnemy[i], position, 0.5)) {
-					setGameOver();
-					collision = true;
-					break;
+					setGameOver(true);
+					totalDelta.x = atomicDeltaX * j;
+					totalDelta.z = atomicDeltaZ * j;
+					return totalDelta;
 				}
 			}
+			position.x = positionOld.x;
+			position.z = positionOld.z;
 		}
-		return collision;
 	}
 
 	checkCollisionPoint(positionOld, positionNew, precision) {
@@ -201,4 +198,3 @@ export class CollisionAgent {
 		}
 	}
 }
-

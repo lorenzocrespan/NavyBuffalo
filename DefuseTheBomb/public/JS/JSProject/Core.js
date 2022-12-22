@@ -1,11 +1,15 @@
 import { MeshLoader } from "./MeshLoader.js";
-import { visibleLog } from "./ControlPanel.js";
-
 import {
-	typeCamera,
-	Camera,
-	setCameraControls
-} from "./Agent/CameraAgent.js";
+	getGameOver,
+	setGameOver,
+	getReset,
+	setReset,
+	getActive,
+	setActive,
+	visibleLog,
+} from "./ControlPanel.js";
+
+import { typeCamera, Camera, setCameraControls } from "./Agent/CameraAgent.js";
 import { setPlayerControls } from "./Agent/PlayerAgent.js";
 import { CollisionAgent } from "./Agent/CollisionAgent.js";
 import { PlayerBehaviour } from "./OBJBehaviour/PlayerBehaviour.js";
@@ -28,7 +32,6 @@ let listPrograms = [];
 let collisionAgent = new CollisionAgent();
 
 let isReset = false;
-let isGameOver = false;
 
 export class Core {
 	/**
@@ -132,21 +135,18 @@ export function initProgramRender() {
 	actCamera = cameraMainScreen;
 }
 
+// TODO: Spostare la gestione del pulsante al control panel
 document.getElementById("resetButton").onclick = function () {
-	if (visibleLog) console.log("Reset button pressed");
 	meshlist.forEach((elem) => {
-		// creare una nuova funzione render che riporta tutto allo stato iniziale
 		elem.reset_position();
 	});
-	setGameOver();
-	isReset = true;
+	setGameOver(false);
+	setReset(true);
+	setActive(false);
 	render();
 };
 
-export function setGameOver() {
-	isGameOver = !isGameOver;
-}
-
+let hitDeltaPosition;
 /**
  * Rendering functions for the main screen.
  *
@@ -164,6 +164,21 @@ export function render(time = 0) {
 				case elem instanceof PlayerBehaviour:
 					// Update the player vector
 					if (isMainScreen) elem.playerListener.updateVector(elem.position);
+					if (isMainScreen && getActive()) {
+						hitDeltaPosition = collisionAgent.checkCollisionEnemy(
+							elem.position,
+							elem.playerListener.delta,
+							15
+						);
+						if (hitDeltaPosition != null) {
+							console.debug(hitDeltaPosition);
+						}
+						collisionAgent.checkCollisionPoint(
+							elem.position,
+							elem.playerListener.delta,
+							15
+						);
+					}
 					elem.render(
 						time,
 						program[1],
@@ -171,14 +186,14 @@ export function render(time = 0) {
 						program[0],
 						actCamera,
 						isMainScreen,
-						collisionAgent,
-						isReset
+						hitDeltaPosition,
+						false
 					);
 					break;
 				case elem instanceof EnemyBehaviour:
 					// Update the player vector
 					if (isMainScreen) collisionAgent.check_collision_arena(elem);
-					if (isMainScreen) collisionAgent.checkCollisionEnemyWithEnemy(10);
+					if (isMainScreen) collisionAgent.checkCollisionEnemyWithEnemy(0.65);
 					elem.render(
 						time,
 						program[1],
@@ -186,8 +201,7 @@ export function render(time = 0) {
 						program[0],
 						actCamera,
 						isMainScreen,
-						collisionAgent,
-						isReset
+						false
 					);
 					break;
 				default:
@@ -212,6 +226,7 @@ export function render(time = 0) {
 			isMainScreen = true;
 		}
 	}
-	if (isReset) isReset = false;
-	if (!isGameOver) requestAnimationFrame(render);
+	if (!getGameOver()) requestAnimationFrame(render);
+
+
 }

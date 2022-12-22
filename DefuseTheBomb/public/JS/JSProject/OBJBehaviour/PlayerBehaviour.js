@@ -38,17 +38,7 @@ export class PlayerBehaviour extends ObjectBehaviour {
 		}
 	}
 
-	compute_player(collisionAgent) {
-		collisionAgent.checkCollisionEnemy(
-			this.position,
-			this.playerListener.delta,
-			15
-		);
-		collisionAgent.checkCollisionPoint(
-			this.position,
-			this.playerListener.delta,
-			15
-		);
+	compute_player() {
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
 			this.mesh.positions[i + 1] += this.playerListener.delta.x;
 			this.mesh.positions[i] += this.playerListener.delta.z;
@@ -59,11 +49,21 @@ export class PlayerBehaviour extends ObjectBehaviour {
 		this.playerListener.delta.z = 0;
 	}
 
-	render(time, gl, light, program, camera, isScreen, collisionAgent, isReset) {
-		if (isScreen && !isReset) this.compute_player(collisionAgent);
-		if (isReset) this.reset_position();
-		console.log(isReset);
+	compute_player_after_collision(hitDeltaPosition) {
+		for (let i = 0; i < this.mesh.positions.length; i += 3) {
+			this.mesh.positions[i + 1] += hitDeltaPosition.x;
+			this.mesh.positions[i] += hitDeltaPosition.z;
+		}
+		this.position.x += hitDeltaPosition.x;
+		this.position.z += hitDeltaPosition.z;
+		this.playerListener.delta.x = 0;
+		this.playerListener.delta.z = 0;
+	}
 
+	render(time, gl, light, program, camera, isScreen, hitDeltaPosition, isReset) {
+		if (isReset) this.reset_position();
+		if (isScreen) this.compute_player();
+		if (hitDeltaPosition) this.compute_player_after_collision(hitDeltaPosition);
 		/********************************************************************************************/
 
 		let positionLocation = gl.getAttribLocation(program, "a_position");
@@ -187,11 +187,16 @@ export class PlayerBehaviour extends ObjectBehaviour {
 
 		// Draw the scene.
 		function drawScene(time, mesh) {
+			
 			if (isScreen) gl.bindTexture(gl.TEXTURE_2D, mesh.mainTexture);
 			else gl.bindTexture(gl.TEXTURE_2D, mesh.sideTexture);
 			gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-
+			
+			
+			gl.enable(gl.BLEND);
+			gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 			gl.enable(gl.DEPTH_TEST);
+
 
 			let matrix = m4.identity();
 			gl.uniformMatrix4fv(matrixLocation, false, matrix);

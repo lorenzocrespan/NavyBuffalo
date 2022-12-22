@@ -1,4 +1,5 @@
 import { arenaSide, originSpeed } from "../ControlPanel.js";
+import {setActive} from "../ControlPanel.js"
 
 let deltaX, deltaZ;
 let speed;
@@ -50,6 +51,7 @@ export class PlayerListener {
 export function setPlayerControls(canvas) {
 
 	window.addEventListener("keydown", function (event) {
+		setActive(true);
 		switch (event.key) {
 			case "w":
 				deltaZ = speed;

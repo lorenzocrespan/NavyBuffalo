@@ -33,14 +33,8 @@ export class Scene {
 			idleAnimation: idleAnimation,
 			coords: coords,
 		};
-		if (this.sceneObj.push(newObj)) {
-			if (visibleLog) console.log("Scene.js - Added new object to the scene");
-			return true;
-		} else {
-			console.log("Scene.js - Error while adding new object to the scene");
-			console.debug(newObj);
-			return false;
-		}
+		if (this.sceneObj.push(newObj)) return true;
+		else return false;
 	}
 
 	/**

@@ -1,20 +1,12 @@
 import {
 	disableDefaultPageScroll,
-	visibleLog,
 	countEnemies,
 	countPoints,
 } from "./JSProject/ControlPanel.js";
-
 import { Scene } from "./JSProject/Scene.js";
 import { Core, initProgramRender, render } from "./JSProject/Core.js";
 
-if (visibleLog) console.log("main.js - Start setup page");
-
 disableDefaultPageScroll();
-
-if (visibleLog) console.log("main.js - End setup page");
-
-if (visibleLog) console.log("main.js - Start loading scene elements");
 
 // Array of objects that will be rendered in the scene
 let sceneComposition = new Scene();
@@ -60,6 +52,7 @@ for (let i = 0; i < countPoints; i++) {
 		}
 	);
 }
+/*
 sceneComposition.addOBJToList(
 	"Player",
 	"./OBJModels/WHGPlayer.obj",
@@ -68,20 +61,19 @@ sceneComposition.addOBJToList(
 	false,
 	{ x: 0, y: 0, z: 0 }
 );
-
-if (visibleLog) console.debug(sceneComposition);
-if (visibleLog) console.log("main.js - End loading scene elements");
-
-if (visibleLog) console.log("main.js - Start loading core");
+*/
+sceneComposition.addOBJToList(
+	"Player",
+	"./OBJModels/untitled.obj",
+	true,
+	false,
+	false,
+	{ x: 0, y: 0, z: 0 }
+);
 
 let core = new Core("screenCanvas", "screenCanvasPlane");
 
 core.setupScene(sceneComposition);
-
-if (visibleLog) console.debug(core);
-if (visibleLog) console.log("main.js - End loading core");
-
-if (visibleLog) console.log("main.js - Loop rendering");
 
 initProgramRender();
 render();

@@ -3,29 +3,29 @@ import { ObjectBehaviour } from "./ObjectBehaviour.js";
 export class EnemyBehaviour extends ObjectBehaviour {
 	constructor(alias, mesh, offsets) {
 		super(alias, mesh, offsets);
-		this.speed = 0.175;
+		this.speed = 0.075;
+		this.angle = Math.random() * 2 * Math.PI;
 		this.vector = {
-			x: (Math.random() - 0.5) * 0.5,
-			y: offsets.y,
-			z: (Math.random() - 0.5) * 0.5,
+			x: this.speed*Math.cos(this.angle),
+			z: this.speed*Math.sin(this.angle),
 		};
 	}
 
-	changeDirection(directionAfterCollisionX, directionAfterCollisionZ) {
-		this.vector.x = directionAfterCollisionX;
-		this.vector.z = directionAfterCollisionZ;
+	changeDirection(vectorX, vectorZ) {
+		this.vector.x = vectorX;
+		this.vector.z = vectorZ;
 	}
 
 	compute_enemy() {
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
-			this.mesh.positions[i + 1] += this.vector.x * this.speed;
-			this.mesh.positions[i] += this.vector.z * this.speed;
+			this.mesh.positions[i + 1] += this.vector.x;
+			this.mesh.positions[i] += this.vector.z;
 		}
-		this.position.x += this.vector.x * this.speed;
-		this.position.z += this.vector.z * this.speed;
+		this.position.x += this.vector.x;
+		this.position.z += this.vector.z;
 	}
 
-	render(time, gl, light, program, camera, isScreen, collisionAgent) {
+	render(time, gl, light, program, camera, isScreen) {
 		if (isScreen) this.compute_enemy();
 		/********************************************************************************************/
 
