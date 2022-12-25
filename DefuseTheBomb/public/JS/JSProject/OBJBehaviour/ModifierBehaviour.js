@@ -1,32 +1,70 @@
+import { ObjectBehaviour } from "./ObjectBehaviour.js";
 
-export class ObjectBehaviour {
-
+export class ModifierBehaviour extends ObjectBehaviour {
 	constructor(alias, mesh, offsets) {
-		// Parametri discriminanti dell'OBJ
-		this.alias = alias; // Nominativo dell'OBJ da renderizzare
-		// Parametri non discriminanti dell'OBJ
-		this.mesh = mesh; // Vettore contenente la posizione dei punti che compongono la mesh dell'OBJ
-		this.position = {
+		super(alias, mesh, offsets);
+		this.originalPosition = {
 			x: offsets.x, // Posizione del "centro" dell'OBJ rispetto alla coordinata X
 			y: offsets.y, // Posizione del "centro" dell'OBJ rispetto alla coordinata Y
 			z: offsets.z, // Posizione del "centro" dell'OBJ rispetto alla coordinata Z
 		};
-		this.compute_position();
+		this.ampWaveLimiter = 0.004;
+		let rotMatX = m4.xRotation(0.02);
+		let rotMatY = m4.yRotation(0.04);
+		this.rotMat = m4.multiply(rotMatX, rotMatY);
+		this.offdeltaY = 0;
 	}
 
-	reset_position() {
-		console.log("Reset position");
-	}
-
-	compute_position() {
+	changePosition() {
+		let newX = Math.floor(Math.random() * 10 - 7);
+		let newZ = Math.floor(Math.random() * 10 - 7);
+		let deltaX = Math.abs(newX - this.position.x);
+		let deltaZ = Math.abs(newZ - this.position.z);
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
-			this.mesh.positions[i] += parseFloat(this.position.z);
-			this.mesh.positions[i + 1] += parseFloat(this.position.x);
-			this.mesh.positions[i + 2] += parseFloat(this.position.y);
+			if (this.mesh.positions[i + 1] < newX)
+				this.mesh.positions[i + 1] += deltaX;
+			else this.mesh.positions[i + 1] -= deltaX;
+			if (this.mesh.positions[i] < newZ) this.mesh.positions[i] += deltaZ;
+			else this.mesh.positions[i] -= deltaZ;
+		}
+		this.position.x = newX;
+		this.position.z = newZ;
+	}
+
+	// Calcolo della nuova posizione della mesh (mesh.positions e mesh.normals).
+	// TODO: Chiedere al professore perchè rotazione + traslazione portano ad un movimento anomalo.
+	compute_idleAnimation(deltaY) {
+		this.offdeltaY = deltaY;
+		for (let i = 0; i < this.mesh.positions.length; i += 3) {
+			var pos = [];
+			var nor = [];
+
+			this.mesh.positions[i + 2] += deltaY;
+
+			pos.push(this.mesh.positions[i + 1] - this.position.x);
+			pos.push(this.mesh.positions[i + 2] - 1 - this.position.y);
+			pos.push(this.mesh.positions[i] - this.position.z);
+
+			nor.push(this.mesh.normals[i + 1]);
+			nor.push(this.mesh.normals[i + 2]);
+			nor.push(this.mesh.normals[i]);
+
+			var pos_res = m4.transformPoint(this.rotMat, pos);
+			var nor_res = m4.transformPoint(this.rotMat, nor);
+
+			this.mesh.positions[i + 1] = pos_res[0] + this.position.x;
+			this.mesh.positions[i + 2] = pos_res[1] + 1 + this.position.y;
+			this.mesh.positions[i] = pos_res[2] + this.position.z;
+
+			this.mesh.normals[i + 1] = nor_res[0];
+			this.mesh.normals[i + 2] = nor_res[1];
+			this.mesh.normals[i] = nor_res[2];
 		}
 	}
 
 	render(time, gl, light, program, camera, isScreen) {
+		
+		/********************************************************************************************/
 
 		let positionLocation = gl.getAttribLocation(program, "a_position");
 		let normalLocation = gl.getAttribLocation(program, "a_normal");
@@ -76,7 +114,7 @@ export class ObjectBehaviour {
 			this.mesh.shininess
 		);
 		gl.uniform1f(gl.getUniformLocation(program, "opacity"), this.mesh.opacity);
-		gl.uniform1f(gl.getUniformLocation(program, "uAlpha"), 1);
+        gl.uniform1f(gl.getUniformLocation(program, "uAlpha"), 0.5);
 		gl.enableVertexAttribArray(positionLocation);
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.positionBuffer);
 		const size = 3; // 3 components per iteration
@@ -152,7 +190,12 @@ export class ObjectBehaviour {
 		function drawScene(time, mesh) {
 			if (isScreen) gl.bindTexture(gl.TEXTURE_2D, mesh.mainTexture);
 			else gl.bindTexture(gl.TEXTURE_2D, mesh.sideTexture);
+
 			gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
+            gl.enable(gl.BLEND);
+			gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+			gl.enable(gl.DEPTH_TEST);
 
 			let matrix = m4.identity();
 			gl.uniformMatrix4fv(matrixLocation, false, matrix);
@@ -160,5 +203,5 @@ export class ObjectBehaviour {
 			gl.drawArrays(gl.TRIANGLES, 0, vertNumber);
 		}
 	}
-
+	
 }

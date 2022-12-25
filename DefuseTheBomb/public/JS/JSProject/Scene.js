@@ -1,5 +1,3 @@
-import { visibleLog } from "./ControlPanel.js";
-
 export class Scene {
 	/**
 	 * Costuctor of the class.
@@ -8,7 +6,7 @@ export class Scene {
 	 * @param {object} sceneObj - An array of objects that will be rendered in the scene.
 	 */
 	constructor(name = "defaultSceneComposition", sceneObj = []) {
-		this.sceneName;
+		this.sceneName = name;
 		this.sceneObj = sceneObj;
 	}
 
@@ -19,17 +17,19 @@ export class Scene {
 	 * @param {String} pathOBJ The path to the .obj file
 	 * @param {boolean} isPlayer A boolean that indicates if the object is the player
 	 * @param {boolean} isEnemy A boolean that indicates if the object is an enemy
+	 * @param {boolean} isVariant A boolean that indicates if the object is a buffer or debuffer of other objects
 	 * @param {boolean} idleAnimation A boolean that indicates if the object has an idle animation
 	 * @param {object} coords An object that contains the coordinates of the object inside the scene
 	 *
 	 * @returns {boolean} True if the object has been added, false otherwise
 	 */
-	addOBJToList(alias, pathOBJ, isPlayer, isEnemy, idleAnimation, coords) {
+	addOBJToList(alias, pathOBJ, isPlayer, isEnemy, isVariant, idleAnimation, coords) {
 		var newObj = {
 			alias: alias,
 			pathOBJ: pathOBJ,
 			isPlayer: isPlayer,
 			isEnemy: isEnemy,
+			isVariant: isVariant,
 			idleAnimation: idleAnimation,
 			coords: coords,
 		};

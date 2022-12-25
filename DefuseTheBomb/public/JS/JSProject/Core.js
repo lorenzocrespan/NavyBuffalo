@@ -6,7 +6,6 @@ import {
 	setReset,
 	getActive,
 	setActive,
-	visibleLog,
 } from "./ControlPanel.js";
 
 import { typeCamera, Camera, setCameraControls } from "./Agent/CameraAgent.js";
@@ -14,6 +13,7 @@ import { setPlayerControls } from "./Agent/PlayerAgent.js";
 import { CollisionAgent } from "./Agent/CollisionAgent.js";
 import { PlayerBehaviour } from "./OBJBehaviour/PlayerBehaviour.js";
 import { EnemyBehaviour } from "./OBJBehaviour/EnemyBehaviour.js";
+import { ModifierBehaviour } from "./OBJBehaviour/ModifierBehaviour.js";
 
 // WebGL context
 let glMainScreen;
@@ -42,8 +42,6 @@ export class Core {
 	 * @param {String} idSideCanvas Identifier of the canvas element (Side screen for the minimap).
 	 */
 	constructor(idMainCanvas, idSideCanvas) {
-		if (visibleLog) console.log("Core.js - Start WebGL Core initialization");
-
 		// Canvas and WebGL context initialization
 		this.mainCanvas = document.getElementById(idMainCanvas);
 		this.glMainScreen = this.mainCanvas.getContext("webgl");
@@ -64,8 +62,6 @@ export class Core {
 		// Movement and camera controls initialization
 		setPlayerControls(this.mainCanvas);
 		setCameraControls(this.mainCanvas);
-
-		if (visibleLog) console.log("Core.js - End WebGL Core initialization");
 	}
 
 	/**
@@ -74,8 +70,6 @@ export class Core {
 	 * @param {List} sceneComposition List of objects that will be rendered in the scene.
 	 */
 	setupScene(sceneComposition) {
-		if (visibleLog) console.log("Core.js - Start scene setup");
-
 		cameraMainScreen = new Camera(
 			typeCamera.MainCamera,
 			true,
@@ -84,7 +78,6 @@ export class Core {
 			[0, 0, 1],
 			70
 		);
-
 		cameraSideScreen = new Camera(
 			typeCamera.SideCamera,
 			false,
@@ -93,7 +86,6 @@ export class Core {
 			[0, 0, 0],
 			100
 		);
-
 		// Load all the meshes in the scene
 		for (const obj of sceneComposition.sceneObj) {
 			// Load the mesh
@@ -106,8 +98,6 @@ export class Core {
 				collisionAgent
 			);
 		}
-
-		if (visibleLog) console.log("Core.js - End scene setup");
 	}
 }
 
@@ -194,6 +184,17 @@ export function render(time = 0) {
 					// Update the player vector
 					if (isMainScreen) collisionAgent.check_collision_arena(elem);
 					if (isMainScreen) collisionAgent.checkCollisionEnemyWithEnemy(0.65);
+					elem.render(
+						time,
+						program[1],
+						{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
+						program[0],
+						actCamera,
+						isMainScreen,
+						false
+					);
+					break;
+				case elem instanceof ModifierBehaviour:
 					elem.render(
 						time,
 						program[1],

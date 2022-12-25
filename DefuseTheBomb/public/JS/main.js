@@ -15,10 +15,12 @@ let sceneComposition = new Scene();
 //		-	Arena
 //		-	Enemies
 //		-	Points
+//		-	Buffer/Debuffer
 //		-	Player
 sceneComposition.addOBJToList(
 	"Arena",
 	"./OBJModels/WHGArena.obj",
+	false,
 	false,
 	false,
 	false,
@@ -30,6 +32,7 @@ for (let i = 0; i < countEnemies; i++) {
 		"./OBJModels/WHGEnemy.obj",
 		false,
 		true,
+		false,
 		false,
 		{
 			x: Math.floor(Math.random() * 10 - 8),
@@ -45,31 +48,33 @@ for (let i = 0; i < countPoints; i++) {
 		false,
 		false,
 		true,
+		false,
 		{
 			x: -7,
 			y: -0.1,
 			z: 0,
 		}
 	);
-}
-/*
+};
 sceneComposition.addOBJToList(
 	"Player",
 	"./OBJModels/WHGPlayer.obj",
 	true,
 	false,
 	false,
+	false,
 	{ x: 0, y: 0, z: 0 }
 );
-*/
 sceneComposition.addOBJToList(
-	"Player",
+	"Modifier",
 	"./OBJModels/untitled.obj",
+	false,
+	false,
 	true,
 	false,
-	false,
-	{ x: 0, y: 0, z: 0 }
+	{ x: -7, y: 0, z: 0 }
 );
+
 
 let core = new Core("screenCanvas", "screenCanvasPlane");
 

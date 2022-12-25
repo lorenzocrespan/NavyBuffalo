@@ -1,5 +1,6 @@
 import { EnemyBehaviour } from "./OBJBehaviour/EnemyBehaviour.js";
 import { ObjectBehaviour } from "./OBJBehaviour/ObjectBehaviour.js";
+import { ModifierBehaviour } from "./OBJBehaviour/ModifierBehaviour.js";
 import { PlayerBehaviour } from "./OBJBehaviour/PlayerBehaviour.js";
 import { PointBehaviour } from "./OBJBehaviour/PointBeahaviour.js";
 
@@ -37,14 +38,17 @@ export class MeshLoader {
 	
 		// Add the mesh to the list of objects
 		switch (alias) {
-			case "Player":
-				this.objData.push(new PlayerBehaviour(alias, mesh, coords));
-				break;
-			case "Point":
-				this.objData.push(new PointBehaviour(alias, mesh, coords));
-				break;
 			case "Enemy":
 				this.objData.push(new EnemyBehaviour(alias, mesh, coords));
+				break;
+			case "Point":
+					this.objData.push(new PointBehaviour(alias, mesh, coords));
+				break;
+			case "Modifier":
+					this.objData.push(new ModifierBehaviour(alias, mesh, coords));
+				break;
+			case "Player":
+				this.objData.push(new PlayerBehaviour(alias, mesh, coords));
 				break;
 			default:
 				this.objData.push(new ObjectBehaviour(alias, mesh, coords));

@@ -159,7 +159,7 @@
 	uniform vec3 u_ambientLight;
 	uniform vec3 u_colorLight;
 	uniform sampler2D diffuseMap;
-
+	uniform float uAlpha;
 
 	void main () {
 		vec3 normal = normalize(v_normal);
@@ -179,7 +179,7 @@
 			ambient * u_ambientLight +
 			effectiveDiffuse * fakeLight +
 			specular * pow(specularLight, shininess),
-			effectiveOpacity);
+			uAlpha * effectiveOpacity);
 	}
 </script>
 
