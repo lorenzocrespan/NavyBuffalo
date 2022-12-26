@@ -1,7 +1,7 @@
-# Blender 3.3.0 MTL File: 'WHGArena.blend'
+# Blender 3.3.0 MTL File: 'Arena.blend'
 # www.blender.org
 
-newmtl EnemyTextute.001
+newmtl EnemyTextute
 Ns 145.574829
 Ka 1.000000 1.000000 1.000000
 Kd 0.800000 0.012957 0.029152

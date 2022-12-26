@@ -1,6 +1,6 @@
 # Blender 3.3.0
 # www.blender.org
-mtllib untitled.mtl
+mtllib Modifier.mtl
 o Variant
 v -1.000000 -2.004767 0.025778
 v -1.000000 -2.004767 2.025778
@@ -31,7 +31,7 @@ vt 0.625000 0.750000
 vt 0.375000 0.500000
 vt 0.625000 0.500000
 s 0
-usemtl Material.002
+usemtl ModifierTexture
 f 1/1/1 2/4/1 4/9/1 3/7/1
 f 3/7/2 4/9/2 8/14/2 7/13/2
 f 7/13/3 8/14/3 6/12/3 5/11/3

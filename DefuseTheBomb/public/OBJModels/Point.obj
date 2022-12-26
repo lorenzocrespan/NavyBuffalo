@@ -1,6 +1,6 @@
 # Blender 3.1.2
 # www.blender.org
-mtllib WHGPoint.mtl
+mtllib Point.mtl
 o Point_Malus_Buff
 v 0.077521 -0.279240 0.889100
 v 0.088013 -0.011688 0.702678
@@ -188,7 +188,7 @@ vt 0.772727 0.393651
 vt 0.500000 0.393651
 vt 0.590909 0.393651
 s 0
-usemtl PointTexture.001
+usemtl PointTexture
 f 1/1/1 13/24/1 14/26/1
 f 2/6/2 16/28/2 14/25/2
 f 1/2/3 18/32/3 13/23/3

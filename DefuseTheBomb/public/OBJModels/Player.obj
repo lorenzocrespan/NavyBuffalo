@@ -1,6 +1,6 @@
 # Blender 3.3.0
 # www.blender.org
-mtllib WHGPlayer.mtl
+mtllib Player.mtl
 o Player
 v -0.440037 -0.440037 0.500000
 v -0.440037 -0.500000 0.559963

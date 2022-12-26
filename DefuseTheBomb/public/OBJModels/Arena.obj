@@ -1,6 +1,6 @@
 # Blender 3.1.2
 # www.blender.org
-mtllib WHGArena.mtl
+mtllib Arena.mtl
 o Arena
 v 9.456884 -9.456884 0.500000
 v -9.456884 -9.456884 0.500000
@@ -870,10 +870,9 @@ vt 0.632120 0.743810
 vt 0.631789 0.743211
 vt 0.631673 0.743627
 s 0
-usemtl AranePlaneTexture
+usemtl AraneTexture
 f 2/2/5 3/3/5 4/4/5
 f 2/2/5 1/1/5 3/3/5
-usemtl ArenaTexture
 f 103/165/1 6/6/1 31/54/1
 f 87/143/2 30/53/2 43/76/2
 f 55/95/3 133/210/3 69/119/3

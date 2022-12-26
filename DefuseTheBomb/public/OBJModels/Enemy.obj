@@ -1,6 +1,6 @@
 # Blender 3.3.0
 # www.blender.org
-mtllib WHGEnemy.mtl
+mtllib Enemy.mtl
 o Enemy
 v -0.000000 0.439735 0.503896
 v -0.055828 0.490605 0.559994
@@ -3309,7 +3309,7 @@ vt 0.037898 0.971731
 vt 0.031250 0.985154
 vt 0.035535 0.985154
 s 0
-usemtl EnemyTextute.001
+usemtl EnemyTextute
 f 758/1422/1 2/2/1 747/1401/1
 f 62/117/2 74/140/2 51/96/2
 f 86/162/3 98/185/3 75/141/3
