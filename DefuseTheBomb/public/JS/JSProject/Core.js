@@ -128,7 +128,7 @@ export function initProgramRender() {
 // TODO: Spostare la gestione del pulsante al control panel
 document.getElementById("resetButton").onclick = function () {
 	meshlist.forEach((elem) => {
-		elem.reset_position();
+		elem.resetPosition();
 	});
 	setGameOver(false);
 	setReset(true);
@@ -157,7 +157,7 @@ export function render(time = 0) {
 					if (isMainScreen && getActive()) {
 						hitDeltaPosition = collisionAgent.checkCollisionEnemy(
 							elem.position,
-							elem.playerListener.delta,
+							elem.playerListener.movement,
 							15
 						);
 						if (hitDeltaPosition != null) {
@@ -165,7 +165,7 @@ export function render(time = 0) {
 						}
 						collisionAgent.checkCollisionPoint(
 							elem.position,
-							elem.playerListener.delta,
+							elem.playerListener.movement,
 							15
 						);
 					}
@@ -195,6 +195,9 @@ export function render(time = 0) {
 					);
 					break;
 				case elem instanceof ModifierBehaviour:
+					// Update information
+					if (isMainScreen) collisionAgent.checkOverlapModifier(elem);
+					// Update render
 					elem.render(
 						time,
 						program[1],

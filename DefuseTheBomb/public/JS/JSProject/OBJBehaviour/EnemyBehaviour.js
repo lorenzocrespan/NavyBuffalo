@@ -17,6 +17,7 @@ export class EnemyBehaviour extends ObjectBehaviour {
 	}
 
 	compute_enemy() {
+		
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
 			this.mesh.positions[i + 1] += this.vector.x;
 			this.mesh.positions[i] += this.vector.z;
@@ -24,6 +25,15 @@ export class EnemyBehaviour extends ObjectBehaviour {
 		this.position.x += this.vector.x;
 		this.position.z += this.vector.z;
 	}
+
+	increaseSpeed() {
+		this.speed += 0.005;
+	}
+
+	decreaseSpeed() {
+		this.speed -= 0.005;
+	}
+
 
 	render(time, gl, light, program, camera, isScreen) {
 		if (isScreen) this.compute_enemy();

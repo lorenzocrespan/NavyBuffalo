@@ -72,7 +72,7 @@ sceneComposition.addOBJToList(
 	false,
 	true,
 	false,
-	{ x: -7, y: 0, z: 0 }
+	{ x: -6, y: 0.1, z: 4 }
 );
 
 

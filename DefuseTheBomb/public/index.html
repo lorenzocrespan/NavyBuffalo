@@ -7,14 +7,14 @@
 	<link rel="stylesheet" href="style.css" />
 	<link rel="shortcut icon" href="#" />
 
-	<title>Defuses The Bomb</title>
+	<title>Navy Buffalo</title>
 </head>
 
-<body> 
-	<div class="h-full relative bg-gray-800">
+<body class="bg-gray-800"> 
+	<div class="h-full relative">
 		<section class="dark:text-gray-100">
 			<div class="container flex flex-col mx-auto md:py-8">
-				<h2 class="text-2xl font-semibold sm:text-6xl">Defuses The Bomb</h2>
+				<h2 class="text-2xl font-semibold sm:text-6xl">Navy Buffalo</h2>
 				<p class="my-8 dark:text-gray-400 sm:text-xl">
 					Disinnesca la bomba completando i minigiochi prima che il timer
 					scada. Attento a non fare troppi errori.
@@ -36,14 +36,6 @@
 						<h2 class="font-semibold  sm:text-3xl">Setup</h2>
 						<div class="flex flex-col space-y-4">
 							<div class="flex justify-center space-x-4">
-								<label class="dark:text-gray-400 grow" for="name">Difficoltà</label>
-								<select class="border-2 border-gray-300 text-gray-400 rounded-md p-2">
-									<option value="1">Facile</option>
-									<option value="2">Medio</option>
-									<option value="3">Difficile</option>
-								</select>
-							</div>
-							<div class="flex justify-center space-x-4">
 								<label class="dark:text-gray-400 grow" for="name">Max nemici</label>
 								<select class="border-2 border-gray-300 text-gray-400 rounded-md p-2">
 									<option value="1">1</option>
@@ -60,11 +52,6 @@
 								<label class="dark:text-gray-400" title="Spiegazione">?</label>
 							</div>
 							<div class="flex space-x-4 justify-center">
-								<label class="dark:text-gray-400 grow" for="name">Ombre</label>
-								<input type="checkbox" id="fullscreen" class="my-2" />
-								<label class="dark:text-gray-400" title="Spiegazione">?</label>
-							</div>
-							<div class="flex space-x-4 justify-center">
 								<label class="dark:text-gray-400 grow" for="name">Camera secondaria</label>
 								<input type="checkbox" id="fullscreen" class="my-2" />
 								<label class="dark:text-gray-400" title="Spiegazione">?</label>
@@ -76,44 +63,17 @@
 								onclick="resetGame()">
 								Reset
 						</div>
+						<div class="flex justify-center space-x-4">
+							<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+								id="resetButton"	
+								onclick="location.href='../doc/documentation.html'">
+								Documentazione
+						</div>
 					</div>
 				</div>
 			</div>
 		</section>
-		<section class="dark:text-gray-100">
-			<div class="container flex flex-col mx-auto md:p-8">
-				<h2 class="text-2xl font-semibold sm:text-5xl">
-					Impostazioni per Defuses The Bomb
-				</h2>
-				<p class="mt-4 mb-8 dark:text-gray-400"></p>
-				<div class="my-3 space-y-4">
-					<details class="w-full border rounded-lg">
-						<summary class="px-10 py-6 text-xl focus:outline-none">
-							Nominativo 1
-						</summary>
-						<p class="px-10 py-6 pt-2 -mt-3 text-xl dark:text-gray-400">
-							Spiegazione.
-						</p>
-					</details>
-					<details class="w-full border rounded-lg">
-						<summary class="px-10 py-6 text-xl focus:outline-none">
-							Nominativo 2
-						</summary>
-						<p class="px-10 py-6 pt-2 ml-4 -mt-4 text-xl dark:text-gray-400">
-							Spiegazione.
-						</p>
-					</details>
-					<details class="w-full border rounded-lg">
-						<summary class="px-10 py-6 text-xl focus:outline-none">
-							Nominativo 2
-						</summary>
-						<p class="px-10 py-6 pt-2 ml-4 -mt-4 text-xl dark:text-gray-400">
-							Spiegazione.
-						</p>
-					</details>
-				</div>
-			</div>
-		</section>
+
 	</div>
 </body>
 

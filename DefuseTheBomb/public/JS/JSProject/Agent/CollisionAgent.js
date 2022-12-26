@@ -2,6 +2,7 @@ import { setGameOver } from "../ControlPanel.js";
 import { EnemyBehaviour } from "../OBJBehaviour/EnemyBehaviour.js";
 import { PlayerBehaviour } from "../OBJBehaviour/PlayerBehaviour.js";
 import { PointBehaviour } from "../OBJBehaviour/PointBeahaviour.js";
+import { ModifierBehaviour } from "../OBJBehaviour/ModifierBehaviour.js";
 
 // TODO: Mettere in active il pulsante di reset solo a game over
 // TODO: Fare un pulsante di pause/play
@@ -14,8 +15,8 @@ export class CollisionAgent {
 		this.collisionPlayer;
 		this.collisionEnemy = [];
 		this.collisionPoint = [];
-		this.collisionUpgrade = [];
-		playerScore = 100;
+		this.collisionModifier = [];
+		playerScore = 0;
 		document.getElementById("playerScore").textContent = playerScore;
 	}
 
@@ -36,6 +37,8 @@ export class CollisionAgent {
 			case collisionObject instanceof PointBehaviour:
 				this.collisionPoint.push(collisionObject);
 				break;
+			case collisionObject instanceof ModifierBehaviour:
+				this.collisionModifier.push(collisionObject);
 			default:
 				break;
 		}
@@ -46,20 +49,45 @@ export class CollisionAgent {
 		console.log("CollisionAgent.js - Enemies: " + this.collisionEnemy.length);
 		console.log("CollisionAgent.js - Points: " + this.collisionPoint.length);
 		console.log(
-			"CollisionAgent.js - Upgrades: " + this.collisionUpgrade.length
+			"CollisionAgent.js - Upgrades: " + this.collisionModifier.length
 		);
 	}
 
 	printPlayerPosition() {
 		console.log(
 			"CollisionAgent.js - Player position: " +
-				this.collisionPlayer.position.x +
-				", " +
-				this.collisionPlayer.position.y +
-				", " +
-				this.collisionPlayer.position.z
+			this.collisionPlayer.position.x +
+			", " +
+			this.collisionPlayer.position.y +
+			", " +
+			this.collisionPlayer.position.z
 		);
 	}
+
+	checkOverlapModifier(modifier) {
+		// Check if the player is in the modifier area
+		if (this.checkOverlap(this.collisionPlayer, modifier.position, 1)){
+			console.log(modifier.isBuffer)
+			// Increase or decrease the player speed
+			if(modifier.isBuffer) this.collisionPlayer.decreaseSpeed();
+			else this.collisionPlayer.increaseSpeed();
+			// Change the modifier position
+			modifier.changePosition();
+			return;
+		}
+		// Check if the enemy is in the modifier area
+		for (let i = 0; i < this.collisionEnemy.length; i++) {
+			if (this.checkOverlap(this.collisionEnemy[i], modifier.position, 1)) {
+				// Increase or decrease the enemy speed
+				if(modifier.isBuffer) this.collisionEnemy[i].decreaseSpeed();
+				else this.collisionEnemy[i].increaseSpeed();
+				// Change the modifier position
+				modifier.changePosition();
+				return;
+			}
+		}
+	}
+
 
 	checkOverlap(enemy, player, radius) {
 		var distX = Math.abs(enemy.position.x - player.x - cubeDimension / 2);
@@ -89,11 +117,8 @@ export class CollisionAgent {
 		var dy = circle1.position.z - circle2.position.z;
 		var distance = Math.sqrt(dx * dx + dy * dy);
 
-		if (distance < radius) {
-			return true;
-		} else {
-			return false;
-		}
+		if (distance < radius) return true;
+		else return false;
 	}
 
 	checkCollisionEnemyWithEnemy(ray) {
@@ -110,7 +135,7 @@ export class CollisionAgent {
 						let dx = this.collisionEnemy[i].position.x - this.collisionEnemy[j].position.x;
 						let dz = this.collisionEnemy[i].position.z - this.collisionEnemy[j].position.z;
 						let collisionAngle = Math.atan2(dz, dx);
-						
+
 						let direction = Math.atan2(this.collisionEnemy[i].vector.z, this.collisionEnemy[i].vector.x);
 
 						let vectorX = 0.075 * Math.cos(collisionAngle);

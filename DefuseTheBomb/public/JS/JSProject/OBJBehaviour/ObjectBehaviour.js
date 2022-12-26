@@ -14,7 +14,7 @@ export class ObjectBehaviour {
 		this.compute_position();
 	}
 
-	reset_position() {
+	resetPosition() {
 		console.log("Reset position");
 	}
 

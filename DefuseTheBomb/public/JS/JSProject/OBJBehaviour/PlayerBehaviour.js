@@ -1,30 +1,30 @@
 import { ObjectBehaviour } from "./ObjectBehaviour.js";
-
 import { PlayerListener } from "../Agent/PlayerAgent.js";
+import { getActive } from "../ControlPanel.js";
 
 export class PlayerBehaviour extends ObjectBehaviour {
 
 	constructor(alias, mesh, offsets) {
 		super(alias, mesh, offsets);
+		// Original position of the player
 		this.originalPosition = {
-			x: offsets.x, // Posizione del "centro" dell'OBJ rispetto alla coordinata X
-			y: offsets.y, // Posizione del "centro" dell'OBJ rispetto alla coordinata Y
-			z: offsets.z, // Posizione del "centro" dell'OBJ rispetto alla coordinata Z
+			x: offsets.x,
+			z: offsets.z,
 		};
+		// Speed of the player
+		this.speed = 0.075;
 		this.playerListener = new PlayerListener();
 	}
 
-	reset_position() {
-		this.reset_mesh();
+	resetPosition() {
+		this.resetMesh();
 		this.position.x = this.originalPosition.x;
 		this.position.z = this.originalPosition.z;
 		this.playerListener.resetPosition();
 		this.playerListener.resetVector();
 	}
 
-	reset_mesh() {
-		console.log(this.position.x + " " + this.position.z);
-		console.log(this.originalPosition.x + " " + this.originalPosition.z);
+	resetMesh() {
 		let deltaX = Math.abs(this.position.x - this.originalPosition.x);
 		let deltaZ = Math.abs(this.position.z - this.originalPosition.z);
 		console.log(deltaX, deltaZ);
@@ -39,14 +39,16 @@ export class PlayerBehaviour extends ObjectBehaviour {
 	}
 
 	compute_player() {
+		let updatePositionFactorX = this.playerListener.movement.x * this.speed;
+		let updatePositionFactorZ = this.playerListener.movement.z * this.speed;
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
-			this.mesh.positions[i + 1] += this.playerListener.delta.x;
-			this.mesh.positions[i] += this.playerListener.delta.z;
+			this.mesh.positions[i + 1] += updatePositionFactorX;
+			this.mesh.positions[i] += updatePositionFactorZ;
 		}
-		this.position.x += this.playerListener.delta.x;
-		this.position.z += this.playerListener.delta.z;
-		this.playerListener.delta.x = 0;
-		this.playerListener.delta.z = 0;
+		this.position.x += updatePositionFactorX;
+		this.position.z += updatePositionFactorZ;
+		this.playerListener.movement.x = 0;
+		this.playerListener.movement.z = 0;
 	}
 
 	compute_player_after_collision(hitDeltaPosition) {
@@ -56,12 +58,22 @@ export class PlayerBehaviour extends ObjectBehaviour {
 		}
 		this.position.x += hitDeltaPosition.x;
 		this.position.z += hitDeltaPosition.z;
-		this.playerListener.delta.x = 0;
-		this.playerListener.delta.z = 0;
+		this.playerListener.movement.x = 0;
+		this.playerListener.movement.z = 0;
+	}
+
+	increaseSpeed() {
+		console.log("increase speed");
+		this.speed += 0.01;
+	}
+
+	decreaseSpeed() {
+		console.log("decrease speed");
+		this.speed -= 0.01;
 	}
 
 	render(time, gl, light, program, camera, isScreen, hitDeltaPosition, isReset) {
-		if (isReset) this.reset_position();
+		if (isReset) this.resetPosition();
 		if (isScreen) this.compute_player();
 		if (hitDeltaPosition) this.compute_player_after_collision(hitDeltaPosition);
 		/********************************************************************************************/
@@ -114,7 +126,7 @@ export class PlayerBehaviour extends ObjectBehaviour {
 			this.mesh.shininess
 		);
 		gl.uniform1f(gl.getUniformLocation(program, "opacity"), this.mesh.opacity);
-
+		if (!getActive()) gl.uniform1f(gl.getUniformLocation(program, "uAlpha"), 0.4);
 		gl.enableVertexAttribArray(positionLocation);
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.positionBuffer);
 		const size = 3; // 3 components per iteration
@@ -192,6 +204,10 @@ export class PlayerBehaviour extends ObjectBehaviour {
 			if (isScreen) gl.bindTexture(gl.TEXTURE_2D, mesh.mainTexture);
 			else gl.bindTexture(gl.TEXTURE_2D, mesh.sideTexture);
 			gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
+			gl.enable(gl.BLEND);
+			gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+			gl.enable(gl.DEPTH_TEST);
 
 			let matrix = m4.identity();
 			gl.uniformMatrix4fv(matrixLocation, false, matrix);

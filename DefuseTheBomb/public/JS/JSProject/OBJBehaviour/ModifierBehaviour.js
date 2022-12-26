@@ -1,5 +1,8 @@
 import { ObjectBehaviour } from "./ObjectBehaviour.js";
 
+let greenRGB = [0, 1, 0];
+let redRGB = [1, 0, 0];
+
 export class ModifierBehaviour extends ObjectBehaviour {
 	constructor(alias, mesh, offsets) {
 		super(alias, mesh, offsets);
@@ -8,12 +11,14 @@ export class ModifierBehaviour extends ObjectBehaviour {
 			y: offsets.y, // Posizione del "centro" dell'OBJ rispetto alla coordinata Y
 			z: offsets.z, // Posizione del "centro" dell'OBJ rispetto alla coordinata Z
 		};
-		this.ampWaveLimiter = 0.004;
-		let rotMatX = m4.xRotation(0.02);
-		let rotMatY = m4.yRotation(0.04);
-		this.rotMat = m4.multiply(rotMatX, rotMatY);
-		this.offdeltaY = 0;
+		this.isBuffer = 0;
 	}
+
+    changeColorModifier() {
+        this.isBuffer = Math.floor(Math.random() * 2);
+        if (this.isBuffer == 0) this.mesh.diffuse = greenRGB;
+        else this.mesh.diffuse = redRGB;
+    }
 
 	changePosition() {
 		let newX = Math.floor(Math.random() * 10 - 7);
@@ -29,41 +34,11 @@ export class ModifierBehaviour extends ObjectBehaviour {
 		}
 		this.position.x = newX;
 		this.position.z = newZ;
-	}
-
-	// Calcolo della nuova posizione della mesh (mesh.positions e mesh.normals).
-	// TODO: Chiedere al professore perchè rotazione + traslazione portano ad un movimento anomalo.
-	compute_idleAnimation(deltaY) {
-		this.offdeltaY = deltaY;
-		for (let i = 0; i < this.mesh.positions.length; i += 3) {
-			var pos = [];
-			var nor = [];
-
-			this.mesh.positions[i + 2] += deltaY;
-
-			pos.push(this.mesh.positions[i + 1] - this.position.x);
-			pos.push(this.mesh.positions[i + 2] - 1 - this.position.y);
-			pos.push(this.mesh.positions[i] - this.position.z);
-
-			nor.push(this.mesh.normals[i + 1]);
-			nor.push(this.mesh.normals[i + 2]);
-			nor.push(this.mesh.normals[i]);
-
-			var pos_res = m4.transformPoint(this.rotMat, pos);
-			var nor_res = m4.transformPoint(this.rotMat, nor);
-
-			this.mesh.positions[i + 1] = pos_res[0] + this.position.x;
-			this.mesh.positions[i + 2] = pos_res[1] + 1 + this.position.y;
-			this.mesh.positions[i] = pos_res[2] + this.position.z;
-
-			this.mesh.normals[i + 1] = nor_res[0];
-			this.mesh.normals[i + 2] = nor_res[1];
-			this.mesh.normals[i] = nor_res[2];
-		}
+        this.changeColorModifier()
 	}
 
 	render(time, gl, light, program, camera, isScreen) {
-		
+        
 		/********************************************************************************************/
 
 		let positionLocation = gl.getAttribLocation(program, "a_position");
@@ -114,7 +89,7 @@ export class ModifierBehaviour extends ObjectBehaviour {
 			this.mesh.shininess
 		);
 		gl.uniform1f(gl.getUniformLocation(program, "opacity"), this.mesh.opacity);
-        gl.uniform1f(gl.getUniformLocation(program, "uAlpha"), 0.5);
+        gl.uniform1f(gl.getUniformLocation(program, "uAlpha"), 0.4);
 		gl.enableVertexAttribArray(positionLocation);
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.positionBuffer);
 		const size = 3; // 3 components per iteration
