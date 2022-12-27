@@ -1,8 +1,6 @@
 import { arenaSide, originSpeed } from "../ControlPanel.js";
 import { setActive } from "../ControlPanel.js"
 
-
-
 let zMovement, xMovement;
 
 export class PlayerListener {
@@ -29,7 +27,7 @@ export class PlayerListener {
 		this.movement.z = xMovement;
 	}
 
-	resetPosition() {
+	resetData() {
 		zMovement = 0;
 		xMovement = 0;
 	}
@@ -40,7 +38,7 @@ export class PlayerListener {
 	}
 }
 
-export function setPlayerControls(canvas) {
+export function setPlayerControls() {
 
 	window.addEventListener("keydown", function (event) {
 		setActive(true);

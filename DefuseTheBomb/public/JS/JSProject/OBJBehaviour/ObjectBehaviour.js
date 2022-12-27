@@ -2,23 +2,21 @@
 export class ObjectBehaviour {
 
 	constructor(alias, mesh, offsets) {
-		// Parametri discriminanti dell'OBJ
-		this.alias = alias; // Nominativo dell'OBJ da renderizzare
-		// Parametri non discriminanti dell'OBJ
-		this.mesh = mesh; // Vettore contenente la posizione dei punti che compongono la mesh dell'OBJ
+		this.alias = alias;
+		this.mesh = mesh;
 		this.position = {
-			x: offsets.x, // Posizione del "centro" dell'OBJ rispetto alla coordinata X
-			y: offsets.y, // Posizione del "centro" dell'OBJ rispetto alla coordinata Y
-			z: offsets.z, // Posizione del "centro" dell'OBJ rispetto alla coordinata Z
+			x: offsets.x,
+			y: offsets.y,
+			z: offsets.z,
 		};
-		this.compute_position();
+		this.computePosition();
 	}
 
-	resetPosition() {
-		console.log("Reset position");
+	resetData() {
+		console.log("Reset position of " + this.alias + " object");
 	}
 
-	compute_position() {
+	computePosition() {
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
 			this.mesh.positions[i] += parseFloat(this.position.z);
 			this.mesh.positions[i + 1] += parseFloat(this.position.x);
@@ -27,7 +25,6 @@ export class ObjectBehaviour {
 	}
 
 	render(time, gl, light, program, camera, isScreen) {
-
 		let positionLocation = gl.getAttribLocation(program, "a_position");
 		let normalLocation = gl.getAttribLocation(program, "a_normal");
 		let texcoordLocation = gl.getAttribLocation(program, "a_texcoord");

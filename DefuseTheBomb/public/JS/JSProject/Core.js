@@ -128,7 +128,7 @@ export function initProgramRender() {
 // TODO: Spostare la gestione del pulsante al control panel
 document.getElementById("resetButton").onclick = function () {
 	meshlist.forEach((elem) => {
-		elem.resetPosition();
+		elem.resetData();
 	});
 	setGameOver(false);
 	setReset(true);
@@ -152,7 +152,7 @@ export function render(time = 0) {
 		meshlist.forEach((elem) => {
 			switch (true) {
 				case elem instanceof PlayerBehaviour:
-					// Update the player vector
+					// Update information
 					if (isMainScreen) elem.playerListener.updateVector(elem.position);
 					if (isMainScreen && getActive()) {
 						hitDeltaPosition = collisionAgent.checkCollisionEnemy(
@@ -160,17 +160,14 @@ export function render(time = 0) {
 							elem.playerListener.movement,
 							15
 						);
-						if (hitDeltaPosition != null) {
-							console.debug(hitDeltaPosition);
-						}
 						collisionAgent.checkCollisionPoint(
 							elem.position,
 							elem.playerListener.movement,
 							15
 						);
 					}
+					// Update render
 					elem.render(
-						time,
 						program[1],
 						{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
 						program[0],
@@ -185,7 +182,6 @@ export function render(time = 0) {
 					if (isMainScreen) collisionAgent.check_collision_arena(elem);
 					if (isMainScreen) collisionAgent.checkCollisionEnemyWithEnemy(0.65);
 					elem.render(
-						time,
 						program[1],
 						{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
 						program[0],

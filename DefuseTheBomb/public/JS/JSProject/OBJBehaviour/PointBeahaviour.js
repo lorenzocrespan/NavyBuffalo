@@ -4,14 +4,15 @@ export class PointBehaviour extends ObjectBehaviour {
 	constructor(alias, mesh, offsets) {
 		super(alias, mesh, offsets);
 		this.originalPosition = {
-			x: offsets.x, // Posizione del "centro" dell'OBJ rispetto alla coordinata X
-			y: offsets.y, // Posizione del "centro" dell'OBJ rispetto alla coordinata Y
-			z: offsets.z, // Posizione del "centro" dell'OBJ rispetto alla coordinata Z
+			x: offsets.x, 
+			y: offsets.y, 
+			z: offsets.z, 
 		};
 		this.ampWaveLimiter = 0.004;
-		let rotMatX = m4.xRotation(0.02);
 		let rotMatY = m4.yRotation(0.04);
-		this.rotMat = m4.multiply(rotMatX, rotMatY);
+		this.rotMat = rotMatY;
+		// let rotMatX = m4.xRotation(0.01);
+		// this.rotMat = m4.multiply(rotMatX, rotMatY);
 		this.offdeltaY = 0;
 	}
 
@@ -32,8 +33,7 @@ export class PointBehaviour extends ObjectBehaviour {
 	}
 
 	// Calcolo della nuova posizione della mesh (mesh.positions e mesh.normals).
-	// TODO: Chiedere al professore perchè rotazione + traslazione portano ad un movimento anomalo.
-	compute_idleAnimation(deltaY) {
+	computeIdleAnimation(deltaY) {
 		this.offdeltaY = deltaY;
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
 			var pos = [];
@@ -63,8 +63,9 @@ export class PointBehaviour extends ObjectBehaviour {
 	}
 
 	render(time, gl, light, program, camera, isScreen) {
-		if (isScreen)
-			this.compute_idleAnimation(Math.sin(time) * this.ampWaveLimiter);
+
+		if (isScreen) this.computeIdleAnimation(Math.sin(time) * this.ampWaveLimiter);
+		
 		/********************************************************************************************/
 
 		let positionLocation = gl.getAttribLocation(program, "a_position");

@@ -2,6 +2,7 @@ import {
 	disableDefaultPageScroll,
 	countEnemies,
 	countPoints,
+	countModifiers,
 } from "./JSProject/ControlPanel.js";
 import { Scene } from "./JSProject/Scene.js";
 import { Core, initProgramRender, render } from "./JSProject/Core.js";
@@ -65,16 +66,21 @@ sceneComposition.addOBJToList(
 	false,
 	{ x: 0, y: 0, z: 0 }
 );
-sceneComposition.addOBJToList(
-	"Modifier",
-	"./OBJModels/Modifier.obj",
-	false,
-	false,
-	true,
-	false,
-	{ x: -6, y: 0.1, z: 4 }
-);
-
+for (let i = 0; i < countModifiers; i++) {
+	sceneComposition.addOBJToList(
+		"Modifier",
+		"./OBJModels/Modifier.obj",
+		false,
+		false,
+		true,
+		false,
+		{ 
+			x: Math.floor(Math.random() * 10 - 4),
+			y: 0,
+			z: Math.floor(Math.random() * 10 - 4), 
+		}
+	);
+};
 
 let core = new Core("screenCanvas", "screenCanvasPlane");
 

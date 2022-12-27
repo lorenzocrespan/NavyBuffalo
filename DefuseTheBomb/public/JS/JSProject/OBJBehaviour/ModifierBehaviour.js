@@ -20,6 +20,7 @@ export class ModifierBehaviour extends ObjectBehaviour {
         else this.mesh.diffuse = redRGB;
     }
 
+	// TODO: Potenziale BUG 
 	changePosition() {
 		let newX = Math.floor(Math.random() * 10 - 7);
 		let newZ = Math.floor(Math.random() * 10 - 7);

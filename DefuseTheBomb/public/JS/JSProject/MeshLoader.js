@@ -1,8 +1,8 @@
-import { EnemyBehaviour } from "./OBJBehaviour/EnemyBehaviour.js";
 import { ObjectBehaviour } from "./OBJBehaviour/ObjectBehaviour.js";
-import { ModifierBehaviour } from "./OBJBehaviour/ModifierBehaviour.js";
 import { PlayerBehaviour } from "./OBJBehaviour/PlayerBehaviour.js";
+import { EnemyBehaviour } from "./OBJBehaviour/EnemyBehaviour.js";
 import { PointBehaviour } from "./OBJBehaviour/PointBeahaviour.js";
+import { ModifierBehaviour } from "./OBJBehaviour/ModifierBehaviour.js";
 
 export class MeshLoader {
 	/**

@@ -2,8 +2,9 @@
 export const visibleLog = false;
 
 // Counter for the number of objects that have to be added to the scene
-export let countEnemies = 1;
+export let countEnemies = 2;
 export let countPoints = 1;
+export let countModifiers = 3;
 
 // Camera data
 export let maxRadius = 30;
@@ -33,15 +34,19 @@ export function getReset() {
     return isReset;
 }
 
+
 export function setGameOver(isGameOverNew) {
     isGameOver = isGameOverNew;
 }
 
 export function getGameOver() {
+  
     return isGameOver;
 }
 
-document.getElementById("resetButton").onclick = function () { }
+document.getElementById("resetButton").onclick = function () {
+    console.log("va");
+}
 
 // Disable the default page scroll
 export function disableDefaultPageScroll() {

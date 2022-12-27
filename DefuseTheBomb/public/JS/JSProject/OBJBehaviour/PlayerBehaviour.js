@@ -6,39 +6,37 @@ export class PlayerBehaviour extends ObjectBehaviour {
 
 	constructor(alias, mesh, offsets) {
 		super(alias, mesh, offsets);
-		// Original position of the player
 		this.originalPosition = {
 			x: offsets.x,
 			z: offsets.z,
 		};
-		// Speed of the player
 		this.speed = 0.075;
 		this.playerListener = new PlayerListener();
 	}
 
-	resetPosition() {
+	resetData() {
 		this.resetMesh();
+		this.playerListener.resetData();
+		this.playerListener.resetVector();
+		this.speed = 0.075;
 		this.position.x = this.originalPosition.x;
 		this.position.z = this.originalPosition.z;
-		this.playerListener.resetPosition();
-		this.playerListener.resetVector();
 	}
 
 	resetMesh() {
-		let deltaX = Math.abs(this.position.x - this.originalPosition.x);
-		let deltaZ = Math.abs(this.position.z - this.originalPosition.z);
-		console.log(deltaX, deltaZ);
+		let deltaPositionMeshX = Math.abs(this.position.x - this.originalPosition.x);
+		let deltaPositionMeshZ = Math.abs(this.position.z - this.originalPosition.z);
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
 			if (this.position.x > this.originalPosition.x)
-				this.mesh.positions[i + 1] -= deltaX;
-			else this.mesh.positions[i + 1] += deltaX;
+				this.mesh.positions[i + 1] -= deltaPositionMeshX;
+			else this.mesh.positions[i + 1] += deltaPositionMeshX;
 			if (this.position.z > this.originalPosition.z)
-				this.mesh.positions[i] -= deltaZ;
-			else this.mesh.positions[i] += deltaZ;
+				this.mesh.positions[i] -= deltaPositionMeshZ;
+			else this.mesh.positions[i] += deltaPositionMeshZ;
 		}
 	}
 
-	compute_player() {
+	computePlayerPosition() {
 		let updatePositionFactorX = this.playerListener.movement.x * this.speed;
 		let updatePositionFactorZ = this.playerListener.movement.z * this.speed;
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
@@ -47,11 +45,9 @@ export class PlayerBehaviour extends ObjectBehaviour {
 		}
 		this.position.x += updatePositionFactorX;
 		this.position.z += updatePositionFactorZ;
-		this.playerListener.movement.x = 0;
-		this.playerListener.movement.z = 0;
 	}
 
-	compute_player_after_collision(hitDeltaPosition) {
+	computePlayerPositionCollision(hitDeltaPosition) {
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
 			this.mesh.positions[i + 1] += hitDeltaPosition.x;
 			this.mesh.positions[i] += hitDeltaPosition.z;
@@ -63,19 +59,19 @@ export class PlayerBehaviour extends ObjectBehaviour {
 	}
 
 	increaseSpeed() {
-		console.log("increase speed");
 		this.speed += 0.01;
 	}
 
 	decreaseSpeed() {
-		console.log("decrease speed");
 		this.speed -= 0.01;
 	}
 
-	render(time, gl, light, program, camera, isScreen, hitDeltaPosition, isReset) {
-		if (isReset) this.resetPosition();
-		if (isScreen) this.compute_player();
-		if (hitDeltaPosition) this.compute_player_after_collision(hitDeltaPosition);
+	render(gl, light, program, camera, isScreen, hitDeltaPosition, isReset) {
+
+		if (isReset) this.resetData();
+		if (isScreen) this.computePlayerPosition();
+		if (hitDeltaPosition) this.computePlayerPositionCollision(hitDeltaPosition);
+
 		/********************************************************************************************/
 
 		let positionLocation = gl.getAttribLocation(program, "a_position");
@@ -196,10 +192,10 @@ export class PlayerBehaviour extends ObjectBehaviour {
 		gl.uniform1i(textureLocation, 0);
 
 		let vertNumber = this.mesh.numVertices;
-		drawScene(0, this.mesh);
+		drawScene(this.mesh);
 
 		// Draw the scene.
-		function drawScene(time, mesh) {
+		function drawScene(mesh) {
 
 			if (isScreen) gl.bindTexture(gl.TEXTURE_2D, mesh.mainTexture);
 			else gl.bindTexture(gl.TEXTURE_2D, mesh.sideTexture);
@@ -208,7 +204,7 @@ export class PlayerBehaviour extends ObjectBehaviour {
 			gl.enable(gl.BLEND);
 			gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 			gl.enable(gl.DEPTH_TEST);
-
+			
 			let matrix = m4.identity();
 			gl.uniformMatrix4fv(matrixLocation, false, matrix);
 

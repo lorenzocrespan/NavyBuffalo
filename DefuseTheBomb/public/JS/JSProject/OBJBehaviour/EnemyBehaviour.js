@@ -6,8 +6,8 @@ export class EnemyBehaviour extends ObjectBehaviour {
 		this.speed = 0.075;
 		this.angle = Math.random() * 2 * Math.PI;
 		this.vector = {
-			x: this.speed*Math.cos(this.angle),
-			z: this.speed*Math.sin(this.angle),
+			x: Math.cos(this.angle),
+			z: Math.sin(this.angle),
 		};
 	}
 
@@ -17,26 +17,29 @@ export class EnemyBehaviour extends ObjectBehaviour {
 	}
 
 	compute_enemy() {
-		
+		let updatePositionFactorX = this.vector.x * this.speed;
+		let updatePositionFactorZ = this.vector.z * this.speed;
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
-			this.mesh.positions[i + 1] += this.vector.x;
-			this.mesh.positions[i] += this.vector.z;
+			this.mesh.positions[i + 1] += updatePositionFactorX;
+			this.mesh.positions[i] += updatePositionFactorZ;
 		}
-		this.position.x += this.vector.x;
-		this.position.z += this.vector.z;
+		this.position.x += updatePositionFactorX;
+		this.position.z += updatePositionFactorZ;
 	}
 
 	increaseSpeed() {
-		this.speed += 0.005;
+		this.speed += 0.01;
 	}
 
 	decreaseSpeed() {
-		this.speed -= 0.005;
+		this.speed -= 0.01;
 	}
 
 
-	render(time, gl, light, program, camera, isScreen) {
+	render(gl, light, program, camera, isScreen) {
+		
 		if (isScreen) this.compute_enemy();
+
 		/********************************************************************************************/
 
 		let positionLocation = gl.getAttribLocation(program, "a_position");
@@ -156,10 +159,10 @@ export class EnemyBehaviour extends ObjectBehaviour {
 		gl.uniform1i(textureLocation, 0);
 
 		let vertNumber = this.mesh.numVertices;
-		drawScene(0, this.mesh);
+		drawScene(this.mesh);
 
 		// Draw the scene.
-		function drawScene(time, mesh) {
+		function drawScene(mesh) {
 			if (isScreen) gl.bindTexture(gl.TEXTURE_2D, mesh.mainTexture);
 			else gl.bindTexture(gl.TEXTURE_2D, mesh.sideTexture);
 			gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
