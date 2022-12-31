@@ -153,19 +153,16 @@ export function render(time = 0) {
 			switch (true) {
 				case elem instanceof PlayerBehaviour:
 					// Update information
-					if (isMainScreen) elem.playerListener.updateVector(elem.position);
 					if (isMainScreen && getActive()) {
-						hitDeltaPosition = collisionAgent.checkCollisionEnemy(
-							elem.position,
-							elem.playerListener.movement,
-							15
-						);
-						collisionAgent.checkCollisionPoint(
-							elem.position,
-							elem.playerListener.movement,
-							15
-						);
+						hitDeltaPosition = 0;
+						// hitDeltaPosition = collisionAgent.checkCollisionEnemy(
+						// 	elem.position,
+						// 	elem.playerListener.movement,
+						// 	15
+						// );
+						collisionAgent.checkCollisionPoint(elem.position);
 					}
+					if (isMainScreen) elem.playerListener.updateVector(elem.position);
 					// Update render
 					elem.render(
 						program[1],

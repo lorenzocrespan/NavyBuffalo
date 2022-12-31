@@ -88,7 +88,19 @@ export class CollisionAgent {
 		}
 	}
 
+	checkOverlapCircleSquare(radius, circle, square) {
+		var vertexSquareX1 = square.x - radius;
+		var vertexSquareX2 = square.x + radius;
+		var elemX = Math.max(vertexSquareX1, Math.min(circle.position.x, vertexSquareX2));
+		var vertexSquareZ1 = square.z - radius;
+		var vertexSquareZ2 = square.z + radius;
+		var elemZ = Math.max(vertexSquareZ1, Math.min(circle.position.z, vertexSquareZ2));
 
+		var dx = circle.position.x - elemX;
+		var dy = circle.position.z - elemZ;
+
+		return (dx * dx + dy * dy) < (radius * radius);
+	}
 	checkOverlap(enemy, player, radius) {
 		var distX = Math.abs(enemy.position.x - player.x - cubeDimension / 2);
 		var distZ = Math.abs(enemy.position.z - player.z - cubeDimension / 2);
@@ -174,35 +186,16 @@ export class CollisionAgent {
 		}
 	}
 
-	checkCollisionPoint(positionOld, positionNew, precision) {
-		let collision = false;
-		let distanceX = positionNew.x / precision;
-		let distanceZ = positionNew.z / precision;
-		let position = {
-			x: positionOld.x,
-			z: positionOld.z,
-		};
+	checkCollisionPoint(position){
 		for (let i = 0; i < this.collisionPoint.length; i++) {
-			// Check if in intermediate positions there is a collision
-			for (let j = 0; j < precision; j++) {
-				position.x += distanceX;
-				position.z += distanceZ;
-				if (this.checkOverlap(this.collisionPoint[i], position, 0.5)) {
-					console.log("Collision with point");
-					// Setup new center of player
-					j += 30;
-					positionNew.x = j * distanceX;
-					positionNew.z = j * distanceZ;
-					playerScore += 1;
-					// Update html score
-					document.getElementById("playerScore").textContent = playerScore;
-					this.collisionPoint[i].changePosition();
-					collision = true;
-					break;
-				}
+			if (this.checkOverlapCircleSquare(0.3, this.collisionPoint[i], position)) {
+				playerScore += 1;
+				document.getElementById("playerScore").textContent = playerScore;
+				this.collisionPoint[i].changePosition();
+				return true;
 			}
-			return collision;
 		}
+		return false;
 	}
 
 	check_collision_arena(objElem) {
