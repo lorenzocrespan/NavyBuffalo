@@ -3,8 +3,8 @@ export const visibleLog = false;
 
 // Counter for the number of objects that have to be added to the scene
 export let countEnemies = 0;
-export let countPoints = 1;
-export let countModifiers = 0;
+export let countPoints = 0;
+export let countModifiers = 1;
 
 // Camera data
 export let maxRadius = 30;

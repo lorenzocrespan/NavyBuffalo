@@ -75,12 +75,13 @@ for (let i = 0; i < countModifiers; i++) {
 		true,
 		false,
 		{ 
-			x: Math.floor(Math.random() * 10 - 4),
+			x: 0,
 			y: 0,
-			z: Math.floor(Math.random() * 10 - 4), 
+			z: 0, 
 		}
 	);
 };
+
 
 let core = new Core("screenCanvas", "screenCanvasPlane");
 

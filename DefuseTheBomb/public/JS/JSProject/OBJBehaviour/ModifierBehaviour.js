@@ -22,6 +22,7 @@ export class ModifierBehaviour extends ObjectBehaviour {
 
 	// TODO: Potenziale BUG 
 	changePosition() {
+		console.log("changePosition");
 		let newX = Math.floor(Math.random() * 10 - 7);
 		let newZ = Math.floor(Math.random() * 10 - 7);
 		let deltaX = Math.abs(newX - this.position.x);

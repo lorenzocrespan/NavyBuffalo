@@ -7,7 +7,8 @@ import { ModifierBehaviour } from "../OBJBehaviour/ModifierBehaviour.js";
 // TODO: Mettere in active il pulsante di reset solo a game over
 // TODO: Fare un pulsante di pause/play
 
-let cubeDimension = 1;
+let cubeDimension = 1.0;
+let cubeModifierDimension = 2.0;
 let playerScore = 0;
 
 export class CollisionAgent {
@@ -64,30 +65,6 @@ export class CollisionAgent {
 		);
 	}
 
-	checkOverlapModifier(modifier) {
-		// Check if the player is in the modifier area
-		if (this.checkOverlap(this.collisionPlayer, modifier.position, 1)){
-			console.log(modifier.isBuffer)
-			// Increase or decrease the player speed
-			if(modifier.isBuffer) this.collisionPlayer.decreaseSpeed();
-			else this.collisionPlayer.increaseSpeed();
-			// Change the modifier position
-			modifier.changePosition();
-			return;
-		}
-		// Check if the enemy is in the modifier area
-		for (let i = 0; i < this.collisionEnemy.length; i++) {
-			if (this.checkOverlap(this.collisionEnemy[i], modifier.position, 1)) {
-				// Increase or decrease the enemy speed
-				if(modifier.isBuffer) this.collisionEnemy[i].decreaseSpeed();
-				else this.collisionEnemy[i].increaseSpeed();
-				// Change the modifier position
-				modifier.changePosition();
-				return;
-			}
-		}
-	}
-
 	checkOverlapCircleSquare(radius, circle, square) {
 		var vertexSquareX1 = square.x - radius;
 		var vertexSquareX2 = square.x + radius;
@@ -101,6 +78,38 @@ export class CollisionAgent {
 
 		return (dx * dx + dy * dy) < (radius * radius);
 	}
+
+	checkOverlapSquareSquare(square1, square2) {
+		
+		// Top Left coordinate of first square.
+		let l1 = {};
+		l1[0] = square1.x + cubeModifierDimension/2;
+		l1[1] = square1.z + cubeModifierDimension/2;
+
+		// Bottom Right coordinate of first square.
+		let r1 = {};
+		r1[0] = square1.x - cubeModifierDimension/2;
+		r1[1] = square1.z - cubeModifierDimension/2;
+
+		// Top Left coordinate of second square.
+		let l2 = {};
+		l2[0] = square2.x + cubeDimension/2;
+		l2[1] = square2.z + cubeDimension/2;
+
+		// Bottom Right coordinate of second square.
+		let r2 = {};
+		r2[0] = square2.x - cubeDimension/2;
+		r2[1] = square2.z - cubeDimension/2;
+  
+		// If one rectangle is on left side of other
+		if (l1[0] < r2[0] || l2[0] < r1[0]) return false;
+
+		// If one rectangle is above other
+		if (r1[1] > l2[1] || r2[1] > l1[1])	return false;
+
+		return true;
+}
+
 	checkOverlap(enemy, player, radius) {
 		var distX = Math.abs(enemy.position.x - player.x - cubeDimension / 2);
 		var distZ = Math.abs(enemy.position.z - player.z - cubeDimension / 2);
@@ -196,6 +205,50 @@ export class CollisionAgent {
 			}
 		}
 		return false;
+	}
+
+	checkCollisionModifier(modifier){
+		// Check if the player is in the modifier area
+		if (this.checkOverlapSquareSquare(modifier.position, this.collisionPlayer.position)){
+			// Increase or decrease the player speed
+			if(modifier.isBuffer) this.collisionPlayer.decreaseSpeed();
+			else this.collisionPlayer.increaseSpeed();
+			// Change the modifier position
+			modifier.changePosition();
+			return true;
+		}
+		// Check if the enemy is in the modifier area
+		for (let i = 0; i < this.collisionEnemy.length; i++) {
+			if (this.checkOverlapCircleSquare(0.3, this.collisionEnemy[i], modifier.position)) {
+				console.log("enemy")
+				return true;
+			}
+		}
+		return false;
+	}
+
+	checkOverlapModifier(modifier) {
+		// Check if the player is in the modifier area
+		if (this.checkOverlap(this.collisionPlayer, modifier.position, 1)){
+			console.log(modifier.isBuffer)
+			// Increase or decrease the player speed
+			if(modifier.isBuffer) this.collisionPlayer.decreaseSpeed();
+			else this.collisionPlayer.increaseSpeed();
+			// Change the modifier position
+			modifier.changePosition();
+			return;
+		}
+		// Check if the enemy is in the modifier area
+		for (let i = 0; i < this.collisionEnemy.length; i++) {
+			if (this.checkOverlap(this.collisionEnemy[i], modifier.position, 1)) {
+				// Increase or decrease the enemy speed
+				if(modifier.isBuffer) this.collisionEnemy[i].decreaseSpeed();
+				else this.collisionEnemy[i].increaseSpeed();
+				// Change the modifier position
+				modifier.changePosition();
+				return;
+			}
+		}
 	}
 
 	check_collision_arena(objElem) {

@@ -162,7 +162,7 @@ export function render(time = 0) {
 						// );
 						collisionAgent.checkCollisionPoint(elem.position);
 					}
-					if (isMainScreen) elem.playerListener.updateVector(elem.position);
+					
 					// Update render
 					elem.render(
 						program[1],
@@ -189,7 +189,8 @@ export function render(time = 0) {
 					break;
 				case elem instanceof ModifierBehaviour:
 					// Update information
-					if (isMainScreen) collisionAgent.checkOverlapModifier(elem);
+					if (isMainScreen) collisionAgent.checkCollisionModifier(elem);
+					// collisionAgent.checkOverlapModifier(elem);
 					// Update render
 					elem.render(
 						time,
@@ -224,6 +225,14 @@ export function render(time = 0) {
 		}
 	}
 	if (!getGameOver()) requestAnimationFrame(render);
+
+	meshlist.forEach((elem) => {
+		switch (true) {
+			case elem instanceof PlayerBehaviour:
+				if (isMainScreen) elem.playerListener.updateVector(elem.position);
+				break;
+		}
+	});
 
 
 }
