@@ -17,16 +17,14 @@ export class PointBehaviour extends ObjectBehaviour {
 	}
 
 	changePosition() {
-		let newX = Math.floor(Math.random() * 10 - 7);
-		let newZ = Math.floor(Math.random() * 10 - 7);
-		let deltaX = Math.abs(newX - this.position.x);
-		let deltaZ = Math.abs(newZ - this.position.z);
+		// Math.random() * (max - min) + min
+		let newX = Math.floor(Math.random() * 14 - 7);
+		let newZ = Math.floor(Math.random() * 14 - 7);
+		let deltaX = newX - this.position.x;
+		let deltaZ = newZ - this.position.z;
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
-			if (this.mesh.positions[i + 1] < newX)
-				this.mesh.positions[i + 1] += deltaX;
-			else this.mesh.positions[i + 1] -= deltaX;
-			if (this.mesh.positions[i] < newZ) this.mesh.positions[i] += deltaZ;
-			else this.mesh.positions[i] -= deltaZ;
+			this.mesh.positions[i + 1] += deltaX;
+			this.mesh.positions[i] += deltaZ;
 		}
 		this.position.x = newX;
 		this.position.z = newZ;

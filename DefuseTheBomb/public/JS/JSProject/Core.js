@@ -189,8 +189,7 @@ export function render(time = 0) {
 					break;
 				case elem instanceof ModifierBehaviour:
 					// Update information
-					if (isMainScreen) collisionAgent.checkCollisionModifier(elem);
-					// collisionAgent.checkOverlapModifier(elem);
+					if (isMainScreen) collisionAgent.checkOverlapModifier(elem);
 					// Update render
 					elem.render(
 						time,

@@ -8,7 +8,7 @@ import { ModifierBehaviour } from "../OBJBehaviour/ModifierBehaviour.js";
 // TODO: Fare un pulsante di pause/play
 
 let cubeDimension = 1.0;
-let cubeModifierDimension = 2.0;
+let cubeModifierDimension = 1.5;
 let playerScore = 0;
 
 export class CollisionAgent {
@@ -207,30 +207,10 @@ export class CollisionAgent {
 		return false;
 	}
 
-	checkCollisionModifier(modifier){
-		// Check if the player is in the modifier area
-		if (this.checkOverlapSquareSquare(modifier.position, this.collisionPlayer.position)){
-			// Increase or decrease the player speed
-			if(modifier.isBuffer) this.collisionPlayer.decreaseSpeed();
-			else this.collisionPlayer.increaseSpeed();
-			// Change the modifier position
-			modifier.changePosition();
-			return true;
-		}
-		// Check if the enemy is in the modifier area
-		for (let i = 0; i < this.collisionEnemy.length; i++) {
-			if (this.checkOverlapCircleSquare(0.3, this.collisionEnemy[i], modifier.position)) {
-				console.log("enemy")
-				return true;
-			}
-		}
-		return false;
-	}
-
 	checkOverlapModifier(modifier) {
 		// Check if the player is in the modifier area
 		if (this.checkOverlap(this.collisionPlayer, modifier.position, 1)){
-			console.log(modifier.isBuffer)
+			console.log("Player")
 			// Increase or decrease the player speed
 			if(modifier.isBuffer) this.collisionPlayer.decreaseSpeed();
 			else this.collisionPlayer.increaseSpeed();
@@ -240,6 +220,7 @@ export class CollisionAgent {
 		}
 		// Check if the enemy is in the modifier area
 		for (let i = 0; i < this.collisionEnemy.length; i++) {
+			console.log("Enemy")
 			if (this.checkOverlap(this.collisionEnemy[i], modifier.position, 1)) {
 				// Increase or decrease the enemy speed
 				if(modifier.isBuffer) this.collisionEnemy[i].decreaseSpeed();
