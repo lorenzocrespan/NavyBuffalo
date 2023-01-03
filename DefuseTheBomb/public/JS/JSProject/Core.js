@@ -176,8 +176,10 @@ export function render(time = 0) {
 					break;
 				case elem instanceof EnemyBehaviour:
 					// Update the player vector
-					if (isMainScreen) collisionAgent.check_collision_arena(elem);
-					if (isMainScreen) collisionAgent.checkCollisionEnemyWithEnemy(0.65);
+					if (isMainScreen){
+						collisionAgent.checkCollisionEnemyWithArena(elem);
+						collisionAgent.checkCollisionEnemyWithEnemy(0.90);
+					}
 					elem.render(
 						program[1],
 						{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },

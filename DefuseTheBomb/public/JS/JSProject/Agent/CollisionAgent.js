@@ -1,4 +1,4 @@
-import { setGameOver } from "../ControlPanel.js";
+import { setGameOver, arenaSide } from "../ControlPanel.js";
 import { EnemyBehaviour } from "../OBJBehaviour/EnemyBehaviour.js";
 import { PlayerBehaviour } from "../OBJBehaviour/PlayerBehaviour.js";
 import { PointBehaviour } from "../OBJBehaviour/PointBeahaviour.js";
@@ -137,35 +137,8 @@ export class CollisionAgent {
 		var dx = circle1.position.x - circle2.position.x;
 		var dy = circle1.position.z - circle2.position.z;
 		var distance = Math.sqrt(dx * dx + dy * dy);
-
 		if (distance < radius) return true;
 		else return false;
-	}
-
-	checkCollisionEnemyWithEnemy(ray) {
-		for (let i = 0; i < this.collisionEnemy.length; i++) {
-			for (let j = 0; j < this.collisionEnemy.length; j++) {
-				if (i != j) {
-					if (
-						this.checkOverlapCircle(
-							this.collisionEnemy[i],
-							this.collisionEnemy[j],
-							ray
-						)
-					) {
-						let dx = this.collisionEnemy[i].position.x - this.collisionEnemy[j].position.x;
-						let dz = this.collisionEnemy[i].position.z - this.collisionEnemy[j].position.z;
-						let collisionAngle = Math.atan2(dz, dx);
-
-						let direction = Math.atan2(this.collisionEnemy[i].vector.z, this.collisionEnemy[i].vector.x);
-
-						let vectorX = 0.075 * Math.cos(collisionAngle);
-						let vectorZ = 0.075 * Math.sin(collisionAngle);
-						this.collisionEnemy[i].changeDirection(vectorX, vectorZ);
-					}
-				}
-			}
-		}
 	}
 
 	/**
@@ -207,6 +180,7 @@ export class CollisionAgent {
 		return false;
 	}
 
+	// Check if the modifier is colliding with the player or the enemy
 	checkOverlapModifier(modifier) {
 		// Check if the player is in the modifier area
 		if (this.checkOverlap(this.collisionPlayer, modifier.position, 1)){
@@ -232,21 +206,37 @@ export class CollisionAgent {
 		}
 	}
 
-	check_collision_arena(objElem) {
-		let arenaBounde = 9;
+	// Check if the enemy is colliding with another enemy
+	checkCollisionEnemyWithEnemy(radius) {
+		for (let i = 0; i < this.collisionEnemy.length; i++) {
+			for (let j = 0; j < this.collisionEnemy.length; j++) {
+				if (i != j) {
+					if ( this.checkOverlapCircle(
+							this.collisionEnemy[i],
+							this.collisionEnemy[j],
+							radius)
+					) {
+						let dx = this.collisionEnemy[i].position.x - this.collisionEnemy[j].position.x;
+						let dz = this.collisionEnemy[i].position.z - this.collisionEnemy[j].position.z;
+						let collisionAngle = Math.atan2(dz, dx);
+						this.collisionEnemy[i].changeDirection(Math.cos(collisionAngle), Math.sin(collisionAngle));
+					}
+				}
+			}
+		}
+	}
+
+	// Check if the enemy is colliding with the arena
+	checkCollisionEnemyWithArena(objElem) {
 		for (let i = 0; i < objElem.mesh.positions.length; i += 3) {
-			if (objElem.mesh.positions[i + 1] >= arenaBounde) {
+			if (objElem.mesh.positions[i + 1] >= arenaSide)
 				objElem.vector.x *= -1;
-			}
-			if (objElem.mesh.positions[i + 1] <= -arenaBounde) {
+			if (objElem.mesh.positions[i + 1] <= -arenaSide)
 				objElem.vector.x *= -1;
-			}
-			if (objElem.mesh.positions[i] >= arenaBounde) {
+			if (objElem.mesh.positions[i] >= arenaSide)
 				objElem.vector.z *= -1;
-			}
-			if (objElem.mesh.positions[i] <= -arenaBounde) {
+			if (objElem.mesh.positions[i] <= -arenaSide)
 				objElem.vector.z *= -1;
-			}
 		}
 	}
 }

@@ -2,7 +2,7 @@
 export const visibleLog = false;
 
 // Counter for the number of objects that have to be added to the scene
-export let countEnemies = 0;
+export let countEnemies = 4;
 export let countPoints = 1;
 export let countModifiers = 0;
 
@@ -10,7 +10,7 @@ export let countModifiers = 0;
 export let maxRadius = 30;
 export let minRadius = 3;
 
-export let arenaSide = 8.925;
+export let arenaSide = 9;
 
 export let originSpeed = 0.075;
 
@@ -40,7 +40,7 @@ export function setGameOver(isGameOverNew) {
 }
 
 export function getGameOver() {
-  
+
     return isGameOver;
 }
 
