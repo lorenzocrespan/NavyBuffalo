@@ -154,15 +154,9 @@ export function render(time = 0) {
 				case elem instanceof PlayerBehaviour:
 					// Update information
 					if (isMainScreen && getActive()) {
-						hitDeltaPosition = 0;
-						// hitDeltaPosition = collisionAgent.checkCollisionEnemy(
-						// 	elem.position,
-						// 	elem.playerListener.movement,
-						// 	15
-						// );
+						collisionAgent.checkCollisionEnemy(elem.position);
 						collisionAgent.checkCollisionPoint(elem.position);
 					}
-					
 					// Update render
 					elem.render(
 						program[1],
@@ -191,7 +185,8 @@ export function render(time = 0) {
 					break;
 				case elem instanceof ModifierBehaviour:
 					// Update information
-					if (isMainScreen) collisionAgent.checkOverlapModifier(elem);
+					if (isMainScreen && getActive()) 
+						collisionAgent.checkOverlapModifier(elem);
 					// Update render
 					elem.render(
 						time,
