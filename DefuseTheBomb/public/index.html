@@ -30,17 +30,30 @@
 							</canvas>
 						</div>
 					</div>
-					<div class="flex flex-col space-y-4 items-center justify-center mx-auto">
+					<div class="flex flex-col space-x-4 space-y-4 items-center justify-center mx-auto">
 						<h2 class="font-semibold  sm:text-3xl">Punteggio</h2>
 						<div id="playerScore" class="font-semibold  sm:text-xl"></div>
 						<h2 class="font-semibold  sm:text-3xl">Move controls</h2>
-						<div class="flex">
-							<div id="movePlayerW" class="select-none bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50">W</div>
+						<div class="flex text-center">
+							<div id="movePlayerW" class="select-none w-14 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50">W</div>
 						</div>
-						<div class="flex space-x-4">
-							<div id="movePlayerA" class="select-none bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50">A</div>
-							<div id="movePlayerS" class="select-none bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50">S</div>
-							<div id="movePlayerD" class="select-none bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50">D</div>
+						<div class="flex space-x-4 text-center">
+							<div id="movePlayerA" class="select-none w-14 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50">A</div>
+							<div id="movePlayerS" class="select-none w-14 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50">S</div>
+							<div id="movePlayerD" class="select-none w-14 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50">D</div>
+						</div>
+						<h2 class="font-semibold  sm:text-3xl">Camera controls</h2>
+						<div class="flex space-x-4 text-center">
+							<div class="flex space-x-4 items-center">
+								<div id="rotateLeftCamera" class="select-none h-min bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50">Rotate Left</div>
+							</div>
+							<div class="flex-col space-y-4">
+								<div id="zoomCameraArrowUp" class="select-none bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50">Zoom In</div>
+								<div id="zoomCameraArrowDown" class="select-none bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50">Zoom Out</div>
+							</div>
+							<div class="flex space-x-4 items-center">
+								<div id="rotateRightCamera" class="select-none h-min bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50">Rotate Right</div>
+							</div>
 						</div>
 						<h2 class="font-semibold  sm:text-3xl">Impostazioni</h2>
 						<form class="flex flex-col justify-center">

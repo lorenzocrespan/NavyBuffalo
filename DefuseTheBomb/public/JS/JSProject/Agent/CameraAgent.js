@@ -4,6 +4,8 @@ let radius = 24;
 let updateCamera = true;
 let zoomIn = false;
 let zoomOut = false;
+let leftRotation = false;
+let rightRotation = false;
 let drag;
 let angleX = degToRad(180);
 let angleY = degToRad(45);
@@ -48,6 +50,16 @@ export class Camera {
 		}
 	}
 
+	smoothLeftRotation() {
+		angleX -= 0.01;
+		updateCamera = true;
+	}
+
+	smoothRightRotation() {
+		angleX += 0.01;
+		updateCamera = true;
+	}
+
 	smoothReset() {
 		if (angleX > degToRad(180)) angleX -= 0.01;
 		if (angleX < degToRad(180)) angleX += 0.01;
@@ -71,6 +83,8 @@ export class Camera {
 		if (isResetCamera) this.resetCamera();
 		if (zoomIn) this.smoothZoomIn();
 		if (zoomOut) this.smoothZoomOut();
+		if (leftRotation) this.smoothLeftRotation();
+		if (rightRotation) this.smoothRightRotation();
 		if (this.cameraControlsEnabled & updateCamera) {
 			this.position[0] = this.radiusModify(radius) * Math.cos(angleX);
 			this.position[1] = this.radiusModify(radius) * Math.sin(angleX);
@@ -96,9 +110,50 @@ export class Camera {
 	}
 }
 
-export function setCameraControls(canvas) {
-	// Mouse camera controls.
 
+export function setCameraControls(canvas) {
+	// Button camera controls.
+	document.getElementById("zoomCameraArrowUp").addEventListener("mousedown", function () {
+		zoomIn = true;
+		updateCamera = true;
+	});
+
+	document.getElementById("zoomCameraArrowUp").addEventListener("mouseup", function () {
+		zoomIn = false;
+		updateCamera = false;
+	});
+
+	document.getElementById("zoomCameraArrowDown").addEventListener("mousedown", function () {
+		zoomOut = true;
+		updateCamera = true;
+	});
+
+	document.getElementById("zoomCameraArrowDown").addEventListener("mouseup", function () {
+		zoomOut = false;
+		updateCamera = false;
+	});
+
+	document.getElementById("rotateLeftCamera").addEventListener("mousedown", function () {
+		leftRotation = true;
+		updateCamera = true;
+	});
+
+	document.getElementById("rotateLeftCamera").addEventListener("mouseup", function () {
+		leftRotation = false;
+		updateCamera = false;
+	});
+
+	document.getElementById("rotateRightCamera").addEventListener("mousedown", function () {
+		rightRotation = true;
+		updateCamera = true;
+	});
+
+	document.getElementById("rotateRightCamera").addEventListener("mouseup", function () {
+		rightRotation = false;
+		updateCamera = false;
+	});
+
+	// Mouse camera controls.
 	canvas.addEventListener("mousedown", function (event) {
 		drag = true;
 		(oldX = event.pageX), (oldY = event.pageY);
