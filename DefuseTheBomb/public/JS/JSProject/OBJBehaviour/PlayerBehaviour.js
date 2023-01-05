@@ -1,6 +1,6 @@
 import { ObjectBehaviour } from "./ObjectBehaviour.js";
 import { PlayerListener } from "../Agent/PlayerAgent.js";
-import { getActive } from "../ControlPanel.js";
+import { getActive, isTransparencyActive } from "../ControlPanel.js";
 
 export class PlayerBehaviour extends ObjectBehaviour {
 
@@ -201,10 +201,14 @@ export class PlayerBehaviour extends ObjectBehaviour {
 			else gl.bindTexture(gl.TEXTURE_2D, mesh.sideTexture);
 			gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
-			gl.enable(gl.BLEND);
-			gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+			if (isTransparencyActive) {
+				gl.enable(gl.BLEND);
+				gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+			} else {
+				gl.disable(gl.BLEND);
+			}
 			gl.enable(gl.DEPTH_TEST);
-			
+
 			let matrix = m4.identity();
 			gl.uniformMatrix4fv(matrixLocation, false, matrix);
 

@@ -18,6 +18,26 @@ let isActive = false;
 let isGameOver = false;
 let isReset = false;
 
+export let isSecondCameraActive = true;
+
+// Link checkbox to the variable isSecondCameraActive
+document.getElementById("secondCamera").onclick = function () {
+    isSecondCameraActive = !isSecondCameraActive;
+    // If false, hide the screenCanvasPlane
+    if (!isSecondCameraActive) {
+        document.getElementById("screenCanvasPlane").style.display = "none";
+    } else {
+        document.getElementById("screenCanvasPlane").style.display = "block";
+    }
+};
+
+export let isTransparencyActive = true;
+
+// Link checkbox to the variable isTransparencyActive
+document.getElementById("transparency").onclick = function () {
+    isTransparencyActive = !isTransparencyActive;
+};
+
 export function setActive(isActiveNew) {
     isActive = isActiveNew;
 }

@@ -40,6 +40,25 @@ export class PlayerListener {
 
 export function setPlayerControls() {
 
+	// Add button listener for the player
+	document.getElementById("movePlayerW").addEventListener("click", function () {
+		setActive(true);
+		xMovement = 1;
+	});
+	document.getElementById("movePlayerS").addEventListener("click", function () {
+		setActive(true);
+		xMovement = -1;
+	});
+	document.getElementById("movePlayerA").addEventListener("click", function () {
+		setActive(true);
+		zMovement = 1;
+	});
+	document.getElementById("movePlayerD").addEventListener("click", function () {
+		setActive(true);
+		zMovement = -1;
+	});
+
+
 	window.addEventListener("keydown", function (event) {
 		setActive(true);
 		// Change angle's movement for the player
