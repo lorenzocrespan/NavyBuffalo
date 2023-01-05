@@ -48,6 +48,7 @@ export function getActive() {
 
 export function setReset(isResetNew) {
     isReset = isResetNew;
+    document.getElementById("resetButton").disabled = true;
 }
 
 export function getReset() {
@@ -57,10 +58,10 @@ export function getReset() {
 
 export function setGameOver(isGameOverNew) {
     isGameOver = isGameOverNew;
+    document.getElementById("resetButton").disabled = false;
 }
 
 export function getGameOver() {
-
     return isGameOver;
 }
 
