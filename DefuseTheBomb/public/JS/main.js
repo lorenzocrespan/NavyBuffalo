@@ -75,9 +75,9 @@ for (let i = 0; i < countModifiers; i++) {
 		true,
 		false,
 		{ 
-			x: 0,
+			x: Math.floor(Math.random() * 14 - 7),
 			y: 0,
-			z: 0, 
+			z: Math.floor(Math.random() * 14 - 7), 
 		}
 	);
 };

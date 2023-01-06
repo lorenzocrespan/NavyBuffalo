@@ -1,42 +1,40 @@
 import { ObjectBehaviour } from "./ObjectBehaviour.js";
 import { isTransparencyActive } from "../ControlPanel.js";
+// import { CollisionAgent } from "../Agent/CollisionAgent.js";
+
+let collisionAgentModifier;
 let greenRGB = [0, 1, 0];
 let redRGB = [1, 0, 0];
 
 export class ModifierBehaviour extends ObjectBehaviour {
 	constructor(alias, mesh, offsets) {
 		super(alias, mesh, offsets);
-		this.originalPosition = {
-			x: offsets.x, // Posizione del "centro" dell'OBJ rispetto alla coordinata X
-			y: offsets.y, // Posizione del "centro" dell'OBJ rispetto alla coordinata Y
-			z: offsets.z, // Posizione del "centro" dell'OBJ rispetto alla coordinata Z
-		};
 		this.isBuffer = 0;
 	}
 
-    changeColorModifier() {
-        this.isBuffer = Math.floor(Math.random() * 2);
-        if (this.isBuffer == 0) this.mesh.diffuse = greenRGB;
-        else this.mesh.diffuse = redRGB;
-    }
-	
-	changePosition() {
+	changeColorModifier() {
+		this.isBuffer = Math.floor(Math.random() * 2);
+		if (this.isBuffer == 0) this.mesh.diffuse = greenRGB;
+		else this.mesh.diffuse = redRGB;
+	}
+
+	changePosition(newPosition) {
 		// Math.random() * (max - min) + min
-		let newX = Math.floor(Math.random() * 14 - 7);
-		let newZ = Math.floor(Math.random() * 14 - 7);
+		let newX = newPosition.position.x;
+		let newZ = newPosition.position.z;
 		let deltaX = newX - this.position.x;
 		let deltaZ = newZ - this.position.z;
-		for (let i = 0; i < this.mesh.positions.length; i += 3) {	
-				this.mesh.positions[i + 1] += deltaX;
-				this.mesh.positions[i] += deltaZ;
+		for (let i = 0; i < this.mesh.positions.length; i += 3) {
+			this.mesh.positions[i + 1] += deltaX;
+			this.mesh.positions[i] += deltaZ;
 		}
 		this.position.x = newX;
 		this.position.z = newZ;
-        this.changeColorModifier()
+		this.changeColorModifier()
 	}
 
 	render(time, gl, light, program, camera, isScreen) {
-        
+
 		/********************************************************************************************/
 
 		let positionLocation = gl.getAttribLocation(program, "a_position");
@@ -87,7 +85,7 @@ export class ModifierBehaviour extends ObjectBehaviour {
 			this.mesh.shininess
 		);
 		gl.uniform1f(gl.getUniformLocation(program, "opacity"), this.mesh.opacity);
-        gl.uniform1f(gl.getUniformLocation(program, "uAlpha"), 0.4);
+		gl.uniform1f(gl.getUniformLocation(program, "uAlpha"), 0.4);
 		gl.enableVertexAttribArray(positionLocation);
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.positionBuffer);
 		const size = 3; // 3 components per iteration
@@ -166,7 +164,7 @@ export class ModifierBehaviour extends ObjectBehaviour {
 
 			gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
-			if(isTransparencyActive){
+			if (isTransparencyActive) {
 				gl.enable(gl.BLEND);
 				gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 				gl.enable(gl.DEPTH_TEST);
@@ -180,5 +178,5 @@ export class ModifierBehaviour extends ObjectBehaviour {
 			gl.drawArrays(gl.TRIANGLES, 0, vertNumber);
 		}
 	}
-	
+
 }

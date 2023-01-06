@@ -34,6 +34,7 @@ export class CollisionAgent {
 				break;
 			case collisionObject instanceof ModifierBehaviour:
 				this.collisionModifier.push(collisionObject);
+				break;
 			default:
 				break;
 		}
@@ -53,33 +54,35 @@ export class CollisionAgent {
 		return (dx * dx + dy * dy) < (radius * radius);
 	}
 
-	checkOverlapSquareSquare(square1, square2) {
-		
+	checkOverlapSquareSquare(square1, square2, square1Dimension, square2Dimension) {
+
 		// Top Left coordinate of first square.
 		let l1 = {};
-		l1[0] = square1.x + cubeModifierDimension/2;
-		l1[1] = square1.z + cubeModifierDimension/2;
+		l1[0] = square1.x + square1Dimension / 2;
+		l1[1] = square1.z + square1Dimension / 2;
 
 		// Bottom Right coordinate of first square.
 		let r1 = {};
-		r1[0] = square1.x - cubeModifierDimension/2;
-		r1[1] = square1.z - cubeModifierDimension/2;
+		r1[0] = square1.x - square1Dimension / 2;
+		r1[1] = square1.z - square1Dimension / 2;
 
 		// Top Left coordinate of second square.
 		let l2 = {};
-		l2[0] = square2.x + cubeDimension/2;
-		l2[1] = square2.z + cubeDimension/2;
+		l2[0] = square2.x + square2Dimension / 2;
+		l2[1] = square2.z + square2Dimension / 2;
 
 		// Bottom Right coordinate of second square.
 		let r2 = {};
-		r2[0] = square2.x - cubeDimension/2;
-		r2[1] = square2.z - cubeDimension/2;
-  
+		r2[0] = square2.x - square2Dimension / 2;
+		r2[1] = square2.z - square2Dimension / 2;
+
 		// If one rectangle is on left side of other
-		if (l1[0] < r2[0] || l2[0] < r1[0]) return false;
+		if (l1[0] < r2[0] || l2[0] < r1[0])
+			return false;
 
 		// If one rectangle is above other
-		if (r1[1] > l2[1] || r2[1] > l1[1])	return false;
+		if (r1[1] > l2[1] || r2[1] > l1[1])
+			return false;
 
 		return true;
 	}
@@ -102,7 +105,7 @@ export class CollisionAgent {
 		return false;
 	}
 
-	checkCollisionPoint(position){
+	checkCollisionPoint(position) {
 		for (let i = 0; i < this.collisionPoint.length; i++) {
 			if (this.checkOverlapCircleSquare(0.3, this.collisionPoint[i], position)) {
 				playerScore += 1;
@@ -117,26 +120,48 @@ export class CollisionAgent {
 	// Check if the modifier is colliding with the player or the enemy
 	checkOverlapModifier(modifier) {
 		// Check if the player is in the modifier area
-		if (this.checkOverlapSquareSquare(this.collisionPlayer.position, modifier.position)){
-			console.log("Player")
+		if (this.checkOverlapSquareSquare(this.collisionPlayer.position, modifier.position, cubeDimension, cubeModifierDimension)) {
 			// Increase or decrease the player speed
-			if(modifier.isBuffer) this.collisionPlayer.decreaseSpeed();
+			if (modifier.isBuffer) this.collisionPlayer.decreaseSpeed();
 			else this.collisionPlayer.increaseSpeed();
+			// Search for a new position for the modifier
+			let newPosition = this.checkSafePositionModifier(modifier);
 			// Change the modifier position
-			modifier.changePosition();
+			modifier.changePosition(newPosition);
 			return;
 		}
 		// Check if the enemy is in the modifier area
 		for (let i = 0; i < this.collisionEnemy.length; i++) {
 			if (this.checkOverlapCircleSquare(1, this.collisionEnemy[i], modifier.position)) {
 				// Increase or decrease the enemy speed
-				if(modifier.isBuffer) this.collisionEnemy[i].decreaseSpeed();
+				if (modifier.isBuffer) this.collisionEnemy[i].decreaseSpeed();
 				else this.collisionEnemy[i].increaseSpeed();
+				// Search for a new position for the modifier
+				let newPosition = this.checkSafePositionModifier(modifier);
 				// Change the modifier position
-				modifier.changePosition();
+				modifier.changePosition(newPosition);
 				return;
 			}
 		}
+	}
+
+	checkSafePositionModifier(modifier) {
+		// Generate a new position for the modifier
+		let newX = Math.floor(Math.random() * 14 - 7);
+		let newZ = Math.floor(Math.random() * 14 - 7);
+		let newPosition = {
+			position: {
+				x: newX,
+				z: newZ,
+			},
+		};
+		// Check if the modifier is colliding with the player, the enemy or another modifier
+		for (let i = 0; i < this.collisionModifier.length; i++)
+			if (this.checkOverlapSquareSquare(newPosition.position, this.collisionModifier[i].position, cubeModifierDimension, cubeModifierDimension)) this.checkSafePositionModifier(modifier);
+		if (this.checkOverlapSquareSquare(newPosition.position, this.collisionPlayer.position, cubeModifierDimension, cubeDimension)) this.checkSafePositionModifier(modifier);
+		for (let i = 0; i < this.collisionEnemy.length; i++)
+			if (this.checkOverlapCircleSquare(1, this.collisionEnemy[i], newPosition.position)) this.checkSafePositionModifier(modifier);
+		return newPosition;
 	}
 
 	// Check if the enemy is colliding with another enemy
@@ -144,10 +169,10 @@ export class CollisionAgent {
 		for (let i = 0; i < this.collisionEnemy.length; i++) {
 			for (let j = 0; j < this.collisionEnemy.length; j++) {
 				if (i != j) {
-					if ( this.checkOverlapCircle(
-							this.collisionEnemy[i],
-							this.collisionEnemy[j],
-							radius)
+					if (this.checkOverlapCircle(
+						this.collisionEnemy[i],
+						this.collisionEnemy[j],
+						radius)
 					) {
 						let dx = this.collisionEnemy[i].position.x - this.collisionEnemy[j].position.x;
 						let dz = this.collisionEnemy[i].position.z - this.collisionEnemy[j].position.z;
