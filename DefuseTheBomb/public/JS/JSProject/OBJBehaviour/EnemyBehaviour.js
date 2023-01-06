@@ -1,5 +1,9 @@
 import { ObjectBehaviour } from "./ObjectBehaviour.js";
 
+let blinkState = false;
+let timeUsed = -1;
+let spawnTime = 5;
+
 export class EnemyBehaviour extends ObjectBehaviour {
 	constructor(alias, mesh, offsets) {
 		super(alias, mesh, offsets);
@@ -9,6 +13,8 @@ export class EnemyBehaviour extends ObjectBehaviour {
 			x: Math.cos(this.angle),
 			z: Math.sin(this.angle),
 		};
+		this.isSpawning = false;
+		this.isVisible = false;
 	}
 
 	changeDirection(vectorX, vectorZ) {
@@ -36,8 +42,8 @@ export class EnemyBehaviour extends ObjectBehaviour {
 	}
 
 
-	render(gl, light, program, camera, isScreen) {
-		
+	render(time, gl, light, program, camera, isScreen) {
+
 		if (isScreen) this.compute_enemy();
 
 		/********************************************************************************************/
@@ -90,6 +96,27 @@ export class EnemyBehaviour extends ObjectBehaviour {
 			this.mesh.shininess
 		);
 		gl.uniform1f(gl.getUniformLocation(program, "opacity"), this.mesh.opacity);
+
+		if(this.isVisible) gl.uniform1f(gl.getUniformLocation(program, "uAlpha"), 1);
+		else {
+			if (blinkState) gl.uniform1f(gl.getUniformLocation(program, "uAlpha"), 1);
+			else gl.uniform1f(gl.getUniformLocation(program, "uAlpha"), 0.5);
+		}
+		// Blinking effect for 5 seconds
+		if (this.isSpawning && isScreen) {
+			if (spawnTime > 0 && Math.floor(time) % 1 == 0 && Math.floor(time) != timeUsed) {
+				blinkState = !blinkState;
+				spawnTime -= 0.5;
+				timeUsed = Math.floor(time);
+			} 
+			if (spawnTime <= 0) {
+				console.log("spawned");
+				gl.uniform1f(gl.getUniformLocation(program, "uAlpha"), 1);
+				this.isSpawning = false;
+				this.isVisible = true;
+				spawnTime = 5;
+			}
+		}
 		gl.enableVertexAttribArray(positionLocation);
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.positionBuffer);
 		const size = 3; // 3 components per iteration
@@ -166,6 +193,9 @@ export class EnemyBehaviour extends ObjectBehaviour {
 			if (isScreen) gl.bindTexture(gl.TEXTURE_2D, mesh.mainTexture);
 			else gl.bindTexture(gl.TEXTURE_2D, mesh.sideTexture);
 			gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+
+			gl.enable(gl.BLEND);
+			gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
 			let matrix = m4.identity();
 			gl.uniformMatrix4fv(matrixLocation, false, matrix);

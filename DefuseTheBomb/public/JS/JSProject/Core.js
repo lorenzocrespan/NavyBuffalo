@@ -174,18 +174,21 @@ export function render(time = 0) {
 						break;
 					case elem instanceof EnemyBehaviour:
 						// Update the player vector
-						if (isMainScreen){
+						if (isMainScreen && (elem.isVisible || elem.isSpawning)){
 							collisionAgent.checkCollisionEnemyWithArena(elem);
 							collisionAgent.checkCollisionEnemyWithEnemy(0.90);
 						}
-						elem.render(
-							program[1],
-							{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
-							program[0],
-							actCamera,
-							isMainScreen,
-							false
-						);
+						if(elem.isVisible || elem.isSpawning){
+							elem.render(
+								time,
+								program[1],
+								{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
+								program[0],
+								actCamera,
+								isMainScreen,
+								false
+							);
+						}
 						break;
 					case elem instanceof ModifierBehaviour:
 						// Update information

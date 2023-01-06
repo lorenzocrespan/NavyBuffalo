@@ -27,21 +27,7 @@ sceneComposition.addOBJToList(
 	false,
 	{ x: 0, y: 0, z: 0 }
 );
-for (let i = 0; i < countEnemies; i++) {
-	sceneComposition.addOBJToList(
-		"Enemy",
-		"./OBJModels/Enemy.obj",
-		false,
-		true,
-		false,
-		false,
-		{
-			x: Math.floor(Math.random() * 10 - 8),
-			y: 0,
-			z: Math.floor(Math.random() * 10 - 8),
-		}
-	);
-}
+
 for (let i = 0; i < countPoints; i++) {
 	sceneComposition.addOBJToList(
 		"Point",
@@ -66,6 +52,21 @@ sceneComposition.addOBJToList(
 	false,
 	{ x: 0, y: 0, z: 0 }
 );
+for (let i = 0; i < countEnemies; i++) {
+	sceneComposition.addOBJToList(
+		"Enemy",
+		"./OBJModels/Enemy.obj",
+		false,
+		true,
+		false,
+		false,
+		{
+			x: Math.floor(Math.random() * 14 - 7),
+			y: 0,
+			z: Math.floor(Math.random() * 14 - 7),
+		}
+	);
+}
 for (let i = 0; i < countModifiers; i++) {
 	sceneComposition.addOBJToList(
 		"Modifier",

@@ -97,7 +97,7 @@ export class CollisionAgent {
 
 	checkCollisionEnemy(position) {
 		for (let i = 0; i < this.collisionEnemy.length; i++) {
-			if (this.checkOverlapCircleSquare(0.5, this.collisionEnemy[i], position)) {
+			if (this.collisionEnemy[i].isVisible && this.checkOverlapCircleSquare(0.5, this.collisionEnemy[i], position)) {
 				setGameOver(true);
 				return true;
 			}
@@ -110,6 +110,7 @@ export class CollisionAgent {
 			if (this.checkOverlapCircleSquare(0.3, this.collisionPoint[i], position)) {
 				playerScore += 1;
 				document.getElementById("playerScore").textContent = playerScore;
+				this.spawnEnemy();
 				this.collisionPoint[i].changePosition();
 				return true;
 			}
@@ -164,12 +165,26 @@ export class CollisionAgent {
 		return newPosition;
 	}
 
+	// Set visibility of enemy a true, if the playerScore is a multiple of 10
+	spawnEnemy() {
+		if (playerScore % 5 == 0) {
+			for (let i = 0; i < this.collisionEnemy.length; i++) {
+				if (!this.collisionEnemy[i].isVisible) {
+					this.collisionEnemy[i].isSpawning = true;
+					return;
+				}
+			}
+		}
+	}
+
 	// Check if the enemy is colliding with another enemy
 	checkCollisionEnemyWithEnemy(radius) {
 		for (let i = 0; i < this.collisionEnemy.length; i++) {
 			for (let j = 0; j < this.collisionEnemy.length; j++) {
 				if (i != j) {
-					if (this.checkOverlapCircle(
+					if (this.collisionEnemy[i].isVisible && 
+						this.collisionEnemy[j].isVisible && 
+						this.checkOverlapCircle(
 						this.collisionEnemy[i],
 						this.collisionEnemy[j],
 						radius)
