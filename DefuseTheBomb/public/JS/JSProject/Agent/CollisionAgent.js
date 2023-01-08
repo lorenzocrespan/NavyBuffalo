@@ -167,7 +167,7 @@ export class CollisionAgent {
 
 	// Set visibility of enemy a true, if the playerScore is a multiple of 10
 	spawnEnemy() {
-		if (playerScore % 5 == 0) {
+		if (playerScore % 1 == 0) {
 			for (let i = 0; i < this.collisionEnemy.length; i++) {
 				if (!this.collisionEnemy[i].isVisible) {
 					this.collisionEnemy[i].isSpawning = true;
@@ -175,6 +175,18 @@ export class CollisionAgent {
 				}
 			}
 		}
+	}
+
+	despawnAllEnemy() {
+		for (let i = 0; i < this.collisionEnemy.length; i++) {
+			this.collisionEnemy[i].isVisible = false;
+			this.collisionEnemy[i].isSpawning = false;
+		}
+	}
+
+	resetPlayerScore() {
+		playerScore = 0;
+		document.getElementById("playerScore").textContent = playerScore;
 	}
 
 	// Check if the enemy is colliding with another enemy

@@ -29,6 +29,18 @@
 								id="screenCanvasPlane" width="300" height="169">
 							</canvas>
 						</div>
+						<!-- Lost screen -->
+						<div id="lostScreen" class="absolute inset-0 z-20 hidden">
+							<!-- Background -->
+							<div class="absolute inset-0 bg-black opacity-50"></div>
+							<!-- Content -->
+							<div class="absolute inset-0 flex flex-col items-center justify-center space-y-4">
+								<h2 class="font-semibold text-3xl">Hai perso</h2>
+								<div class="flex space-x-4">
+									<button id="exitLostScreen" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Analizza mappa</button>
+								</div> 
+							</div> 
+						</div>
 					</div>
 					<div class="flex flex-col space-x-4 space-y-4 items-center justify-center mx-auto">
 						<h2 class="font-semibold  sm:text-3xl">Punteggio</h2>
@@ -58,13 +70,18 @@
 						<h2 class="font-semibold  sm:text-3xl">Impostazioni</h2>
 						<form class="flex flex-col justify-center">
 							<div class="flex space-x-4 justify-center">
-								<label class="dark:text-gray-400 grow" for="transparencyNameCheckbox">Trasparenza</label>
+								<label class="grow" for="transparencyNameCheckbox">Trasparenza</label>
 								<input type="checkbox" id="transparency" class="my-2" checked/>
 								<label class="dark:text-gray-400" title="Spiegazione">?</label>
 							</div>
 							<div class="flex space-x-4 justify-center">
-								<label class="dark:text-gray-400 grow" for="secondCameraNameCheckbox">Camera secondaria</label>
+								<label class="grow" for="secondCameraNameCheckbox">Camera secondaria</label>
 								<input type="checkbox" id="secondCamera" class="my-2" checked/>
+								<label class="dark:text-gray-400" title="Spiegazione">?</label>
+							</div>
+							<div class="flex space-x-4 justify-center">
+								<label class="grow" for="alternativeTextureNameCheckbox">Texture alternative</label>
+								<input type="checkbox" id="secondCamera" class="my-2"/>
 								<label class="dark:text-gray-400" title="Spiegazione">?</label>
 							</div>
 						</form>
@@ -72,7 +89,7 @@
 							<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-blue-500"
 								id="resetButton" disabled
 								>
-								Reset
+								Ricomincia
 						</div>
 						<div class="flex justify-center space-x-4">
 							<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"

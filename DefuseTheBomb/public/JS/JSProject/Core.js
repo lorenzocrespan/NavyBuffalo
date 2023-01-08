@@ -131,6 +131,8 @@ document.getElementById("resetButton").onclick = function () {
 	meshlist.forEach((elem) => {
 		elem.resetData();
 	});
+	collisionAgent.despawnAllEnemy();
+	collisionAgent.resetPlayerScore();
 	setGameOver(false);
 	setReset(true);
 	setActive(false);

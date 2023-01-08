@@ -31,6 +31,11 @@ document.getElementById("secondCamera").onclick = function () {
     }
 };
 
+document.getElementById("exitLostScreen").onclick = function () {
+    document.getElementById("lostScreen").style.display = "none";
+    // TODO: Free move the camera
+}
+
 export let isTransparencyActive = true;
 
 // Link checkbox to the variable isTransparencyActive
@@ -49,6 +54,7 @@ export function getActive() {
 export function setReset(isResetNew) {
     isReset = isResetNew;
     document.getElementById("resetButton").disabled = true;
+    document.getElementById("lostScreen").style.display = "none";
 }
 
 export function getReset() {
@@ -59,6 +65,8 @@ export function getReset() {
 export function setGameOver(isGameOverNew) {
     isGameOver = isGameOverNew;
     document.getElementById("resetButton").disabled = false;
+    // Show the lost screen
+    document.getElementById("lostScreen").style.display = "block";
 }
 
 export function getGameOver() {
