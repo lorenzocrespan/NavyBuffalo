@@ -1,4 +1,5 @@
 import { ObjectBehaviour } from "./ObjectBehaviour.js";
+import { getGameOver } from "../ControlPanel.js";
 
 let blinkState = false;
 let timeUsed = -1;
@@ -44,7 +45,7 @@ export class EnemyBehaviour extends ObjectBehaviour {
 
 	render(time, gl, light, program, camera, isScreen) {
 
-		if (isScreen) this.compute_enemy();
+		if (isScreen && !getGameOver()) this.compute_enemy();
 
 		/********************************************************************************************/
 

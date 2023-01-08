@@ -1,6 +1,7 @@
 import { ObjectBehaviour } from "./ObjectBehaviour.js";
 import { PlayerListener } from "../Agent/PlayerAgent.js";
-import { getActive, isTransparencyActive } from "../ControlPanel.js";
+import { getActive, isTransparencyActive, getGameOver } from "../ControlPanel.js";
+
 
 export class PlayerBehaviour extends ObjectBehaviour {
 
@@ -69,8 +70,7 @@ export class PlayerBehaviour extends ObjectBehaviour {
 	render(gl, light, program, camera, isScreen, hitDeltaPosition, isReset) {
 
 		if (isReset) this.resetData();
-		if (isScreen) this.computePlayerPosition();
-		if (hitDeltaPosition) this.computePlayerPositionCollision(hitDeltaPosition);
+		if (isScreen && !getGameOver()) this.computePlayerPosition();
 
 		/********************************************************************************************/
 

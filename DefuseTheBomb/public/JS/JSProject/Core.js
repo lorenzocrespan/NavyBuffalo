@@ -147,56 +147,40 @@ let hitDeltaPosition;
  */
 export function render(time = 0) {
 	for (const program of listPrograms) {
-		
-		if(!isSecondCameraActive && program[1] == glSideScreen) continue;
-		
-			cameraMainScreen.moveCamera();
 
-			// Convert to seconds
-			time *= 0.002;
+		if (!isSecondCameraActive && program[1] == glSideScreen) continue;
 
-			meshlist.forEach((elem) => {
-				switch (true) {
-					case elem instanceof PlayerBehaviour:
-						// Update information
-						if (isMainScreen && getActive()) {
-							collisionAgent.checkCollisionEnemy(elem.position);
-							collisionAgent.checkCollisionPoint(elem.position);
-						}
-						// Update render
-						elem.render(
-							program[1],
-							{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
-							program[0],
-							actCamera,
-							isMainScreen,
-							hitDeltaPosition,
-							false
-						);
-						break;
-					case elem instanceof EnemyBehaviour:
-						// Update the player vector
-						if (isMainScreen && (elem.isVisible || elem.isSpawning)){
-							collisionAgent.checkCollisionEnemyWithArena(elem);
-							collisionAgent.checkCollisionEnemyWithEnemy(0.90);
-						}
-						if(elem.isVisible || elem.isSpawning){
-							elem.render(
-								time,
-								program[1],
-								{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
-								program[0],
-								actCamera,
-								isMainScreen,
-								false
-							);
-						}
-						break;
-					case elem instanceof ModifierBehaviour:
-						// Update information
-						if (isMainScreen && getActive()) 
-							collisionAgent.checkOverlapModifier(elem);
-						// Update render
+		cameraMainScreen.moveCamera();
+
+		// Convert to seconds
+		time *= 0.002;
+
+		meshlist.forEach((elem) => {
+			switch (true) {
+				case elem instanceof PlayerBehaviour:
+					// Update information
+					if (isMainScreen && getActive() && !getGameOver()) {
+						collisionAgent.checkCollisionEnemy(elem.position);
+						collisionAgent.checkCollisionPoint(elem.position);
+					}
+					// Update render
+					elem.render(
+						program[1],
+						{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
+						program[0],
+						actCamera,
+						isMainScreen,
+						hitDeltaPosition,
+						false
+					);
+					break;
+				case elem instanceof EnemyBehaviour:
+					// Update the player vector
+					if (isMainScreen && (elem.isVisible || elem.isSpawning) && !getGameOver()) {
+						collisionAgent.checkCollisionEnemyWithArena(elem);
+						collisionAgent.checkCollisionEnemyWithEnemy(0.90);
+					}
+					if (elem.isVisible || elem.isSpawning) {
 						elem.render(
 							time,
 							program[1],
@@ -206,22 +190,38 @@ export function render(time = 0) {
 							isMainScreen,
 							false
 						);
-						break;
-					default:
-						elem.render(
-							time,
-							program[1],
-							{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
-							program[0],
-							actCamera,
-							isMainScreen,
-							collisionAgent
-						);
-						break;
-				}
-			});
+					}
+					break;
+				case elem instanceof ModifierBehaviour:
+					// Update information
+					if (isMainScreen && getActive() && !getGameOver())
+						collisionAgent.checkOverlapModifier(elem);
+					// Update render
+					elem.render(
+						time,
+						program[1],
+						{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
+						program[0],
+						actCamera,
+						isMainScreen,
+						false
+					);
+					break;
+				default:
+					elem.render(
+						time,
+						program[1],
+						{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
+						program[0],
+						actCamera,
+						isMainScreen,
+						collisionAgent
+					);
+					break;
+			}
+		});
 
-			if(isSecondCameraActive){
+		if (isSecondCameraActive) {
 			if (actCamera == cameraMainScreen) {
 				isMainScreen = false;
 				actCamera = cameraSideScreen;
@@ -229,18 +229,21 @@ export function render(time = 0) {
 				actCamera = cameraMainScreen;
 				isMainScreen = true;
 			}
-			}
-		
-	}
-	if (!getGameOver()) requestAnimationFrame(render);
-
-	meshlist.forEach((elem) => {
-		switch (true) {
-			case elem instanceof PlayerBehaviour:
-				if (isMainScreen) elem.playerListener.updateVector(elem.position);
-				break;
 		}
-	});
+
+	}
+
+	requestAnimationFrame(render);
+
+	if (!getGameOver()) {
+		meshlist.forEach((elem) => {
+			switch (true) {
+				case elem instanceof PlayerBehaviour:
+					if (isMainScreen) elem.playerListener.updateVector(elem.position);
+					break;
+			}
+		});
+	}
 
 
 }
