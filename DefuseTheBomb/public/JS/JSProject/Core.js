@@ -136,7 +136,6 @@ document.getElementById("resetButton").onclick = function () {
 	setGameOver(false);
 	setReset(true);
 	setActive(false);
-	render();
 };
 
 let hitDeltaPosition;
