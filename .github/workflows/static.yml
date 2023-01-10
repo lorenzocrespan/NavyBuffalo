@@ -37,6 +37,11 @@ jobs:
         with:
           # Upload entire repository
           path: './NavyBuffalo/public'
+      - name: Upload doc artifacts
+        uses: actions/upload-pages-artifact@v2
+        with:
+          # Upload entire repository
+          path: './NavyBuffalo/doc'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
