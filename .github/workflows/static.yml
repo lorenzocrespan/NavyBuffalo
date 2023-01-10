@@ -38,7 +38,7 @@ jobs:
           # Upload entire repository
           path: './NavyBuffalo/public'
       - name: Upload doc artifacts
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v1
         with:
           # Upload entire repository
           path: './NavyBuffalo/doc'
