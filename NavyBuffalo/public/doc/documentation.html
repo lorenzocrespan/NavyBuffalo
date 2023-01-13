@@ -10,110 +10,153 @@
 	<title>Navy Buffalo</title>
 </head>
 
-<body class="bg-gray-800"> 
+<body class="bg-gray-800 text-justify">
 	<div class="h-full relative dark:text-gray-100">
 		<section class="">
 			<div class="container flex flex-col mx-auto px-4 md:py-8">
 				<h2 class="text-2xl font-semibold sm:text-6xl">Navy Buffalo - Relazione</h2>
 				<!-- Table of contents -->
 				<div class="flex flex-col space-y-4 my-8">
-					<h2 class="text-2xl font-semibold sm:text-2xl">Indice</h2>
-					<ul class="list-disc list-inside">
-						<li><a href="#introduzione">Introduzione</a></li>
-						<li><a href="#spiegazione">Spiegazione del gioco</a></li>
-						<li><a href="#funzionalita">Funzionalità</a></li>
-						
-						<li><a href="#sviluppo">Sviluppo</a></li>
-						<li><a href="#foo">Conclusione</a></li>
+					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px]">Indice</h2>
+					<ul class="list-disc list-inside text-xl sm:text-xl dark:text-gray-400 space-y-1">
+						<li class="hover:text-white"><a href="#DescrizioneGioco">Descrizione gioco</a></li>
+						<ul class="list-disc list-inside ml-6">
+							<li class="hover:text-white"><a href="#DescrizioneFunzionamentoGioco">Descrizione del
+									funzionamento del gioco</a></li>
+							<li class="hover:text-white"><a href="#InformazioniAggiuntive">Informazioni aggiuntive</a>
+							</li>
+						</ul>
+						<li class="hover:text-white"><a href="#DescrizioneApplicazione">Sviluppo</a></li>
+						<ul class="list-disc list-inside ml-6">
+							<li class="hover:text-white"><a href="#StrutturaProgetto">Struttura progetto</a></li>
+							<li class="hover:text-white"><a href="#DescrizioneCore">Descrizione Core</a></li>
+							<li class="hover:text-white"><a href="#DescrizioneAgent">Descrizione Agent</a></li>
+							<li class="hover:text-white"><a href="#DescrizioneObject">Descrizione Object</a></li>
+						</ul>
 					</ul>
 				</div>
 
 				<!-- Back to main page button -->
 
-				<a href="../public/index.html" class="absolute top-0 left-0 mt-4 ml-4">
-					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+				<a href="../index.html" class="absolute top-0 left-0 mt-4 ml-4">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+						stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+							d="M10 19l-7-7m0 0l7-7m-7 7h18" />
 					</svg>
 				</a>
 
 				<!-- Back to top button absolute in the bottom right corner -->
 
 				<a href="#top" class="absolute bottom-0 right-0 mb-4 mr-4">
-					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+						stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+							d="M5 10l7-7m0 0l7 7m-7-7v18" />
 					</svg>
 				</a>
 
-
-				<!-- Introduzione -->
-
-				<div class="flex flex-col space-y-4 my-8">
-					<h2 class="text-2xl font-semibold sm:text-2xl">Introduzione</h2>
+				<div id="#DescrizioneGioco" class="flex flex-col space-y-4 my-8">
+					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px]">Descrizione gioco</h2>
 					<p class="my-8 dark:text-gray-400 sm:text-xl">
-						Navy Buffalo è un gioco sviluppato in JavaScript, HTML e CSS. Il gioco è stato sviluppato per il progetto finale del corso di Tecnologie Web dell'Università degli Studi di Padova.
+						Navy Buffalo è un gioco sviluppato in JavaScript, HTML e CSS. Il gioco è stato sviluppato per il
+						progetto finale del corso di Tecnologie Web dell'Università degli Studi di Padova.
 					</p>
 				</div>
 
-				<!-- Spiegazione del gioco -->
+				<div id="#DescrizioneFunzionamentoGioco" class="flex flex-col space-y-4 my-8">
+					<h2 class="text-xl font-semibold sm:text-xl border-b-[1px]">Descrizione del funzionamento del gioco
+					</h2>
+					<div class="">
+						<p class="my-8 dark:text-gray-400 sm:text-xl">
+							<img src="/public/doc/media/image/Scimmia_005.jpg" alt="NavalBattlefield" class=" float-right w-52 m-4">
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique
+							ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita
+							temporibus tempora voluptate aut perspiciatis.
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique
+							ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita
+							temporibus tempora voluptate aut perspiciatis.
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique
+							ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita
+							temporibus tempora voluptate aut perspiciatis.
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique
+							ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita
+							temporibus tempora voluptate aut perspiciatis. 
+							<img src="/public/doc/media/video/Scimmia_gif_1.gif" alt="NavalBattlefield" class=" float-left w-52 m-4">
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique
+							ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita
+							temporibus tempora voluptate aut perspiciatis.
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique
+							ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita
+							temporibus tempora voluptate aut perspiciatis.
+							
+							
+						</p>
+					</div>
+					
+				</div>
 
-				<div class="flex flex-col space-y-4 my-8">
-					<h2 class="text-2xl font-semibold sm:text-2xl">Spiegazione del gioco</h2>
+				<div id="#InformazioniAggiuntive" class="flex flex-col space-y-4 my-8">
+					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px]">Informazioni aggiuntive</h2>
 					<p class="my-8 dark:text-gray-400 sm:text-xl">
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita temporibus tempora voluptate aut perspiciatis.
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique
+						ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita
+						temporibus tempora voluptate aut perspiciatis.
 					</p>
 				</div>
 
 				<!-- Funzionalità -->
 
 				<div class="flex flex-col space-y-4 my-8">
-					<h2 class="text-2xl font-semibold sm:text-2xl">Funzionalità</h2>
+					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px]">Sviluppo</h2>
 					<p class="my-8 dark:text-gray-400 sm:text-xl">
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita temporibus tempora voluptate aut perspiciatis.
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique
+						ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita
+						temporibus tempora voluptate aut perspiciatis.
 					</p>
 				</div>
 
 				<!-- Sviluppo -->
 
 				<div class="flex flex-col space-y-4 my-8">
-					<h2 class="text-2xl font-semibold sm:text-2xl">Sviluppo</h2>
+					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px]">Struttura progetto</h2>
 					<p class="my-8 dark:text-gray-400 sm:text-xl">
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita temporibus tempora voluptate aut perspiciatis.
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique
+						ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita
+						temporibus tempora voluptate aut perspiciatis.
 					</p>
 				</div>
 
 				<!-- Sviluppo -->
 
 				<div class="flex flex-col space-y-4 my-8">
-					<h2 class="text-2xl font-semibold sm:text-2xl">Sviluppo</h2>
+					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px]">Descrizione Core</h2>
 					<p class="my-8 dark:text-gray-400 sm:text-xl">
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita temporibus tempora voluptate aut perspiciatis.
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique
+						ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita
+						temporibus tempora voluptate aut perspiciatis.
 					</p>
 				</div>
 
 				<!-- Sviluppo -->
 
 				<div class="flex flex-col space-y-4 my-8">
-					<h2 class="text-2xl font-semibold sm:text-2xl">Sviluppo</h2>
+					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px]">Descrizione Agent</h2>
 					<p class="my-8 dark:text-gray-400 sm:text-xl">
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita temporibus tempora voluptate aut perspiciatis.
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique
+						ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita
+						temporibus tempora voluptate aut perspiciatis.
 					</p>
 				</div>
 
 				<!-- Sviluppo -->
 
 				<div class="flex flex-col space-y-4 my-8">
-					<h2 class="text-2xl font-semibold sm:text-2xl">Sviluppo</h2>
+					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px]">Descrizione Object</h2>
 					<p class="my-8 dark:text-gray-400 sm:text-xl">
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita temporibus tempora voluptate aut perspiciatis.
-					</p>
-				</div>
-
-				<!-- Sviluppo -->
-
-				<div id="foo" class="flex flex-col space-y-4 my-8">
-					<h2 class="text-2xl font-semibold sm:text-2xl">Sviluppo</h2>
-					<p class="my-8 dark:text-gray-400 sm:text-xl">
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita temporibus tempora voluptate aut perspiciatis.
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique
+						ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita
+						temporibus tempora voluptate aut perspiciatis.
 					</p>
 				</div>
 
