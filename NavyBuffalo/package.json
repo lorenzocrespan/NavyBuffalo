@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build_page": "postcss ./src/css/tailwind.css -o ./public/style.css --watch"
+    "Update Tailwind CSS": "postcss ./src/css/tailwind.css -o ./public/style.css --watch"
   },
   "keywords": [],
   "author": "",

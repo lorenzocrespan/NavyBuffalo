@@ -5,19 +5,14 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="stylesheet" href="style.css" />
-	<link rel="shortcut icon" href="#" />
-
 	<title>Navy Buffalo</title>
 </head>
 
-<body class="bg-gray-800"> 
+<body class="bg-gray-800 text-justify">
 	<div class="h-full relative">
 		<section class="dark:text-gray-100">
-			<div class="container flex flex-col mx-auto px-4 md:py-8">
-				<h2 class="text-2xl font-semibold sm:text-6xl">Navy Buffalo</h2>
-				<p class="my-8 dark:text-gray-400 sm:text-xl">
-					Ottieni il punteggio più alto possibile, evitando i nemici e raccogliendo i punti.
-				</p>
+			<div class="max-w-fit flex flex-col mx-auto px-4 md:py-8">
+				<h2 class="text-2xl font-semibold mb-8 sm:text-6xl">Navy Buffalo</h2>
 				<div class="flex items-center justify-center">
 					<div class="relative bg-slate-400 mx-auto">
 						<canvas class="bg-blue-300 rounded-md border-2 border-slate-400" id="screenCanvas" width="1280"
@@ -36,9 +31,11 @@
 							<div class="absolute inset-0 flex flex-col items-center justify-center space-y-4">
 								<h2 class="font-semibold text-3xl">Hai perso</h2>
 								<div class="flex space-x-4">
-									<button id="exitLostScreen" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Analizza mappa</button>
-								</div> 
-							</div> 
+									<button id="exitLostScreen"
+										class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Analizza
+										mappa</button>
+								</div>
+							</div>
 						</div>
 					</div>
 					<div class="flex flex-col space-x-4 space-y-4 items-center justify-center mx-auto">
@@ -46,63 +43,143 @@
 						<div id="playerScore" class="font-semibold  sm:text-xl"></div>
 						<h2 class="font-semibold  sm:text-3xl">Move controls</h2>
 						<div class="flex text-center">
-							<div id="movePlayerW" class="select-none w-14 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50">W</div>
+							<div id="movePlayerW"
+								class="select-none w-14 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50">
+								W</div>
 						</div>
 						<div class="flex space-x-4 text-center">
-							<div id="movePlayerA" class="select-none w-14 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50">A</div>
-							<div id="movePlayerS" class="select-none w-14 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50">S</div>
-							<div id="movePlayerD" class="select-none w-14 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50">D</div>
+							<div id="movePlayerA"
+								class="select-none w-14 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50">
+								A</div>
+							<div id="movePlayerS"
+								class="select-none w-14 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50">
+								S</div>
+							<div id="movePlayerD"
+								class="select-none w-14 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50">
+								D</div>
 						</div>
 						<h2 class="font-semibold  sm:text-3xl">Camera controls</h2>
 						<div class="flex space-x-4 text-center">
 							<div class="flex space-x-4 items-center">
-								<div id="rotateLeftCamera" class="select-none h-min bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50">Rotate Left</div>
+								<div id="rotateLeftCamera"
+									class="select-none h-min bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50">
+									Rotate Left</div>
 							</div>
 							<div class="flex-col space-y-4">
-								<div id="zoomCameraArrowUp" class="select-none bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50">Zoom In</div>
-								<div id="zoomCameraArrowDown" class="select-none bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50">Zoom Out</div>
+								<div id="zoomCameraArrowUp"
+									class="select-none bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50">
+									Zoom In</div>
+								<div id="zoomCameraArrowDown"
+									class="select-none bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50">
+									Zoom Out</div>
 							</div>
 							<div class="flex space-x-4 items-center">
-								<div id="rotateRightCamera" class="select-none h-min bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50">Rotate Right</div>
+								<div id="rotateRightCamera"
+									class="select-none h-min bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md disabled:opacity-50">
+									Rotate Right</div>
 							</div>
 						</div>
 						<h2 class="font-semibold  sm:text-3xl">Impostazioni</h2>
 						<form class="flex flex-col justify-center">
 							<div class="flex space-x-4 justify-center">
 								<label class="grow" for="transparencyNameCheckbox">Trasparenza</label>
-								<input type="checkbox" id="transparency" class="my-2" checked/>
+								<input type="checkbox" id="transparency" class="my-2" checked />
 								<label class="dark:text-gray-400" title="Spiegazione">?</label>
 							</div>
 							<div class="flex space-x-4 justify-center">
 								<label class="grow" for="secondCameraNameCheckbox">Camera secondaria</label>
-								<input type="checkbox" id="secondCamera" class="my-2" checked/>
+								<input type="checkbox" id="secondCamera" class="my-2" checked />
 								<label class="dark:text-gray-400" title="Spiegazione">?</label>
 							</div>
 							<div class="flex space-x-4 justify-center">
 								<label class="grow" for="alternativeTextureNameCheckbox">Texture alternative</label>
-								<input type="checkbox" id="secondCamera" class="my-2"/>
+								<input type="checkbox" id="secondCamera" class="my-2" />
 								<label class="dark:text-gray-400" title="Spiegazione">?</label>
 							</div>
 						</form>
 						<div class="flex justify-center space-x-4">
-							<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-blue-500"
-								id="resetButton" disabled
-								>
+							<button
+								class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-blue-500"
+								id="resetButton" disabled>
 								Ricomincia
 						</div>
 						<div class="flex justify-center space-x-4">
 							<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-								id="docButton"	
-								onclick="location.href='./doc/documentation.html'">
+								id="docButton" onclick="location.href='./doc/documentation.html'">
 								Documentazione
 						</div>
 					</div>
 				</div>
 				<div class="flex flex-col space-y-4 my-8">
-					<h2 class="text-2xlfont-semibold sm:text-2xl">Spiegazione del gioco</h2>
+					<h2 class="text-2xl font-semibold sm:text-2xl">Spiegazione del gioco</h2>
 					<p class="my-8 dark:text-gray-400 sm:text-xl">
-						Il gioco consiste...
+						Il gioco consiste nel controllare i movimenti del <a class="dark: text-blue-500">cubo</a> in
+						moda da raccogliere il
+						maggiore numero di <a class="dark: text-green-500">sfere</a> evitando i <a
+							class="dark: text-red-500">cilindri</a> e
+						decidendo in modo opportuno se raccogliere un <a class="dark: text-green-300">buff</a> o un <a
+							class="dark: text-red-400">debuff</a>.
+
 					</p>
+					<p class="my-8 dark:text-gray-400 sm:text-xl">
+						Attenzione che con l'avanzare del punteggio il gioco diventa sempre più difficile!
+					</p>
+					<div class="flex flex-row space-x-8">
+						<div class="flex flex-col">
+							<h2 class="text-2xl font-semibold sm:text-2xl">Comandi</h2>
+							<div class="flex flex-row space-x-8 my-2">
+								<ul class="dark:text-gray-400 sm:text-xl list-disc">
+									<b class="dark:text-gray-200">Comandi giocatore</b>
+									<div class="ml-6 space-y-3 my-3 max-w-lg">
+										<li class="dark:text-gray-400 sm:text-xl">
+											<b>W</b> e <b>S</b> per muovere il giocatore in avanti e indietro.
+										</li>
+										<li class="dark:text-gray-400 sm:text-xl">
+											<b>A</b> e <b>D</b> per muovere il giocatore a sinistra e a destra.
+										</li>
+									</div>
+									<li class="dark:text-gray-400 sm:text-xl list-none max-w-lg">
+										<b class="dark: text-red-500">Nota</b>: Il giocatore quando combina un movimento
+										verticale con un movimento orizzontale, si muove in diagonale per il resto della
+										partita, a meno che non vada a toccare un muro.
+								</ul>
+								<ul class="dark:text-gray-400 sm:text-xl list-disc">
+									<b class="dark:text-gray-200">Comandi camera</b>
+									<div class="ml-6 space-y-3 my-3 max-w-lg">
+										<li class="dark:text-gray-400 sm:text-xl">
+											<b>Freccia sinistra</b> e <b>freccia destra</b> per ruotare la camera,
+											rispettivamente a destra e a sinistra.
+										</li>
+										<li class="dark:text-gray-400 sm:text-xl">
+											<b>Freccia su</b> e <b>freccia giù</b> per ruotare la camera,
+											rispettivamente in alto e in basso.
+										</li>
+										<li class="dark:text-gray-400 sm:text-xl">
+											<b>R</b> per riportare la camera nella posizione iniziale.
+										</li>
+									</div>
+								</ul>
+							</div>
+						</div>
+						<div class="flex flex-col">
+							<h2 class="text-2xl font-semibold sm:text-2xl">Buff e debuff</h2>
+							<div class="flex flex-row space-x-12 my-2">
+								<ul class="dark:text-gray-400 sm:text-xl list-none">
+									<b class="dark:text-gray-200">Funzionamento</b>
+									<div class="space-y-3 my-3">
+										<li class="dark:text-gray-400 sm:text-xl list-none max-w-lg">
+											I buff e i debuff sono dei potenziamenti che possono essere ottenuti durante la
+											partita. I buff aumentano le statistiche del giocatore o del nemico che li
+											ha presi, aumentando la loro velocità di movimento. I debuff diminuiscono le
+											statistiche del giocatore o del nemico che li ha presi, diminuendo la loro
+											velocità di movimento.
+									</div>
+									
+								</ul>
+								
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</section>
