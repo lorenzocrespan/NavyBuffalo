@@ -1,4 +1,4 @@
-import { arenaSide, originSpeed } from "../ControlPanel.js";
+import { arenaSide } from "../ControlPanel.js";
 import { setActive } from "../ControlPanel.js"
 
 let zMovement, xMovement;
@@ -58,21 +58,23 @@ export function setPlayerControls() {
 		zMovement = -1;
 	});
 
-
+	// Add key listener for the player
 	window.addEventListener("keydown", function (event) {
-		setActive(true);
-		// Change angle's movement for the player
 		switch (event.key) {
 			case "w":
+				setActive(true);
 				xMovement = 1;
 				break;
 			case "s":
+				setActive(true);
 				xMovement = -1;
 				break;
 			case "a":
+				setActive(true);
 				zMovement = 1;
 				break;
 			case "d":
+				setActive(true);
 				zMovement = -1;
 				break;
 		}

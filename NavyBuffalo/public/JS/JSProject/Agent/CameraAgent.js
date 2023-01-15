@@ -13,7 +13,7 @@ let oldX, oldY;
 let deltaX, deltaY;
 let isResetCamera = false;
 
-// Enum typeCamera
+// Enum for camera type
 export const typeCamera = {
 	MainCamera: 0,
 	SideCamera: 1,
@@ -109,7 +109,6 @@ export class Camera {
 		return m4.perspective(this.fieldOfView, aspect, 1, 2000);
 	}
 }
-
 
 export function setCameraControls(canvas) {
 	// Button camera controls.
@@ -210,8 +209,4 @@ export function setCameraControls(canvas) {
 // Convert degrees to radians.
 function degToRad(d) {
 	return (d * Math.PI) / 180;
-}
-
-function radToDeg(r) {
-	return (r * 180) / Math.PI;
 }
