@@ -722,6 +722,12 @@ video {
 .w-\[40\%\] {
   width: 40%;
 }
+.w-\[50\%\] {
+  width: 50%;
+}
+.w-\[10\%\] {
+  width: 10%;
+}
 .max-w-fit {
   max-width: -webkit-fit-content;
   max-width: -moz-fit-content;

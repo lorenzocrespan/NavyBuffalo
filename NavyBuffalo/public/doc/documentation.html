@@ -185,7 +185,7 @@
 						Nello specifico le differenti interagiscono secondo il seguente schema:
 					</p>
 					<div class="flex flex-row justify-center">
-						<img src="/public/doc/media/image/Scimmia_001.jpg" alt="Schema funzionamento" class="w-1/2 m-4 self-center" />
+						<img src="/public/doc/media/image/Structure.png" alt="Schema funzionamento" class="w-1/2 m-4 self-center" />
 					</div>
 				</div>
 
@@ -214,7 +214,7 @@
 					<p class="my-8 sm:text-xl">
 						Il file Core.js si occupa di gestire il meccanismo di rendering ed aggiornamento delle informazioni del gioco, in particolare:
 					</p>
-					<ul class="my-8 sm:text-xl list-disc list-inside ml-6">
+					<ul class="my-8 sm:text-xl list-disc list-inside ml-6"> 
 						<li> Inizializzazione dei programmi GLSL per l'elaborazione dei vertex-shader e dei fragment-shader</li>
 						<li> Inizializzazione dei canvas di rendering</li>
 						<li> Mantenimento del ciclo di rendering</li>
@@ -223,7 +223,7 @@
 						In particolare per il corretto funzionamento del gioco si è deciso di implementare il seguente ciclo di aggiornamento delle informazioni di gioco e di rendering del gioco.
 					</p>
 					<div class="flex flex-row justify-center">
-						<img src="/public/doc/media/image/Scimmia_001.jpg" alt="Schema funzionamento" class="w-1/2 m-4 self-center" />
+						<img src="/public/doc/media/image/CycleRender.png" alt="Schema funzionamento" class="w-[40%] m-4 self-center" />
 					</div>
 				</div>
 
@@ -255,6 +255,9 @@
 						rappresentazione 3D e la rappresentazione 2D. Sulla base di questo mapping è possibile determinare se due oggetti
 						si sovrappongono o meno attraverso una serie di funzioni di appoggio. <br>
 					</p>
+					<div class="flex flex-row justify-center">
+						<img src="/public/doc/media/image/typeOfCollision.png" alt="Stato iniziale della partita" class="w-[50%] m-4 self-center" />
+					</div>
 					<div class="flex flex-row justify-center">
 						<img src="/public/doc/media/video/collisionGeneral.gif" alt="Stato iniziale della partita" class="w-[40%] m-4 self-center" />
 						<img src="/public/doc/media/video/enemyCollision.gif" alt="Stato iniziale della partita" class="w-[40%] m-4 self-center" />
