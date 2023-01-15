@@ -2,7 +2,7 @@
 export const visibleLog = false;
 
 // Counter for the number of objects that have to be added to the scene
-export let countEnemies = 4;
+export let countEnemies = 5;
 export let countPoints = 1;
 export let countModifiers = 3;
 

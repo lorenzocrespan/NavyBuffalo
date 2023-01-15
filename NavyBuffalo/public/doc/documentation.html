@@ -21,16 +21,15 @@
 					<ul class="list-disc list-inside text-xl sm:text-xl dark:text-gray-400 space-y-1">
 						<li class="hover:text-white"><a href="#DescrizioneGioco">Descrizione gioco</a></li>
 						<ul class="list-disc list-inside ml-6">
-							<li class="hover:text-white"><a href="#DescrizioneFunzionamentoGioco">Descrizione del
-									funzionamento del gioco</a></li>
-							</li>
+							<li class="hover:text-white"><a href="#DescrizioneFunzionamentoGioco">Descrizione del funzionamento del gioco</a></li>
 						</ul>
 						<li class="hover:text-white"><a href="#DescrizioneApplicazione">Sviluppo</a></li>
 						<ul class="list-disc list-inside ml-6">
 							<li class="hover:text-white"><a href="#StrutturaProgetto">Struttura progetto</a></li>
-							<li class="hover:text-white"><a href="#DescrizioneCore">Descrizione Core</a></li>
-							<li class="hover:text-white"><a href="#DescrizioneAgent">Descrizione Agent</a></li>
-							<li class="hover:text-white"><a href="#DescrizioneObject">Descrizione Object</a></li>
+							<li class="hover:text-white"><a href="#DescrizioneCore">Descrizione main</a></li>
+							<li class="hover:text-white"><a href="#DescrizioneCore">Descrizione core system</a></li>
+							<li class="hover:text-white"><a href="#DescrizioneAgent">Descrizione agent system</a></li>
+							<li class="hover:text-white"><a href="#DescrizioneObject">Descrizione object behaviour system</a></li>
 						</ul>
 					</ul>
 				</div>
@@ -61,7 +60,6 @@
 					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px]">Descrizione gioco</h2>
 					<p class="my-8 dark:text-gray-400 sm:text-xl">
 						<img src="/public/doc/media/video/WorldHardestGame.gif" alt="The World's Hardest Game" class="float-right w-90 m-4" />
-						
 						Navy Buffalo è un gioco arcade ispirato a <a class="dark: text-red-500">The World's Hardest Game</a>,
 						gioco 2D sviluppato nel Marzo 2008 da <b>Snubby Land</b>, in cui il giocatore nel controllare i movimenti 
 						di un quadrato deve risolvere una serie di "puzzle" evitando i nemici. 
@@ -105,17 +103,13 @@
 					</ul>
 					<div class="flex flex-row">
 						<img src="/public/doc/media/image/000_InitGame.png" alt="Stato iniziale della partita" class="w-1/2 m-4 self-center" />
-						<img src="/public/doc/media/video/testgif.gif" alt="Stato iniziale della partita" class="w-1/2 m-4 self-center" />
+						<img src="/public/doc/media/image/001_InizioGame.png" alt="Stato iniziale della partita" class="w-1/2 m-4 self-center" />
 					</div>
 					<p class="my-8 dark:text-gray-400 sm:text-xl">
 						Con il progredire della partita vengono aggiunti alla mappa dei cilindri di colore <a class="dark: text-red-500">rosso</a> che rappresentano i nemici che il giocatore deve evitare, 
 						se non vuole perdere la partita. <br>
-						I nemici si muovono lungo direzioni facilmente intuibili, ma che possono variare in base alle collisioni con gli altri elementi presenti nella mappa. <br>
-						Da notare che anche i nemici, come il giocatore, possono raccogliere i buff/debuff presenti nella mappa. <br>
+						I nemici si muovono lungo direzioni facilmente intuibili, ma che possono variare in base alle collisioni con gli altri elementi presenti nella mappa, come ad esempio i buff/debuff. <br>
 					</p>
-					<div class="flex flex-row justify-center">
-						<img src="/public/doc/media/image/001_InizioGame.png" alt="Stato iniziale della partita" class="w-1/2 m-4 self-center" />
-					</div>
 				</div>
 
 				<!-- Sviluppo -->
@@ -192,38 +186,111 @@
 					</p>
 					<div class="flex flex-row justify-center">
 						<img src="/public/doc/media/image/Scimmia_001.jpg" alt="Schema funzionamento" class="w-1/2 m-4 self-center" />
+					</div>
 				</div>
 
-				<!-- Sviluppo -->
+				<!-- Descrizione main -->
 
-				<div class="flex flex-col space-y-4 my-8">
-					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px]">Descrizione Core</h2>
-					<p class="my-8 dark:text-gray-400 sm:text-xl">
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique
-						ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita
-						temporibus tempora voluptate aut perspiciatis.
+				<div class="flex flex-col space-y-4 my-8 dark:text-gray-400">
+					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px] dark:text-white">Descrizione main</h2>
+					<p class="my-8 sm:text-xl">
+						Il file main.js rappresenta il puntod di partenza del codice per la creazione del gioco. <br>
+						Mediante tale file vengono inizializzate le diverse componenti e vengono lanciati gli script necessari per il corretto funzionamento del gioco.
+						Nello specifico vengono effettuate le seguenti operazioni:
 					</p>
+					<ul class="my-8 sm:text-xl list-disc list-inside ml-6">
+						<li> Inizializzazione della scena con l'inizializzazione degli elementi caratterizzanti (identificativo, percorso del modello, impostazioni di render, etc.) di ogni singolo oggetto che dovrà essere renderizzato</li>
+						<li> Inizializzazione del meccanismo di rendering di cui è incaricato il file Core.js</li>
+						<li> Inizializzazione dei diversi agenti che si occupano di gestire le diverse funzioni del gioco (gestione della camera, gestione delle collisioni, gestione del player, etc.)</li>
+						<li> Caricamento dei diversi modelli necessari per la creazione del gioco</li>
+						<li> Avvio del ciclo di rendering</li>
+					</ul>
 				</div>
 
-				<!-- Sviluppo -->
+				<!-- Descrizione core system -->
 
-				<div class="flex flex-col space-y-4 my-8">
-					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px]">Descrizione Agent</h2>
-					<p class="my-8 dark:text-gray-400 sm:text-xl">
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique
-						ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita
-						temporibus tempora voluptate aut perspiciatis.
+				<div class="flex flex-col space-y-4 my-8 dark:text-gray-400">
+					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px] dark:text-white">Descrizione core system</h2>
+					<p class="my-8 sm:text-xl">
+						Il file Core.js si occupa di gestire il meccanismo di rendering ed aggiornamento delle informazioni del gioco, in particolare:
 					</p>
+					<ul class="my-8 sm:text-xl list-disc list-inside ml-6">
+						<li> Inizializzazione dei programmi GLSL per l'elaborazione dei vertex-shader e dei fragment-shader</li>
+						<li> Inizializzazione dei canvas di rendering</li>
+						<li> Mantenimento del ciclo di rendering</li>
+					</ul>
+					<p class="my-8 sm:text-xl">
+						In particolare per il corretto funzionamento del gioco si è deciso di implementare il seguente ciclo di aggiornamento delle informazioni di gioco e di rendering del gioco.
+					</p>
+					<div class="flex flex-row justify-center">
+						<img src="/public/doc/media/image/Scimmia_001.jpg" alt="Schema funzionamento" class="w-1/2 m-4 self-center" />
+					</div>
 				</div>
 
-				<!-- Sviluppo -->
+				<!-- Descrizione agent system -->
 
-				<div class="flex flex-col space-y-4 my-8">
-					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px]">Descrizione Object</h2>
-					<p class="my-8 dark:text-gray-400 sm:text-xl">
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique
-						ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita
-						temporibus tempora voluptate aut perspiciatis.
+				<div class="flex flex-col space-y-4 my-8 dark:text-gray-400">
+					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px] dark:text-white">Descrizione agent system</h2>
+					<p class="my-8 sm:text-xl">
+						Gli agenti sono i componenti che si occupano di gestire le diverse funzioni del gioco. <br>
+						Per lo sviluppo del gioco sono stati implementati i seguenti agenti:
+					</p>
+					<ul class="my-8 sm:text-xl list-disc list-inside ml-6">
+						<li> CameraAgent.js </li>
+						<li> CollisionAgent.js </li>
+						<li> PlayerAgent.js </li>
+					</ul>
+					<p class="my-8 sm:text-xl">
+						Il CameraAgent.js si occupa di gestire la camera di gioco la quale è stata studiata per muoversi lungo la superficie di un'ipotetica 
+						sfera che racchiude l'arena di gioco. <br>
+						L'utente attraverso i controlli implementati è in grado di spostare la camera e di conseguenza la vista del gioco. <br>
+					</p>
+					<div class="flex flex-row justify-center">
+						<img src="/public/doc/media/video/zoom.gif" alt="Stato iniziale della partita" class="w-[40%] m-4 self-center" />
+						<img src="/public/doc/media/video/rotation.gif" alt="Stato iniziale della partita" class="w-[40%] m-4 self-center" />
+					</div>
+					<p class="my-8 sm:text-xl">
+						Il CollisionAgent.js si occupa di gestire le collisioni tra gli oggetti presenti nel gioco.
+						Per lo sviluppo del gioco è stato implementato un sistema di collisioni basato su un sistema di mapping tra la 
+						rappresentazione 3D e la rappresentazione 2D. Sulla base di questo mapping è possibile determinare se due oggetti
+						si sovrappongono o meno attraverso una serie di funzioni di appoggio. <br>
+					</p>
+					<div class="flex flex-row justify-center">
+						<img src="/public/doc/media/video/collisionGeneral.gif" alt="Stato iniziale della partita" class="w-[40%] m-4 self-center" />
+						<img src="/public/doc/media/video/enemyCollision.gif" alt="Stato iniziale della partita" class="w-[40%] m-4 self-center" />
+					</div>
+					<p class="my-8 sm:text-xl">
+						Il PlayerAgent.js si occupa di gestire il movimento del giocatore. <br>
+						Il sistema di movimento è stato pensato per impedire il più possibile il movimento del giocatore lungo l'asse verticale 
+						ed orizzontale. Infatti tali assi di movimento sono disponibili solo ad inizio partita e solo se il giocatore decide 
+						di muoversi lungo i limiti dell'arena di gioco. <br>
+					</p>
+					<div class="flex flex-row justify-center">
+						<img src="/public/doc/media/video/axisMovement.gif" alt="Stato iniziale della partita" class="w-[30%] m-4 self-center" />
+						<img src="/public/doc/media/video/borderMovement.gif" alt="Stato iniziale della partita" class="w-[30%] m-4 self-center" />
+						<img src="/public/doc/media/video/playerMovement.gif" alt="Stato iniziale della partita" class="w-[30%] m-4 self-center" />
+					</div>
+				</div>
+
+				<!-- Descrizione object behaviour system -->
+
+				<div class="flex flex-col space-y-4 my-8 dark:text-gray-400">
+					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px] dark:text-white">Descrizione object behaviour system</h2>
+					<p class="my-8  sm:text-xl">
+						Ogni oggetto del gioco è caratterizzato da un comportamento che ne determina il suo funzionamento. 
+						Di base ogni oggetto eredità una serie di funzionalità e caratterische dalla classe ObjectBehaviour. <br>
+						Le classi che estendono ObjectBehaviour sono le seguenti:
+					</p>
+					<ul class="my-8 sm:text-xl list-disc list-inside ml-6">
+						<li> PlayerBehaviour.js, caratterizzato da una serie di funzioni per il meccanismi di movimento e di gestione e di reset della posizione.</li>
+						<li> EnemyBehaviour.js, caratterizzato da una serie di funzioni per il meccanismi di movimento, di rimbalzo e di generazione.</li>
+						<li> PointBehaviour.js, caratterizzato da una serie di funzioni per il meccanismi di animazione e generazione della posizione.</li>
+						<li> ModifierBehaviour.js, caratto da una serie di funzioni per il meccanismi di variazione del proprio stato (buffer o debuffer) e enerazione della posizione.</li>
+					</ul>
+					<p class="my-8 sm:text-xl">
+						In molte delle classi è stato utilizzato il sistema di gestione della trasparenza in diversi modi. <br>
+						Per esempio, in EnemyBehaviour.js, è stato utilizzato il sistema di trasparenza per gestire il meccanismo di generazione degli 
+						oggetti, mentre in PlayerBehaviour.js è stato utilizzato come identificativo dello stato del giocatore. <br>
 					</p>
 				</div>
 

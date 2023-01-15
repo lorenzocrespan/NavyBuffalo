@@ -122,7 +122,7 @@ export class PlayerBehaviour extends ObjectBehaviour {
 			this.mesh.shininess
 		);
 		gl.uniform1f(gl.getUniformLocation(program, "opacity"), this.mesh.opacity);
-		if (!getActive()) gl.uniform1f(gl.getUniformLocation(program, "uAlpha"), 0.4);
+		if (!getActive()) gl.uniform1f(gl.getUniformLocation(program, "uAlpha"), 0.2);
 		gl.enableVertexAttribArray(positionLocation);
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.positionBuffer);
 		const size = 3; // 3 components per iteration

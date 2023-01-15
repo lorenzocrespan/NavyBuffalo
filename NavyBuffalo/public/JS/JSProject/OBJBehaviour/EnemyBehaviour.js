@@ -111,7 +111,6 @@ export class EnemyBehaviour extends ObjectBehaviour {
 				timeUsed = Math.floor(time);
 			} 
 			if (spawnTime <= 0) {
-				console.log("spawned");
 				gl.uniform1f(gl.getUniformLocation(program, "uAlpha"), 1);
 				this.isSpawning = false;
 				this.isVisible = true;
