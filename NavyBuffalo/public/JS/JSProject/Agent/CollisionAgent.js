@@ -167,7 +167,7 @@ export class CollisionAgent {
 
 	// Set visibility of enemy a true, if the playerScore is a multiple of 10
 	spawnEnemy() {
-		if (playerScore % 1 == 0) {
+		if (playerScore % 10 == 0) {
 			for (let i = 0; i < this.collisionEnemy.length; i++) {
 				if (!this.collisionEnemy[i].isVisible) {
 					this.collisionEnemy[i].isSpawning = true;

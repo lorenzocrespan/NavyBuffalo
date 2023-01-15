@@ -23,7 +23,6 @@
 						<ul class="list-disc list-inside ml-6">
 							<li class="hover:text-white"><a href="#DescrizioneFunzionamentoGioco">Descrizione del
 									funzionamento del gioco</a></li>
-							<li class="hover:text-white"><a href="#InformazioniAggiuntive">Informazioni aggiuntive</a>
 							</li>
 						</ul>
 						<li class="hover:text-white"><a href="#DescrizioneApplicazione">Sviluppo</a></li>
@@ -56,75 +55,143 @@
 					</svg>
 				</a>
 
+				<!-- Descrizione gioco -->
+
 				<div id="#DescrizioneGioco" class="flex flex-col space-y-4 my-8">
 					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px]">Descrizione gioco</h2>
 					<p class="my-8 dark:text-gray-400 sm:text-xl">
-						Navy Buffalo è un gioco sviluppato in JavaScript, HTML e CSS. Il gioco è stato sviluppato per il
-						progetto finale del corso di Tecnologie Web dell'Università degli Studi di Padova.
+						<img src="/public/doc/media/video/WorldHardestGame.gif" alt="The World's Hardest Game" class="float-right w-90 m-4" />
+						
+						Navy Buffalo è un gioco arcade ispirato a <a class="dark: text-red-500">The World's Hardest Game</a>,
+						gioco 2D sviluppato nel Marzo 2008 da <b>Snubby Land</b>, in cui il giocatore nel controllare i movimenti 
+						di un quadrato deve risolvere una serie di "puzzle" evitando i nemici. 
+						<br>
+						Prendendo spunto da questo gioco, Navy Buffalo è un gioco arcade in cui il giocatore controllando 
+						un <a class="dark: text-blue-500">cubo</a> deve accumulare il maggior numero di punti (identificati da
+						delle <a class="dark: text-green-500">sfere</a>) evitando i nemici (identificati da dei 
+						<a class="dark: text-red-500">cilindri</a>) che potrebbero apparire con l'avanzare della partita. 
+						Per dare un tocco di originalità al gioco, Navy Buffalo introduce la possibilità di raccogliere 
+						<a class="dark: text-green-300">buff</a> e <a class="dark: text-red-400">debuff</a>, che permettono di
+						ottenere un vantaggio o un svantaggio in base alla situazione.
+						<br>
+						Rispetto al gioco originale, Navy Buffalo azzera la componente "puzzle" e si concentra nel proporre
+						una sfida di velocità e precisione in un <b>ambiente 3D</b>.
 					</p>
 				</div>
+
+				<!-- Descrizione funzionamento gioco -->
 
 				<div id="#DescrizioneFunzionamentoGioco" class="flex flex-col space-y-4 my-8">
-					<h2 class="text-xl font-semibold sm:text-xl border-b-[1px]">Descrizione del funzionamento del gioco
-					</h2>
-					<div class="">
-						<p class="my-8 dark:text-gray-400 sm:text-xl">
-							<img src="/public/doc/media/image/Scimmia_005.jpg" alt="NavalBattlefield" class=" float-right w-52 m-4">
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique
-							ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita
-							temporibus tempora voluptate aut perspiciatis.
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique
-							ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita
-							temporibus tempora voluptate aut perspiciatis.
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique
-							ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita
-							temporibus tempora voluptate aut perspiciatis.
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique
-							ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita
-							temporibus tempora voluptate aut perspiciatis. 
-							<img src="/public/doc/media/video/Scimmia_gif_1.gif" alt="NavalBattlefield" class=" float-left w-52 m-4">
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique
-							ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita
-							temporibus tempora voluptate aut perspiciatis.
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique
-							ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita
-							temporibus tempora voluptate aut perspiciatis.
-							
-							
-						</p>
+					<h2 class="text-xl font-semibold sm:text-xl border-b-[1px]">Descrizione del funzionamento del gioco </h2>
+					<p class="my-8 dark:text-gray-400 sm:text-xl">
+						Il gioco ad inizio di ogni partita si presenta con la seguente struttura: <br>
+					</p>
+					<ul class="my-8 dark:text-gray-400 sm:text-xl list-disc list-inside">
+						<li>Il giocatore è rappresentato da un <a class="dark: text-blue-500">cubo</a> posizionato al centro della mappa. </li>
+						<li>Una sfera di colore <a class="dark: text-green-500">verde</a> rappresenta l'oggetto da raccogliere per ottenere punti. </li>
+						<li>Una serie di cubi di colore <a class="dark: text-green-300">verde</a>  rappresentano i buff/debuff che possono essere raccolti per ottenere vantaggi/svantaggi. </li>
+					</ul>
+					<p class="my-8 dark:text-gray-400 sm:text-xl">
+						Fino a quando il giocatore non compie alcuna azione il cubo rimane fermo al centro della mappa e risulta essere <b>inattivo</b> (trasparenza attiva),
+						appena il giocatore compie un movimento il cubo cambia il suo stato e diventando <b>attivo</b> (trasparenza non attiva). <br>
+						Quando il cubo è <b>attivo</b> il giocatore può muoverlo sfruttando i controlli WASD o i bottoni presenti a destra della schermata di gioco e 
+						può raccogliere gli elementi presenti nella mappa. <br>
+						La raccolta avviene quando il giocatore collide con un oggetto ed in base al tipo di oggetto raccolto si ottengono effetti differenti:
+					</p>
+					<ul class="my-8 dark:text-gray-400 sm:text-xl list-disc list-inside">
+						<li>Se il giocatore raccoglie una sfera di colore <a class="dark: text-green-500">verde</a> ottiene punti, dopo la raccolta la sfera viene spostata in una posizione casuale. </li>
+						<li>Se il giocatore raccoglie un cubo di colore <a class="dark: text-green-300">verde</a> ottiene un buff alla velocità di movimento, dopo la raccolta il cubo viene spostato in una posizione casuale e viene scelto randomicamente se il cubo sarà un buff o un debuff. </li>
+						<li>Se il giocatore raccoglie un cubo di colore <a class="dark: text-red-400">rosso</a> ottiene un debuff alla velocità di movimento, dopo la raccolta il cubo viene spostato in una posizione casuale e viene scelto randomicamente se il cubo sarà un buff o un debuff. </li>
+					</ul>
+					<div class="flex flex-row">
+						<img src="/public/doc/media/image/000_InitGame.png" alt="Stato iniziale della partita" class="w-1/2 m-4 self-center" />
+						<img src="/public/doc/media/video/testgif.gif" alt="Stato iniziale della partita" class="w-1/2 m-4 self-center" />
 					</div>
-					
-				</div>
-
-				<div id="#InformazioniAggiuntive" class="flex flex-col space-y-4 my-8">
-					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px]">Informazioni aggiuntive</h2>
 					<p class="my-8 dark:text-gray-400 sm:text-xl">
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique
-						ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita
-						temporibus tempora voluptate aut perspiciatis.
+						Con il progredire della partita vengono aggiunti alla mappa dei cilindri di colore <a class="dark: text-red-500">rosso</a> che rappresentano i nemici che il giocatore deve evitare, 
+						se non vuole perdere la partita. <br>
+						I nemici si muovono lungo direzioni facilmente intuibili, ma che possono variare in base alle collisioni con gli altri elementi presenti nella mappa. <br>
+						Da notare che anche i nemici, come il giocatore, possono raccogliere i buff/debuff presenti nella mappa. <br>
 					</p>
-				</div>
-
-				<!-- Funzionalità -->
-
-				<div class="flex flex-col space-y-4 my-8">
-					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px]">Sviluppo</h2>
-					<p class="my-8 dark:text-gray-400 sm:text-xl">
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique
-						ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita
-						temporibus tempora voluptate aut perspiciatis.
-					</p>
+					<div class="flex flex-row justify-center">
+						<img src="/public/doc/media/image/001_InizioGame.png" alt="Stato iniziale della partita" class="w-1/2 m-4 self-center" />
+					</div>
 				</div>
 
 				<!-- Sviluppo -->
 
-				<div class="flex flex-col space-y-4 my-8">
-					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px]">Struttura progetto</h2>
-					<p class="my-8 dark:text-gray-400 sm:text-xl">
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, aperiam! Numquam similique
-						ratione libero a porro soluta, alias ipsa eius animi dicta perferendis, asperiores expedita
-						temporibus tempora voluptate aut perspiciatis.
+				<div class="flex flex-col space-y-4 my-8 dark:text-gray-400">
+					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px] dark:text-white">Sviluppo</h2>
+					<p class="my-8 sm:text-xl">
+						Il progetto è stato realizzato per il corso di Computer Graphics del CdL Magistrale in Informatica (curriculum A) presso l'università di Bologna. <br>
+						Sulla base di quanto esposto nella sezione precedente, il progetto è stato sviluppato cercando di rispettare le seguenti milestone:
 					</p>
+					<ul class="my-8 sm:text-xl list-disc list-inside ml-6">
+						<li>Implementazione di un sistema di inserimento di elementi nella scena.</li>
+						<li>Implementazione di un sistema di render della scena.</li>
+						<li>Implementazione di un sistema di movimento della camera.</li>
+						<li>Implementazione di un sistema di movimento del giocatore ed dei restanti elementi.</li>
+						<li>Implementazione di un sistema di collisione.</li>
+						<li>Implementazione di un sistema di generazione di elementi casuali.</li>
+						<li>Implementazione logica del gioco.</li>
+						<li>Implementazione di un sistema di buff e debuff.</li>
+						<li>Test del gioco da parte di un gruppo di utenti.</li>
+					</ul>
+					<p class="my-8 sm:text-xl">
+						Per lo sviluppo del progetto, come da richiesta non sono state utilizzate librerie non viste a lezione come Three.js, ma sono state utilizzate le seguenti tecnologie:
+					</p>
+					<b class= sm:text-xl"> Linguaggi di programmazione</b>
+					<ul class="my-8 sm:text-xl list-disc list-inside ml-6">
+						<li>Javascript (ES6)</li>
+						<li>Html 5</li>
+						<li>Tailwind CSS 3.1.8</li>
+					</ul>
+					<b class= sm:text-xl"> Programmi </b>
+					<ul class="my-8 sm:text-xl list-disc list-inside ml-6">
+						<li>Blender 3.3.0</li>
+					</ul>
+					<p class="my-8 sm:text-xl">
+						Nelle seguenti sezioni verranno descritte le varie parti del progetto, con particolare attenzione alle parti più complesse.
+					</p>
+				</div>
+
+				<!-- Struttura progetto -->
+
+				<div class="flex flex-col space-y-4 my-8 dark:text-gray-400">
+					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px] dark:text-white">Struttura progetto</h2>
+					<p class="my-8  sm:text-xl">
+						Per la realizzazione del progetto, si è cercato di utilizzare un approccio il più modulare possibile, andando 
+						di fatto a definire una serie di classi e di relativi oggetti che si occupano di una specifica funzione. <br>
+						La struttura del progetto è la seguente:
+					</p>
+					<lu class="my-8 sm:text-xl list-disc list-inside ml-6">
+						<li> <b> JS </b> </li>
+						<li class="ml-6"> main.js, file che si occupa di gestire la logica di inizializzazione del gioco.</li>
+						<li class="ml-6"> <b> JSCourse </b> </li>
+						<li class="ml-12"> Cartella che contiene tutte le librerie fornite dal corso di Computer Graphics.</li>
+						
+						<li class="ml-6"> <b> JSProject </b> </li>
+						<li class="ml-12"> <b> Agent </b> </li>
+						<li class="ml-[72px]"> CameraAgent.js </li>
+						<li class="ml-[72px]"> CollisionAgent.js </li>
+						<li class="ml-[72px]"> PlayerAgent.js </li>
+						<li class="ml-12"> <b> OBJBehaviour </b> </li>
+						<li class="ml-[72px]"> EnemyBehaviour.js </li>
+						<li class="ml-[72px]"> PlayerBehaviour.js </li>
+						<li class="ml-[72px]"> ObjectBehaviour.js </li>
+						<li class="ml-[72px]"> ModifierBehaviour.js </li>
+						<li class="ml-[72px]"> PointBehaviour.js </li>
+						<li class="ml-12"> ControlPanel.js </li>
+						<li class="ml-12"> Core.js </li>
+						<li class="ml-12"> MeshLoader.js </li>
+						<li class="ml-12"> Scene.js </li>
+						
+					</lu>
+					<p class="my-8 dark:text-gray-400 sm:text-xl">
+						Nello specifico le differenti interagiscono secondo il seguente schema:
+					</p>
+					<div class="flex flex-row justify-center">
+						<img src="/public/doc/media/image/Scimmia_001.jpg" alt="Schema funzionamento" class="w-1/2 m-4 self-center" />
 				</div>
 
 				<!-- Sviluppo -->
