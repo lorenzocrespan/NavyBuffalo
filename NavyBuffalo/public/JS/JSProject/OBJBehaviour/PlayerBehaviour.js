@@ -108,21 +108,11 @@ export class PlayerBehaviour extends ObjectBehaviour {
 			gl.getUniformLocation(program, "emissive"),
 			this.mesh.emissive
 		);
-		gl.uniform3fv(
-			gl.getUniformLocation(program, "u_ambientLight"),
-			light.ambientLight
-		);
-		gl.uniform3fv(
-			gl.getUniformLocation(program, "u_colorLight"),
-			light.colorLight
-		);
-
-		gl.uniform1f(
-			gl.getUniformLocation(program, "shininess"),
-			this.mesh.shininess
-		);
+		gl.uniform3fv(gl.getUniformLocation(program, "u_ambientLight"), light.ambientLight);
+		gl.uniform3fv(gl.getUniformLocation(program, "u_colorLight"), light.colorLight);
+		gl.uniform1f(gl.getUniformLocation(program, "shininess"), this.mesh.shininess);
 		gl.uniform1f(gl.getUniformLocation(program, "opacity"), this.mesh.opacity);
-		if (!getActive()) gl.uniform1f(gl.getUniformLocation(program, "uAlpha"), 0.2);
+		if (!getActive()) gl.uniform1f(gl.getUniformLocation(program, "uAlpha"), 0.4);
 		gl.enableVertexAttribArray(positionLocation);
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.positionBuffer);
 		const size = 3; // 3 components per iteration

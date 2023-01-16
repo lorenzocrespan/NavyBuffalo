@@ -1,0 +1,15 @@
+# Blender 3.3.0 MTL File: 'blenderNavyBuffalo.blend'
+# www.blender.org
+
+newmtl GreenMarble
+Ns 250.000000
+Ka 0.250000 0.250000 0.250000
+Kd 0.800000 0.800000 0.800000
+Ks 0.750000 0.750000 0.750000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd ./Texture/Green_Marble/TexturesCom_Marble_SlabGreen_512_albedo.tif
+map_Ns ./Texture/Green_Marble/TexturesCom_Marble_SlabGreen_512_roughness.tif
+map_Bump -bm 1.000000 ./Texture/Green_Marble/TexturesCom_Marble_SlabGreen_512_normal.tif

@@ -1,8 +1,6 @@
 import { ObjectBehaviour } from "./ObjectBehaviour.js";
 import { isTransparencyActive } from "../ControlPanel.js";
-// import { CollisionAgent } from "../Agent/CollisionAgent.js";
 
-let collisionAgentModifier;
 let greenRGB = [0, 1, 0];
 let redRGB = [1, 0, 0];
 
@@ -85,7 +83,7 @@ export class ModifierBehaviour extends ObjectBehaviour {
 			this.mesh.shininess
 		);
 		gl.uniform1f(gl.getUniformLocation(program, "opacity"), this.mesh.opacity);
-		gl.uniform1f(gl.getUniformLocation(program, "uAlpha"), 0.4);
+		gl.uniform1f(gl.getUniformLocation(program, "uAlpha"), 0.2);
 		gl.enableVertexAttribArray(positionLocation);
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.positionBuffer);
 		const size = 3; // 3 components per iteration
@@ -153,7 +151,7 @@ export class ModifierBehaviour extends ObjectBehaviour {
 
 		// Tell the shader to use texture unit 0 for diffuseMap
 		gl.uniform1i(textureLocation, 0);
-
+	
 		let vertNumber = this.mesh.numVertices;
 		drawScene(0, this.mesh);
 
