@@ -20,7 +20,7 @@ let sceneComposition = new Scene();
 //		-	Player
 sceneComposition.addOBJToList(
 	"Arena",
-	"./OBJModels/ArenaAlternative.obj",
+	"./OBJModels/Arena.obj",
 	false,
 	false,
 	false,
@@ -30,7 +30,7 @@ sceneComposition.addOBJToList(
 for (let i = 0; i < countPoints; i++) {
 	sceneComposition.addOBJToList(
 		"Point",
-		"./OBJModels/PointAlternative.obj",
+		"./OBJModels/Point.obj",
 		false,
 		false,
 		true,
@@ -44,7 +44,7 @@ for (let i = 0; i < countPoints; i++) {
 };
 sceneComposition.addOBJToList(
 	"Player",
-	"./OBJModels/PlayerAlternative.obj",
+	"./OBJModels/Player.obj",
 	true,
 	false,
 	false,
@@ -54,7 +54,7 @@ sceneComposition.addOBJToList(
 for (let i = 0; i < countEnemies; i++) {
 	sceneComposition.addOBJToList(
 		"Enemy",
-		"./OBJModels/EnemyAlternative.obj",
+		"./OBJModels/Enemy.obj",
 		false,
 		true,
 		false,

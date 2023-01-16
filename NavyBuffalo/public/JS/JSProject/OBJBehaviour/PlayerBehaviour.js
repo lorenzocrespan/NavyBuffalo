@@ -60,14 +60,14 @@ export class PlayerBehaviour extends ObjectBehaviour {
 	}
 
 	increaseSpeed() {
-		this.speed += 0.01;
+		if (this.speed < 0.9) this.speed += 0.01;
 	}
 
 	decreaseSpeed() {
-		this.speed -= 0.01;
+		if (this.speed > 0.1) this.speed -= 0.01;
 	}
 
-	render(gl, light, program, camera, isScreen, hitDeltaPosition, isReset) {
+	render(gl, light, program, camera, isScreen, isReset) {
 
 		if (isReset) this.resetData();
 		if (isScreen && !getGameOver()) this.computePlayerPosition();

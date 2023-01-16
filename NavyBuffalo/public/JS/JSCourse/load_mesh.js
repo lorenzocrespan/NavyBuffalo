@@ -170,7 +170,7 @@ function LoadMesh(glMainScreen, glSideScreen, mesh) {
 		mesh.texcoords.push(xt[i0], yt[i0], xt[i1], yt[i1], xt[i2], yt[i2]);
 	}
 	mesh.numVertices = 3 * nface;
-
+	
 	if (mesh.fileMTL == null) {
 		mesh.ambient = mesh.materials[0].parameter.get("Ka");
 		mesh.diffuse = mesh.materials[0].parameter.get("Kd");

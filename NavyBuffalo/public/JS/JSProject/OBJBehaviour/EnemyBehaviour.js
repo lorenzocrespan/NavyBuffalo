@@ -35,19 +35,22 @@ export class EnemyBehaviour extends ObjectBehaviour {
 	}
 
 	increaseSpeed() {
-		this.speed += 0.01;
+		if (this.speed < 0.90) this.speed += 0.01;
 	}
 
 	decreaseSpeed() {
-		this.speed -= 0.01;
+		if (this.speed > 0.50) this.speed -= 0.01;
 	}
 
+	resetData() {
+		this.speed = 0.075;
+		this.isSpawning = false;
+		this.isVisible = false;
+	}
 
 	render(time, gl, light, program, camera, isScreen) {
 
 		if (isScreen && !getGameOver()) this.compute_enemy();
-
-		/********************************************************************************************/
 
 		let positionLocation = gl.getAttribLocation(program, "a_position");
 		let normalLocation = gl.getAttribLocation(program, "a_normal");

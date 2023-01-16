@@ -104,7 +104,6 @@ export class PointBehaviour extends ObjectBehaviour {
 			gl.getUniformLocation(program, "u_ambientLight"),
 			light.ambientLight
 		);
-		// Set the light color (white)
 		gl.uniform3fv(
 			gl.getUniformLocation(program, "u_colorLight"),
 			light.colorLight

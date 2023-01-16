@@ -2,9 +2,9 @@
 export const visibleLog = false;
 
 // Counter for the number of objects that have to be added to the scene
-export let countEnemies = 5;
+export let countEnemies = 2;
 export let countPoints = 1;
-export let countModifiers = 3;
+export let countModifiers = 2;
 
 // Camera data
 export let maxRadius = 30;
@@ -33,7 +33,6 @@ document.getElementById("secondCamera").onclick = function () {
 
 document.getElementById("exitLostScreen").onclick = function () {
     document.getElementById("lostScreen").style.display = "none";
-    // TODO: Free move the camera
 }
 
 export let isTransparencyActive = true;

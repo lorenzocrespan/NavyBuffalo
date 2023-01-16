@@ -32,7 +32,7 @@ let listPrograms = [];
 // Collision agent
 let collisionAgent = new CollisionAgent();
 
-let isReset = false;
+let isAlternativeObj = false;
 
 export class Core {
 	/**
@@ -100,6 +100,52 @@ export class Core {
 			);
 		}
 	}
+
+}
+
+document.getElementById("alternativeTexture").onclick = function () {
+	isAlternativeObj = !isAlternativeObj;
+	// Change the texture of elements
+	for (const elem of meshlist) {
+		switch (elem.alias) {
+			case "Player":
+				// Save the actual position of the player
+				let playerPos = elem.mesh.positions;
+				// Change the texture
+				if (isAlternativeObj) elem.mesh.sourceMesh = "./OBJModels/PlayerAlternative.obj";
+				else elem.mesh.sourceMesh = "./OBJModels/Player.obj";
+				LoadMesh(glMainScreen, glSideScreen, elem.mesh);
+				// Restore the position
+				elem.mesh.positions = playerPos;
+				break;
+			case "Enemy":
+				// Save the actual position of the enemy
+				let enemyPos = elem.mesh.positions;
+				// Change the texture
+				if (isAlternativeObj) elem.mesh.sourceMesh = "./OBJModels/EnemyAlternative.obj"
+				else elem.mesh.sourceMesh = "./OBJModels/Enemy.obj";
+				LoadMesh(glMainScreen, glSideScreen, elem.mesh);
+				// Restore the position
+				elem.mesh.positions = enemyPos;
+				break;
+			case "Point":
+				// Save the actual position of the point
+				let pointPos = elem.mesh.positions;
+				// Change the texture
+				if (isAlternativeObj) elem.mesh.sourceMesh = "./OBJModels/PointAlternative.obj";
+				else elem.mesh.sourceMesh = "./OBJModels/Point.obj";
+				LoadMesh(glMainScreen, glSideScreen, elem.mesh);
+				// Restore the position
+				elem.mesh.positions = pointPos;
+				break;
+			case "Arena":
+				// Change the texture
+				if (isAlternativeObj) elem.mesh.sourceMesh = "./OBJModels/ArenaAlternative.obj";
+				else elem.mesh.sourceMesh = "./OBJModels/Arena.obj";
+				LoadMesh(glMainScreen, glSideScreen, elem.mesh);
+				break;
+		}
+	}
 }
 
 export function initProgramRender() {
@@ -138,7 +184,6 @@ document.getElementById("resetButton").onclick = function () {
 	setActive(false);
 };
 
-let hitDeltaPosition;
 /**
  * Rendering functions for the main screen.
  *
@@ -169,7 +214,6 @@ export function render(time = 0) {
 						program[0],
 						actCamera,
 						isMainScreen,
-						hitDeltaPosition,
 						false
 					);
 					break;
@@ -246,3 +290,4 @@ export function render(time = 0) {
 
 
 }
+
