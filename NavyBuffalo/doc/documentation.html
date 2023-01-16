@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<link rel="stylesheet" href="../style.css" />
+	<link rel="stylesheet" href="../project/style.css" />
 	<link rel="shortcut icon" href="#" />
 
 	<title>Navy Buffalo</title>
@@ -36,7 +36,7 @@
 
 				<!-- Back to main page button -->
 
-				<a href="../index.html" class="absolute top-0 left-0 mt-4 ml-4">
+				<a href="../project/index.html" class="absolute top-0 left-0 mt-4 ml-4">
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
 						stroke="currentColor">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -59,7 +59,7 @@
 				<div id="#DescrizioneGioco" class="flex flex-col space-y-4 my-8">
 					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px]">Descrizione gioco</h2>
 					<p class="my-8 dark:text-gray-400 sm:text-xl">
-						<img src="/public/doc/media/video/WorldHardestGame.gif" alt="The World's Hardest Game" class="float-right w-90 m-4" />
+						<img src="./media/video/WorldHardestGame.gif" alt="The World's Hardest Game" class="float-right w-90 m-4" />
 						Navy Buffalo è un gioco arcade ispirato a <a class="dark: text-red-500">The World's Hardest Game</a>,
 						gioco 2D sviluppato nel Marzo 2008 da <b>Snubby Land</b>, in cui il giocatore nel controllare i movimenti 
 						di un quadrato deve risolvere una serie di "puzzle" evitando i nemici. 
@@ -102,8 +102,8 @@
 						<li>Se il giocatore raccoglie un cubo di colore <a class="dark: text-red-400">rosso</a> ottiene un debuff alla velocità di movimento, dopo la raccolta il cubo viene spostato in una posizione casuale e viene scelto randomicamente se il cubo sarà un buff o un debuff. </li>
 					</ul>
 					<div class="flex flex-row">
-						<img src="/public/doc/media/image/000_InitGame.png" alt="Stato iniziale della partita" class="w-1/2 m-4 self-center" />
-						<img src="/public/doc/media/image/001_InizioGame.png" alt="Stato iniziale della partita" class="w-1/2 m-4 self-center" />
+						<img src="./media/image/000_InitGame.png" alt="Stato iniziale della partita" class="w-1/2 m-4 self-center" />
+						<img src="./media/image/001_InizioGame.png" alt="Stato iniziale della partita" class="w-1/2 m-4 self-center" />
 					</div>
 					<p class="my-8 dark:text-gray-400 sm:text-xl">
 						Con il progredire della partita vengono aggiunti alla mappa dei cilindri di colore <a class="dark: text-red-500">rosso</a> che rappresentano i nemici che il giocatore deve evitare, 
@@ -185,7 +185,7 @@
 						Nello specifico le differenti interagiscono secondo il seguente schema:
 					</p>
 					<div class="flex flex-row justify-center">
-						<img src="/public/doc/media/image/Structure.png" alt="Schema funzionamento" class="w-1/2 m-4 self-center" />
+						<img src="./media/image/Structure.png" alt="Schema funzionamento" class="w-1/2 m-4 self-center" />
 					</div>
 				</div>
 
@@ -223,7 +223,7 @@
 						In particolare per il corretto funzionamento del gioco si è deciso di implementare il seguente ciclo di aggiornamento delle informazioni di gioco e di rendering del gioco.
 					</p>
 					<div class="flex flex-row justify-center">
-						<img src="/public/doc/media/image/CycleRender.png" alt="Schema funzionamento" class="w-[40%] m-4 self-center" />
+						<img src="./media/image/CycleRender.png" alt="Schema funzionamento" class="w-[40%] m-4 self-center" />
 					</div>
 				</div>
 
@@ -246,8 +246,8 @@
 						L'utente attraverso i controlli implementati è in grado di spostare la camera e di conseguenza la vista del gioco. <br>
 					</p>
 					<div class="flex flex-row justify-center">
-						<img src="/public/doc/media/video/zoom.gif" alt="Stato iniziale della partita" class="w-[40%] m-4 self-center" />
-						<img src="/public/doc/media/video/rotation.gif" alt="Stato iniziale della partita" class="w-[40%] m-4 self-center" />
+						<img src="./media/video/zoom.gif" alt="Stato iniziale della partita" class="w-[40%] m-4 self-center" />
+						<img src="./media/video/rotation.gif" alt="Stato iniziale della partita" class="w-[40%] m-4 self-center" />
 					</div>
 					<p class="my-8 sm:text-xl">
 						Il CollisionAgent.js si occupa di gestire le collisioni tra gli oggetti presenti nel gioco.
@@ -256,11 +256,11 @@
 						si sovrappongono o meno attraverso una serie di funzioni di appoggio. <br>
 					</p>
 					<div class="flex flex-row justify-center">
-						<img src="/public/doc/media/image/typeOfCollision.png" alt="Stato iniziale della partita" class="w-[50%] m-4 self-center" />
+						<img src="./media/image/typeOfCollision.png" alt="Stato iniziale della partita" class="w-[50%] m-4 self-center" />
 					</div>
 					<div class="flex flex-row justify-center">
-						<img src="/public/doc/media/video/collisionGeneral.gif" alt="Stato iniziale della partita" class="w-[40%] m-4 self-center" />
-						<img src="/public/doc/media/video/enemyCollision.gif" alt="Stato iniziale della partita" class="w-[40%] m-4 self-center" />
+						<img src="./media/video/collisionGeneral.gif" alt="Stato iniziale della partita" class="w-[40%] m-4 self-center" />
+						<img src="./media/video/enemyCollision.gif" alt="Stato iniziale della partita" class="w-[40%] m-4 self-center" />
 					</div>
 					<p class="my-8 sm:text-xl">
 						Il PlayerAgent.js si occupa di gestire il movimento del giocatore. <br>
@@ -269,9 +269,9 @@
 						di muoversi lungo i limiti dell'arena di gioco. <br>
 					</p>
 					<div class="flex flex-row justify-center">
-						<img src="/public/doc/media/video/axisMovement.gif" alt="Stato iniziale della partita" class="w-[30%] m-4 self-center" />
-						<img src="/public/doc/media/video/borderMovement.gif" alt="Stato iniziale della partita" class="w-[30%] m-4 self-center" />
-						<img src="/public/doc/media/video/playerMovement.gif" alt="Stato iniziale della partita" class="w-[30%] m-4 self-center" />
+						<img src="./media/video/axisMovement.gif" alt="Stato iniziale della partita" class="w-[30%] m-4 self-center" />
+						<img src="./media/video/borderMovement.gif" alt="Stato iniziale della partita" class="w-[30%] m-4 self-center" />
+						<img src="./media/video/playerMovement.gif" alt="Stato iniziale della partita" class="w-[30%] m-4 self-center" />
 					</div>
 				</div>
 
