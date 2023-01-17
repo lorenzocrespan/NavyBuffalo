@@ -6,8 +6,7 @@ import { ModifierBehaviour } from "./OBJBehaviour/ModifierBehaviour.js";
 
 export class MeshLoader {
 	/**
-	 * Constructor of the class.
-	 * It initializes the list of all objects in the scene.
+	 * Initialize the list of objects in the scene.
 	 *
 	 * @param {List} objData List of all objects in the scene.
 	 */
@@ -20,8 +19,8 @@ export class MeshLoader {
 	 *
 	 * @param {Object} glMainScreen WebGL context of the main screen.
 	 * @param {Object} glSideScreen WebGL context of the side screen.
-	 * @param {String} alias A string that will be used to identify the object.
-	 * @param {String} pathOBJ The path to the .obj file.
+	 * @param {String} alias Object identifier.
+	 * @param {String} pathOBJ Path to the .obj file.
 	 * @param {boolean} isPlayer A boolean that indicates if the object is the player.
 	 * @param {boolean} isEnemy A boolean that indicates if the object is an enemy.
 	 * @param {boolean} idleAnimation A boolean that indicates if the object has an idle animation.
@@ -38,17 +37,17 @@ export class MeshLoader {
 	
 		// Add the mesh to the list of objects
 		switch (alias) {
-			case "Enemy":
-				this.objData.push(new EnemyBehaviour(alias, mesh, coords));
-				break;
 			case "Point":
 					this.objData.push(new PointBehaviour(alias, mesh, coords));
 				break;
-			case "Modifier":
-					this.objData.push(new ModifierBehaviour(alias, mesh, coords));
+			case "Enemy":
+				this.objData.push(new EnemyBehaviour(alias, mesh, coords));
 				break;
 			case "Player":
-				this.objData.push(new PlayerBehaviour(alias, mesh, coords));
+					this.objData.push(new PlayerBehaviour(alias, mesh, coords));
+					break;
+			case "Modifier":
+					this.objData.push(new ModifierBehaviour(alias, mesh, coords));
 				break;
 			default:
 				this.objData.push(new ObjectBehaviour(alias, mesh, coords));

@@ -41,7 +41,7 @@ for (let i = 0; i < countEnemies; i++) {
 		false,
 		{ x: Math.floor(Math.random() * 14 - 7), y: 0, z: Math.floor(Math.random() * 14 - 7) }
 	);
-}
+};
 sceneComposition.addOBJToList(
 	"Player",
 	"./OBJModels/Player.obj",

@@ -1,18 +1,9 @@
 
 export const visibleLog = false;
 
-// Counter for the number of objects that have to be added to the scene
-export let countEnemies = 2;
-export let countPoints = 1;
-export let countModifiers = 2;
-
 // Camera data
 export let maxRadius = 30;
 export let minRadius = 3;
-
-export let arenaSide = 9;
-
-export let originSpeed = 0.075;
 
 let isActive = false;
 let isGameOver = false;
@@ -88,3 +79,60 @@ export function disableDefaultPageScroll() {
         }
     }, false);
 }
+
+/**
+ *  Player score management
+ */
+let playerScore = 0;
+document.getElementById("playerScore").textContent = playerScore;
+
+export function setPlayerScore() {
+    playerScore += 1;
+    document.getElementById("playerScore").textContent = playerScore;
+}
+
+export function getPlayerScore() {
+    return playerScore;
+}
+
+export function resetPlayerScore() {
+    playerScore = 0;
+    document.getElementById("playerScore").textContent = playerScore;
+}
+
+/**
+ *  Object data
+ */
+
+export let spawnThreshold = 2;
+
+export let countEnemies = 4;
+export let countPoints = 1;
+export let countModifiers = 2;
+
+let cubeDimension = 1.0;
+let cubeModifierDimension = 2;
+
+export function getCubeDimension() {
+    return cubeDimension;
+}
+
+export function getCubeModifierDimension() {
+    return cubeModifierDimension;
+}
+
+let circleEnemyDimension = 0.5;
+let circlePointDimension = 0.3;
+
+export function getCircleEnemyDimension() {
+    return circleEnemyDimension;
+}
+
+export function getCirclePointDimension() {
+    return circlePointDimension;
+}
+
+export let arenaSide = 9;
+
+export let originSpeed = 0.075;
+

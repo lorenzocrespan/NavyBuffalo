@@ -2,7 +2,7 @@ import { MeshLoader } from "./MeshLoader.js";
 import {
 	getGameOver,
 	setGameOver,
-	getReset,
+	resetPlayerScore,
 	setReset,
 	getActive,
 	setActive,
@@ -178,7 +178,7 @@ document.getElementById("resetButton").onclick = function () {
 		elem.resetData();
 	});
 	collisionAgent.despawnAllEnemy();
-	collisionAgent.resetPlayerScore();
+	resetPlayerScore();
 	setGameOver(false);
 	setReset(true);
 	setActive(false);
@@ -204,8 +204,8 @@ export function render(time = 0) {
 				case elem instanceof PlayerBehaviour:
 					// Update information
 					if (isMainScreen && getActive() && !getGameOver()) {
-						collisionAgent.checkCollisionEnemy(elem.position);
-						collisionAgent.checkCollisionPoint(elem.position);
+						collisionAgent.checkCollisionEnemyWithPlayer(elem.position);
+						collisionAgent.checkCollisionPointWithPlayer(elem.position);
 					}
 					// Update render
 					elem.render(
