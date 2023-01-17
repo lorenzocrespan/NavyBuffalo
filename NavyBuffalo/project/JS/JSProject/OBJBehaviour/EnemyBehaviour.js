@@ -15,7 +15,7 @@ export class EnemyBehaviour extends ObjectBehaviour {
 			z: Math.sin(this.angle),
 		};
 		this.isSpawning = false;
-		this.isVisible = false;
+		this.isVisible = true;
 	}
 
 	changeDirection(vectorX, vectorZ) {

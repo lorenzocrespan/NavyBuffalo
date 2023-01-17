@@ -2,22 +2,15 @@ import {
 	disableDefaultPageScroll,
 	countEnemies,
 	countPoints,
-	countModifiers,
+	countModifiers
 } from "./JSProject/ControlPanel.js";
 import { Scene } from "./JSProject/Scene.js";
 import { Core, initProgramRender, render } from "./JSProject/Core.js";
 
 disableDefaultPageScroll();
-
 // Array of objects that will be rendered in the scene
 let sceneComposition = new Scene();
-
-// Add objects to the scene:
-//		-	Arena
-//		-	Enemies
-//		-	Points
-//		-	Buffer/Debuffer
-//		-	Player
+// Add objects to the scene (in the order they will be rendered): Arena, Points, Enemies, Player, Modifiers
 sceneComposition.addOBJToList(
 	"Arena",
 	"./OBJModels/Arena.obj",
@@ -35,13 +28,20 @@ for (let i = 0; i < countPoints; i++) {
 		false,
 		true,
 		false,
-		{
-			x: -7,
-			y: -0.1,
-			z: 0,
-		}
+		{ x: -7, y: -0.1, z: 0 }
 	);
 };
+for (let i = 0; i < countEnemies; i++) {
+	sceneComposition.addOBJToList(
+		"Enemy",
+		"./OBJModels/Enemy.obj",
+		false,
+		true,
+		false,
+		false,
+		{ x: Math.floor(Math.random() * 14 - 7), y: 0, z: Math.floor(Math.random() * 14 - 7) }
+	);
+}
 sceneComposition.addOBJToList(
 	"Player",
 	"./OBJModels/Player.obj",
@@ -51,21 +51,6 @@ sceneComposition.addOBJToList(
 	false,
 	{ x: 0, y: 0, z: 0 }
 );
-for (let i = 0; i < countEnemies; i++) {
-	sceneComposition.addOBJToList(
-		"Enemy",
-		"./OBJModels/Enemy.obj",
-		false,
-		true,
-		false,
-		false,
-		{
-			x: Math.floor(Math.random() * 14 - 7),
-			y: 0,
-			z: Math.floor(Math.random() * 14 - 7),
-		}
-	);
-}
 for (let i = 0; i < countModifiers; i++) {
 	sceneComposition.addOBJToList(
 		"Modifier",
@@ -74,18 +59,12 @@ for (let i = 0; i < countModifiers; i++) {
 		false,
 		true,
 		false,
-		{ 
-			x: Math.floor(Math.random() * 14 - 7),
-			y: 0,
-			z: Math.floor(Math.random() * 14 - 7), 
-		}
+		{ x: Math.floor(Math.random() * 14 - 7), y: 0, z: Math.floor(Math.random() * 14 - 7) }
 	);
 };
-
-
 let core = new Core("screenCanvas", "screenCanvasPlane");
-
 core.setupScene(sceneComposition);
-
+// Initialize the render loop
 initProgramRender();
+// Start the render loop
 render();

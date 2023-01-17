@@ -76,15 +76,15 @@ document.getElementById("resetButton").onclick = function () {
     console.log("va");
 }
 
-// Disable the default page scroll
+/***************************** FIX ********************************/
+
+/**
+ *  Disable the default page scroll when pressing the arrow keys
+ */
 export function disableDefaultPageScroll() {
-    document.addEventListener(
-        "keydown",
-        function (e) {
-            if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
-                e.preventDefault();
-            }
-        },
-        false
-    );
+    window.addEventListener("keydown", function (e) {
+        if (["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].indexOf(e.code) > -1) {
+            e.preventDefault();
+        }
+    }, false);
 }
