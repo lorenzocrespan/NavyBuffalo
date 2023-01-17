@@ -1,4 +1,6 @@
 
+import { resetGameCore, reloadTexture } from "./Core.js";
+
 export const visibleLog = false;
 
 // Camera data
@@ -61,10 +63,6 @@ export function setGameOver(isGameOverNew) {
 
 export function getGameOver() {
     return isGameOver;
-}
-
-document.getElementById("resetButton").onclick = function () {
-    console.log("va");
 }
 
 /***************************** FIX ********************************/
@@ -136,3 +134,21 @@ export let arenaSide = 9;
 
 export let originSpeed = 0.075;
 
+/**
+ * Ambient light data
+ */
+
+export let light = { ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] }
+export let lightPosition = [-1, 3, 7];
+
+/**
+ *  Button management
+ */
+
+document.getElementById("resetButton").onclick = function () {
+    resetGameCore();
+}
+
+document.getElementById("alternativeTexture").onclick = function (){
+    reloadTexture();
+}

@@ -1,5 +1,9 @@
 import { ObjectBehaviour } from "./ObjectBehaviour.js";
-import { getGameOver } from "../ControlPanel.js";
+import {
+	getGameOver,
+	light,
+	lightPosition
+} from "../ControlPanel.js";
 
 let blinkState = false;
 let timeUsed = -1;
@@ -15,7 +19,7 @@ export class EnemyBehaviour extends ObjectBehaviour {
 			z: Math.sin(this.angle),
 		};
 		this.isSpawning = false;
-		this.isVisible = true;
+		this.isVisible = false;
 	}
 
 	changeDirection(vectorX, vectorZ) {
@@ -23,7 +27,7 @@ export class EnemyBehaviour extends ObjectBehaviour {
 		this.vector.z = vectorZ;
 	}
 
-	compute_enemy() {
+	computeEnemyPosition() {
 		let updatePositionFactorX = this.vector.x * this.speed;
 		let updatePositionFactorZ = this.vector.z * this.speed;
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
@@ -48,10 +52,7 @@ export class EnemyBehaviour extends ObjectBehaviour {
 		this.isVisible = false;
 	}
 
-	render(time, gl, light, program, camera, isScreen) {
-
-		if (isScreen && !getGameOver()) this.compute_enemy();
-
+	render(time, gl, program, camera, isScreen) {
 		let positionLocation = gl.getAttribLocation(program, "a_position");
 		let normalLocation = gl.getAttribLocation(program, "a_normal");
 		let texcoordLocation = gl.getAttribLocation(program, "a_texcoord");
@@ -101,7 +102,7 @@ export class EnemyBehaviour extends ObjectBehaviour {
 		);
 		gl.uniform1f(gl.getUniformLocation(program, "opacity"), this.mesh.opacity);
 
-		if(this.isVisible) gl.uniform1f(gl.getUniformLocation(program, "uAlpha"), 1);
+		if (this.isVisible) gl.uniform1f(gl.getUniformLocation(program, "uAlpha"), 1);
 		else {
 			if (blinkState) gl.uniform1f(gl.getUniformLocation(program, "uAlpha"), 1);
 			else gl.uniform1f(gl.getUniformLocation(program, "uAlpha"), 0.5);
@@ -112,7 +113,7 @@ export class EnemyBehaviour extends ObjectBehaviour {
 				blinkState = !blinkState;
 				spawnTime -= 0.5;
 				timeUsed = Math.floor(time);
-			} 
+			}
 			if (spawnTime <= 0) {
 				gl.uniform1f(gl.getUniformLocation(program, "uAlpha"), 1);
 				this.isSpawning = false;
@@ -180,7 +181,7 @@ export class EnemyBehaviour extends ObjectBehaviour {
 		);
 
 		// set the light position
-		gl.uniform3fv(lightWorldDirectionLocation, m4.normalize([-1, 3, 7]));
+		gl.uniform3fv(lightWorldDirectionLocation, m4.normalize(lightPosition));
 
 		// set the camera/view position
 		gl.uniform3fv(viewWorldPositionLocation, camera.position);
@@ -196,13 +197,8 @@ export class EnemyBehaviour extends ObjectBehaviour {
 			if (isScreen) gl.bindTexture(gl.TEXTURE_2D, mesh.mainTexture);
 			else gl.bindTexture(gl.TEXTURE_2D, mesh.sideTexture);
 			gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-
-			gl.enable(gl.BLEND);
-			gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-
 			let matrix = m4.identity();
 			gl.uniformMatrix4fv(matrixLocation, false, matrix);
-
 			gl.drawArrays(gl.TRIANGLES, 0, vertNumber);
 		}
 	}

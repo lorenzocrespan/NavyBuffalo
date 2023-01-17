@@ -8,36 +8,38 @@ import {
 	setActive,
 	isSecondCameraActive
 } from "./ControlPanel.js";
-
-import { typeCamera, Camera, setCameraControls } from "./Agent/CameraAgent.js";
+import {
+	typeCamera,
+	Camera,
+	setCameraControls
+} from "./Agent/CameraAgent.js";
 import { setPlayerControls } from "./Agent/PlayerAgent.js";
 import { CollisionAgent } from "./Agent/CollisionAgent.js";
 import { PlayerBehaviour } from "./OBJBehaviour/PlayerBehaviour.js";
 import { EnemyBehaviour } from "./OBJBehaviour/EnemyBehaviour.js";
 import { ModifierBehaviour } from "./OBJBehaviour/ModifierBehaviour.js";
+import { PointBehaviour } from "./OBJBehaviour/PointBehaviour.js";
 
-// WebGL context
+// WebGL context data
 let glMainScreen;
 let glSideScreen;
 let isMainScreen = true;
-// Camera
+// Camera data
 let cameraMainScreen;
 let cameraSideScreen;
 let actCamera;
 // List of objects to render
 let meshlist = [];
-
-let listPrograms = [];
-
 // Collision agent
 let collisionAgent = new CollisionAgent();
-
+// List of programs (associated webGL context and shader)
+let listPrograms = [];
+// Type of texture applied to the objects
 let isAlternativeObj = false;
 
 export class Core {
 	/**
-	 * Constructor of the class.
-	 * It initializes the canvas, the WebGL context and all the components for the rendering.
+	 * Initialization of canvas, WebGL context and all the components for the rendering.
 	 *
 	 * @param {String} idMainCanvas Identifier of the canvas element (Main screen).
 	 * @param {String} idSideCanvas Identifier of the canvas element (Side screen for the minimap).
@@ -51,23 +53,19 @@ export class Core {
 		// Global variables initialization
 		glMainScreen = this.glMainScreen;
 		glSideScreen = this.glSideScreen;
-
 		if (!this.glSideScreen || !this.glMainScreen) return;
-
 		// MeshLoader initialization
 		this.meshlist = [];
 		this.meshLoader = new MeshLoader(this.meshlist);
-		// Global variables initialization
 		meshlist = this.meshlist;
-
 		// Movement and camera controls initialization
 		setPlayerControls(this.mainCanvas);
 		setCameraControls(this.mainCanvas);
 	}
 
 	/**
-	 * Function setup all the components for the rendering.
-	 *
+	 * Setup camera and scene elements.
+	 * 
 	 * @param {List} sceneComposition List of objects that will be rendered in the scene.
 	 */
 	setupScene(sceneComposition) {
@@ -89,7 +87,7 @@ export class Core {
 		);
 		// Load all the meshes in the scene
 		for (const obj of sceneComposition.sceneObj) {
-			// Load the mesh
+			// Load mesh
 			this.meshLoader.addMesh(
 				this.glMainScreen,
 				this.glSideScreen,
@@ -103,7 +101,10 @@ export class Core {
 
 }
 
-document.getElementById("alternativeTexture").onclick = function () {
+/**
+ * Function to reload the objects' textures.
+ */
+export function reloadTexture() {
 	isAlternativeObj = !isAlternativeObj;
 	// Change the texture of elements
 	for (const elem of meshlist) {
@@ -148,13 +149,29 @@ document.getElementById("alternativeTexture").onclick = function () {
 	}
 }
 
+/**
+ * Function to reset the game.
+ */
+export function resetGameCore() {
+	// Reset object information
+	meshlist.forEach((elem) => {
+		elem.resetData();
+	});
+	collisionAgent.despawnAllEnemy();
+	resetPlayerScore();
+	setGameOver(false);
+	setReset(false);
+	setActive(false);
+}
+
+/**
+ * Function to initialize the WebGL program.
+ */
 export function initProgramRender() {
-	// setup GLSL program
 	let mainProgram = webglUtils.createProgramFromScripts(glMainScreen, [
 		"3d-vertex-shader",
 		"3d-fragment-shader",
 	]);
-
 	let sideProgram = webglUtils.createProgramFromScripts(glSideScreen, [
 		"3d-vertex-shader",
 		"3d-fragment-shader",
@@ -162,6 +179,11 @@ export function initProgramRender() {
 
 	glMainScreen.useProgram(mainProgram);
 	glSideScreen.useProgram(sideProgram);
+
+	glSideScreen.enable(glSideScreen.DEPTH_TEST);
+	glMainScreen.enable(glMainScreen.DEPTH_TEST);
+	glMainScreen.enable(glMainScreen.BLEND);
+	glMainScreen.blendFunc(glMainScreen.SRC_ALPHA, glMainScreen.ONE_MINUS_SRC_ALPHA);
 
 	// List of list of programs
 	listPrograms = [
@@ -172,98 +194,84 @@ export function initProgramRender() {
 	actCamera = cameraMainScreen;
 }
 
-// TODO: Spostare la gestione del pulsante al control panel
-document.getElementById("resetButton").onclick = function () {
-	meshlist.forEach((elem) => {
-		elem.resetData();
-	});
-	collisionAgent.despawnAllEnemy();
-	resetPlayerScore();
-	setGameOver(false);
-	setReset(true);
-	setActive(false);
-};
-
 /**
- * Rendering functions for the main screen.
+ * Rendering functions for the main screen and the side screen.
  *
- * @param {*} time
+ * @param {Number} time Time of the render.
  */
 export function render(time = 0) {
 	for (const program of listPrograms) {
-
 		if (!isSecondCameraActive && program[1] == glSideScreen) continue;
-
+		// Update the camera information
 		cameraMainScreen.moveCamera();
-
-		// Convert to seconds
 		time *= 0.002;
-
+		// Render the scene
 		meshlist.forEach((elem) => {
 			switch (true) {
 				case elem instanceof PlayerBehaviour:
-					// Update information
 					if (isMainScreen && getActive() && !getGameOver()) {
 						collisionAgent.checkCollisionEnemyWithPlayer(elem.position);
 						collisionAgent.checkCollisionPointWithPlayer(elem.position);
+						elem.computePlayerPosition();
 					}
 					// Update render
 					elem.render(
 						program[1],
-						{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
 						program[0],
 						actCamera,
-						isMainScreen,
-						false
+						isMainScreen
 					);
 					break;
 				case elem instanceof EnemyBehaviour:
-					// Update the player vector
 					if (isMainScreen && (elem.isVisible || elem.isSpawning) && !getGameOver()) {
 						collisionAgent.checkCollisionEnemyWithArena(elem);
-						collisionAgent.checkCollisionEnemyWithEnemy(0.90);
+						collisionAgent.checkCollisionEnemyWithEnemy();
+						elem.computeEnemyPosition();
 					}
 					if (elem.isVisible || elem.isSpawning) {
 						elem.render(
 							time,
 							program[1],
-							{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
 							program[0],
 							actCamera,
-							isMainScreen,
-							false
+							isMainScreen
 						);
 					}
 					break;
 				case elem instanceof ModifierBehaviour:
-					// Update information
-					if (isMainScreen && getActive() && !getGameOver())
+					if (isMainScreen && getActive() && !getGameOver()){
 						collisionAgent.checkOverlapModifier(elem);
-					// Update render
+					}
 					elem.render(
-						time,
 						program[1],
-						{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
 						program[0],
 						actCamera,
-						isMainScreen,
-						false
+						isMainScreen
+					);
+					break;
+				case elem instanceof PointBehaviour:
+					if (isMainScreen){
+						elem.computeIdleAnimation(time);
+					}
+					elem.render(
+						program[1],
+						program[0],
+						actCamera,
+						isMainScreen
 					);
 					break;
 				default:
 					elem.render(
 						time,
 						program[1],
-						{ ambientLight: [0.2, 0.2, 0.2], colorLight: [1.0, 1.0, 1.0] },
 						program[0],
 						actCamera,
-						isMainScreen,
-						collisionAgent
+						isMainScreen
 					);
 					break;
 			}
 		});
-
+		// Switch camera
 		if (isSecondCameraActive) {
 			if (actCamera == cameraMainScreen) {
 				isMainScreen = false;
@@ -273,9 +281,7 @@ export function render(time = 0) {
 				isMainScreen = true;
 			}
 		}
-
 	}
-
 	requestAnimationFrame(render);
 
 	if (!getGameOver()) {
@@ -287,7 +293,4 @@ export function render(time = 0) {
 			}
 		});
 	}
-
-
 }
-

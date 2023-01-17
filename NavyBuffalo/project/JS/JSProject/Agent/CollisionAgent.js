@@ -11,7 +11,7 @@ import {
 } from "../ControlPanel.js";
 import { EnemyBehaviour } from "../OBJBehaviour/EnemyBehaviour.js";
 import { PlayerBehaviour } from "../OBJBehaviour/PlayerBehaviour.js";
-import { PointBehaviour } from "../OBJBehaviour/PointBeahaviour.js";
+import { PointBehaviour } from "../OBJBehaviour/PointBehaviour.js";
 import { ModifierBehaviour } from "../OBJBehaviour/ModifierBehaviour.js";
 
 export class CollisionAgent {

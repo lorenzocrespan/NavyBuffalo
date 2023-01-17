@@ -1,5 +1,5 @@
 import { ObjectBehaviour } from "./ObjectBehaviour.js";
-import { isTransparencyActive } from "../ControlPanel.js";
+import { light, lightPosition } from "../ControlPanel.js";
 
 let greenRGB = [0, 1, 0];
 let redRGB = [1, 0, 0];
@@ -31,10 +31,8 @@ export class ModifierBehaviour extends ObjectBehaviour {
 		this.changeColorModifier()
 	}
 
-	render(time, gl, light, program, camera, isScreen) {
-
-		/********************************************************************************************/
-
+	render(gl, program, camera, isScreen) {
+		
 		let positionLocation = gl.getAttribLocation(program, "a_position");
 		let normalLocation = gl.getAttribLocation(program, "a_normal");
 		let texcoordLocation = gl.getAttribLocation(program, "a_texcoord");
@@ -144,7 +142,7 @@ export class ModifierBehaviour extends ObjectBehaviour {
 		);
 
 		// set the light position
-		gl.uniform3fv(lightWorldDirectionLocation, m4.normalize([-1, 3, 7]));
+		gl.uniform3fv(lightWorldDirectionLocation, m4.normalize(lightPosition));
 
 		// set the camera/view position
 		gl.uniform3fv(viewWorldPositionLocation, camera.position);
@@ -161,14 +159,6 @@ export class ModifierBehaviour extends ObjectBehaviour {
 			else gl.bindTexture(gl.TEXTURE_2D, mesh.sideTexture);
 
 			gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-
-			if (isTransparencyActive) {
-				gl.enable(gl.BLEND);
-				gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-				gl.enable(gl.DEPTH_TEST);
-			} else {
-				gl.disable(gl.BLEND);
-			}
 
 			let matrix = m4.identity();
 			gl.uniformMatrix4fv(matrixLocation, false, matrix);

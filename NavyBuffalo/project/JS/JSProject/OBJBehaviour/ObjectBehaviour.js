@@ -1,3 +1,8 @@
+import { 
+	light, 
+	lightPosition
+} from "../ControlPanel.js";
+
 export class ObjectBehaviour {
 
 	constructor(alias, mesh, offsets) {
@@ -21,7 +26,7 @@ export class ObjectBehaviour {
 		}
 	}
 
-	render(time, gl, light, program, camera, isScreen) {
+	render(time, gl, program, camera, isScreen) {
 		let positionLocation = gl.getAttribLocation(program, "a_position");
 		let normalLocation = gl.getAttribLocation(program, "a_normal");
 		let texcoordLocation = gl.getAttribLocation(program, "a_texcoord");

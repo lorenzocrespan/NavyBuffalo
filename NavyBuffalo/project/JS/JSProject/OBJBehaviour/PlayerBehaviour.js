@@ -1,7 +1,10 @@
 import { ObjectBehaviour } from "./ObjectBehaviour.js";
 import { PlayerListener } from "../Agent/PlayerAgent.js";
-import { getActive, isTransparencyActive, getGameOver } from "../ControlPanel.js";
-
+import { 
+	getActive,
+	light, 
+	lightPosition
+} from "../ControlPanel.js";
 
 export class PlayerBehaviour extends ObjectBehaviour {
 
@@ -67,23 +70,13 @@ export class PlayerBehaviour extends ObjectBehaviour {
 		if (this.speed > 0.1) this.speed -= 0.01;
 	}
 
-	render(gl, light, program, camera, isScreen, isReset) {
-
-		if (isReset) this.resetData();
-		if (isScreen && !getGameOver()) this.computePlayerPosition();
-
-		/********************************************************************************************/
-
+	render(gl, program, camera, isScreen) {
 		let positionLocation = gl.getAttribLocation(program, "a_position");
 		let normalLocation = gl.getAttribLocation(program, "a_normal");
 		let texcoordLocation = gl.getAttribLocation(program, "a_texcoord");
 		this.positionBuffer = gl.createBuffer();
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.positionBuffer);
-		gl.bufferData(
-			gl.ARRAY_BUFFER,
-			new Float32Array(this.mesh.positions),
-			gl.STATIC_DRAW
-		);
+		gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(this.mesh.positions), gl.STATIC_DRAW);
 		this.normalsBuffer = gl.createBuffer();
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.normalsBuffer);
 		gl.bufferData(
@@ -113,6 +106,7 @@ export class PlayerBehaviour extends ObjectBehaviour {
 		gl.uniform1f(gl.getUniformLocation(program, "shininess"), this.mesh.shininess);
 		gl.uniform1f(gl.getUniformLocation(program, "opacity"), this.mesh.opacity);
 		if (!getActive()) gl.uniform1f(gl.getUniformLocation(program, "uAlpha"), 0.4);
+		else gl.uniform1f(gl.getUniformLocation(program, "uAlpha"), 1.0);
 		gl.enableVertexAttribArray(positionLocation);
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.positionBuffer);
 		const size = 3; // 3 components per iteration
@@ -173,7 +167,7 @@ export class PlayerBehaviour extends ObjectBehaviour {
 		);
 
 		// set the light position
-		gl.uniform3fv(lightWorldDirectionLocation, m4.normalize([-1, 3, 7]));
+		gl.uniform3fv(lightWorldDirectionLocation, m4.normalize(lightPosition));
 
 		// set the camera/view position
 		gl.uniform3fv(viewWorldPositionLocation, camera.position);
@@ -189,13 +183,6 @@ export class PlayerBehaviour extends ObjectBehaviour {
 			if (isScreen) gl.bindTexture(gl.TEXTURE_2D, mesh.mainTexture);
 			else gl.bindTexture(gl.TEXTURE_2D, mesh.sideTexture);
 			gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-
-			if (isTransparencyActive) {
-				gl.enable(gl.BLEND);
-				gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-			} else {
-				gl.disable(gl.BLEND);
-			}
 
 			let matrix = m4.identity();
 			gl.uniformMatrix4fv(matrixLocation, false, matrix);

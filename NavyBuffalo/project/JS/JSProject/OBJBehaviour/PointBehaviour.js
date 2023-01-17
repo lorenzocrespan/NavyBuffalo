@@ -1,12 +1,16 @@
 import { ObjectBehaviour } from "./ObjectBehaviour.js";
+import {
+	light,
+	lightPosition
+} from "../ControlPanel.js";
 
 export class PointBehaviour extends ObjectBehaviour {
 	constructor(alias, mesh, offsets) {
 		super(alias, mesh, offsets);
 		this.originalPosition = {
-			x: offsets.x, 
-			y: offsets.y, 
-			z: offsets.z, 
+			x: offsets.x,
+			y: offsets.y,
+			z: offsets.z,
 		};
 		this.ampWaveLimiter = 0.004;
 		let rotMatY = m4.yRotation(0.04);
@@ -31,13 +35,14 @@ export class PointBehaviour extends ObjectBehaviour {
 	}
 
 	// Calcolo della nuova posizione della mesh (mesh.positions e mesh.normals).
-	computeIdleAnimation(deltaY) {
-		this.offdeltaY = deltaY;
+	computeIdleAnimation(time) {
+
+		this.offdeltaY = Math.sin(time) * this.ampWaveLimiter;
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
 			var pos = [];
 			var nor = [];
 
-			this.mesh.positions[i + 2] += deltaY;
+			this.mesh.positions[i + 2] += Math.sin(time) * this.ampWaveLimiter;
 
 			pos.push(this.mesh.positions[i + 1] - this.position.x);
 			pos.push(this.mesh.positions[i + 2] - 1 - this.position.y);
@@ -60,12 +65,7 @@ export class PointBehaviour extends ObjectBehaviour {
 		}
 	}
 
-	render(time, gl, light, program, camera, isScreen) {
-
-		if (isScreen) this.computeIdleAnimation(Math.sin(time) * this.ampWaveLimiter);
-		
-		/********************************************************************************************/
-
+	render(gl, program, camera, isScreen) {
 		let positionLocation = gl.getAttribLocation(program, "a_position");
 		let normalLocation = gl.getAttribLocation(program, "a_normal");
 		let texcoordLocation = gl.getAttribLocation(program, "a_texcoord");
@@ -174,7 +174,7 @@ export class PointBehaviour extends ObjectBehaviour {
 		);
 
 		// set the light position
-		gl.uniform3fv(lightWorldDirectionLocation, m4.normalize([-1, 3, 7]));
+		gl.uniform3fv(lightWorldDirectionLocation, m4.normalize(lightPosition));
 
 		// set the camera/view position
 		gl.uniform3fv(viewWorldPositionLocation, camera.position);
@@ -198,5 +198,5 @@ export class PointBehaviour extends ObjectBehaviour {
 			gl.drawArrays(gl.TRIANGLES, 0, vertNumber);
 		}
 	}
-	
+
 }

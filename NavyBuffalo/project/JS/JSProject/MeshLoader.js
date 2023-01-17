@@ -1,7 +1,7 @@
 import { ObjectBehaviour } from "./OBJBehaviour/ObjectBehaviour.js";
 import { PlayerBehaviour } from "./OBJBehaviour/PlayerBehaviour.js";
 import { EnemyBehaviour } from "./OBJBehaviour/EnemyBehaviour.js";
-import { PointBehaviour } from "./OBJBehaviour/PointBeahaviour.js";
+import { PointBehaviour } from "./OBJBehaviour/PointBehaviour.js";
 import { ModifierBehaviour } from "./OBJBehaviour/ModifierBehaviour.js";
 
 export class MeshLoader {
@@ -34,20 +34,20 @@ export class MeshLoader {
 
 		// Load the mesh from the .obj file
 		LoadMesh(glMainScreen, glSideScreen, mesh);
-	
+
 		// Add the mesh to the list of objects
 		switch (alias) {
 			case "Point":
-					this.objData.push(new PointBehaviour(alias, mesh, coords));
+				this.objData.push(new PointBehaviour(alias, mesh, coords));
 				break;
 			case "Enemy":
 				this.objData.push(new EnemyBehaviour(alias, mesh, coords));
 				break;
 			case "Player":
-					this.objData.push(new PlayerBehaviour(alias, mesh, coords));
-					break;
+				this.objData.push(new PlayerBehaviour(alias, mesh, coords));
+				break;
 			case "Modifier":
-					this.objData.push(new ModifierBehaviour(alias, mesh, coords));
+				this.objData.push(new ModifierBehaviour(alias, mesh, coords));
 				break;
 			default:
 				this.objData.push(new ObjectBehaviour(alias, mesh, coords));
