@@ -132,7 +132,9 @@ export function getCirclePointDimension() {
 
 export let arenaSide = 9;
 
-export let originSpeed = 0.075;
+export let originSpeed = 0.070;
+export let minSpeed = 0.040;
+export let maxSpeed = 0.100;
 
 /**
  * Ambient light data
