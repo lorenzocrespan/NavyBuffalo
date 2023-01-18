@@ -6,7 +6,8 @@ import {
 	setReset,
 	getActive,
 	setActive,
-	isSecondCameraActive
+	isSecondCameraActive,
+	isTransparencyActive
 } from "./ControlPanel.js";
 import {
 	typeCamera,
@@ -292,4 +293,7 @@ export function render(time = 0) {
 			}
 		});
 	}
+
+	if (!isTransparencyActive) glMainScreen.disable(glMainScreen.BLEND);
+	else glMainScreen.enable(glMainScreen.BLEND);
 }

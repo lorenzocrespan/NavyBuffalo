@@ -4,7 +4,8 @@ import {
 	lightPosition,
 	originSpeed,
 	minSpeed,
-	maxSpeed
+	maxSpeed,
+	isTransparencyActive
 } from "../ControlPanel.js";
 
 let blinkState = false;
