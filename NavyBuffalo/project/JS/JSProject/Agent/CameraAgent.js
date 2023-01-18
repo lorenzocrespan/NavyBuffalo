@@ -232,9 +232,10 @@ export function setCameraControls(canvas) {
 	}
 	);
 	canvas.addEventListener("touchend", function (event) {
+		zoomIn = false;
+		zoomOut = false;
 		drag = false;
-	}
-	);
+	});
 	canvas.addEventListener("touchmove", function (event) {
 		if (!drag) return false;
 		deltaY = (-(event.touches[0].pageY - oldY) * 2 * Math.PI) / canvas.height;
@@ -262,13 +263,6 @@ export function setCameraControls(canvas) {
 		}
 	}
 	);
-	canvas.addEventListener("touchend", function (event) {
-		if (event.touches.length == 1) {
-			zoomIn = false;
-			zoomOut = false;
-		}
-	}
-	);
 	canvas.addEventListener("touchmove", function (event) {
 		// If there are two touches on the screen, check for pinch gestures.
 		if (event.touches.length == 2) {
@@ -276,11 +270,6 @@ export function setCameraControls(canvas) {
 			var dx = event.touches[0].pageX - event.touches[1].pageX;
 			var dy = event.touches[0].pageY - event.touches[1].pageY;
 			var distance = Math.sqrt(dx * dx + dy * dy);
-
-			// If this is the first touch, initialize the distance.
-			if (lastDistance == -1) {
-				lastDistance = distance;
-			}
 
 			// Check if the distance has increased or decreased.
 			if (distance > lastDistance) {
