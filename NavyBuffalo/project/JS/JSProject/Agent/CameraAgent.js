@@ -12,6 +12,7 @@ let angleY = degToRad(45);
 let oldX, oldY;
 let deltaX, deltaY;
 let isResetCamera = false;
+let lastDistance = 0;
 
 // Enum for camera type
 export const typeCamera = {
@@ -252,22 +253,46 @@ export function setCameraControls(canvas) {
 	canvas.addEventListener("touchstart", function (event) {
 		if (event.touches.length == 2) {
 			event.preventDefault();
-			zoomIn = true;
+			// Calculate the distance between the two touches.
+			var dx = event.touches[0].pageX - event.touches[1].pageX;
+			var dy = event.touches[0].pageY - event.touches[1].pageY;
+			var distance = Math.sqrt(dx * dx + dy * dy);
+			// Store the distance for the next move event.
+			lastDistance = distance;
 		}
 	}
 	);
 	canvas.addEventListener("touchend", function (event) {
 		if (event.touches.length == 1) {
 			zoomIn = false;
+			zoomOut = false;
 		}
 	}
 	);
 	canvas.addEventListener("touchmove", function (event) {
+		// If there are two touches on the screen, check for pinch gestures.
 		if (event.touches.length == 2) {
-			event.preventDefault();
-			zoomIn = true;
-		} else {
-			zoomIn = false;
+			// Calculate the distance between the two touches.
+			var dx = event.touches[0].pageX - event.touches[1].pageX;
+			var dy = event.touches[0].pageY - event.touches[1].pageY;
+			var distance = Math.sqrt(dx * dx + dy * dy);
+
+			// If this is the first touch, initialize the distance.
+			if (lastDistance == -1) {
+				lastDistance = distance;
+			}
+
+			// Check if the distance has increased or decreased.
+			if (distance > lastDistance) {
+				zoomIn = true;
+				zoomOut = false;
+			} else if (distance < lastDistance) {
+				zoomIn = false;
+				zoomOut = true;
+			}
+
+			// Update the last distance.
+			lastDistance = distance;
 		}
 	}
 	);
