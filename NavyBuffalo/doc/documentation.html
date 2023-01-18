@@ -313,6 +313,19 @@
 						del pich-in e del pinch-out per lo zoom della camera. <br>
 					</p>
 					<p class="my-8 sm:text-xl">
+						Menzione particolare va fatta per il sistema di doppia camera implementato.<br>
+						La schermata di gioco si compone di due canvas. Entrambi i canvas sfruttano una rappresentazione
+						3D della scena, ma con una diversa prospettiva. <br>
+						La scena principale è collegata alla camera di gioco (descritta precedentemente), mentre la
+						seconda è collegata ad una camera statica piazzata al di sopra dell'area di gioco. <br>
+						Per il rendering delle due scene è stato implementato un sistema di rendering multiplo. Ad
+						ognuno dei due canvas viene associato un un programma di rendering diverso con un proprio frame
+						buffer.
+						Ad ogni richiesta di requestAnimationFrame viene eseguito un ciclo di rendering per ogni canvas,
+						l'unica differenza è che per il canvas principale viene eseguito anche l'aggiornamento
+						delle informazioni di gioco (posizione oggetti, collisioni, etc.). <br>
+					</p>
+					<p class="my-8 sm:text-xl">
 						<b class="font-semibold dark:text-white"> CollisionAgent.js </b> <br>
 						Il CollisionAgent.js si occupa di gestire le collisioni tra gli oggetti presenti nel gioco.
 						Per lo sviluppo del gioco è stato implementato un sistema di collisioni basato su un sistema di
@@ -442,7 +455,7 @@
 						<b class="font-semibold dark:text-white"> Texture alternative </b> <br>
 						Menzione speciale va fatta per la funzionalità di texture alternative. Questa funzionalità
 						consente di cambiare la texture di un oggetto in base allo stato di una checkbox. <br>
-						L'implementazione di questa funzionalità è stata fatta attraverso una ricarica dei diversi 
+						L'implementazione di questa funzionalità è stata fatta attraverso una ricarica dei diversi
 						oggetti con un cambiamento nella texture di riferimento. <br>
 					</p>
 				</div>

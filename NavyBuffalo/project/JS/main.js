@@ -2,12 +2,14 @@ import {
 	disableDefaultPageScroll,
 	countEnemies,
 	countPoints,
-	countModifiers
+	countModifiers,
+	initScoreCanvas
 } from "./JSProject/ControlPanel.js";
 import { Scene } from "./JSProject/Scene.js";
 import { Core, initProgramRender, render } from "./JSProject/Core.js";
 
 disableDefaultPageScroll();
+initScoreCanvas();
 // Array of objects that will be rendered in the scene
 let sceneComposition = new Scene();
 // Add objects to the scene (in the order they will be rendered): Arena, Points, Enemies, Player, Modifiers

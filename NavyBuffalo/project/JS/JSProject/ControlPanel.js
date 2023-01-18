@@ -30,9 +30,47 @@ export function getPlayerScore() {
 }
 
 export function resetPlayerScore() {
+    // Update the high score
+    if (localStorage.getItem("highScore") == null || playerScore > localStorage.getItem("highScore")) {
+        localStorage.setItem("highScore", playerScore);
+    }
+    // Reload the high score canvas
+    reloadScoreCanvas();
+    // Update the high score canvas
     playerScore = 0;
     document.getElementById("playerScore").textContent = playerScore;
 }
+
+/**
+ * Init canvas 2D
+ */
+let canvas = document.getElementById("screenCanvasPlaneHighScore");
+let context = canvas.getContext("2d");
+
+/**
+ * Init the high score canvas
+ */
+export function initScoreCanvas() {
+    // Show if the browser has an high score saved
+    if (localStorage.getItem("highScore") != null) {
+        reloadScoreCanvas();
+    } else {
+        document.getElementById("screenCanvasPlaneHighScore").style.display = "none";
+    }
+    // Reload the high score canvas
+}
+
+function reloadScoreCanvas() {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+    context.fillStyle = "RGB(28, 56, 166)";
+    context.font = "20px Arial";
+    context.fillText("Miglior punteggio: " + localStorage.getItem("highScore"), canvas.width / 2, canvas.height / 2);
+    document.getElementById("screenCanvasPlaneHighScore").style.display = "block";
+}
+
+
 
 /**
  *  Object data

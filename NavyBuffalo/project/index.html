@@ -23,11 +23,14 @@
 								id="screenCanvasPlane" width="300" height="169">
 							</canvas>
 						</div>
-						<!-- Lost screen -->
+						<!-- Canvas 2D for High score registered -->
+						<div class="inset-0 z-1">
+							<canvas class="absolute left-2 top-[182px] rounded-md border-4 border-blue-800 bg-blue-300 hidden"
+								id="screenCanvasPlaneHighScore" width="300" height="30">
+							</canvas>
+						</div>
 						<div id="lostScreen" class="absolute inset-0 z-20 hidden">
-							<!-- Background -->
 							<div class="absolute inset-0 bg-black opacity-50"></div>
-							<!-- Content -->
 							<div class="absolute inset-0 flex flex-col items-center justify-center space-y-4">
 								<h2 class="font-semibold text-3xl">Hai perso</h2>
 								<div class="flex space-x-4">
