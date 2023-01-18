@@ -38,11 +38,11 @@ export function resetPlayerScore() {
  *  Object data
  */
 
-export let spawnThreshold = 2;
+export let spawnThreshold = 10;
 
-export let countEnemies = 4;
+export let countEnemies = 5;
 export let countPoints = 1;
-export let countModifiers = 2;
+export let countModifiers = 3;
 
 let cubeDimension = 1.0;
 let cubeModifierDimension = 2;
