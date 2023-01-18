@@ -21,15 +21,17 @@
 					<ul class="list-disc list-inside text-xl sm:text-xl dark:text-gray-400 space-y-1">
 						<li class="hover:text-white"><a href="#DescrizioneGioco">Descrizione gioco</a></li>
 						<ul class="list-disc list-inside ml-6">
-							<li class="hover:text-white"><a href="#DescrizioneFunzionamentoGioco">Descrizione del funzionamento del gioco</a></li>
+							<li class="hover:text-white"><a href="#DescrizioneFunzionamentoGioco">Descrizione del
+									funzionamento del gioco</a></li>
 						</ul>
 						<li class="hover:text-white"><a href="#DescrizioneApplicazione">Sviluppo</a></li>
 						<ul class="list-disc list-inside ml-6">
 							<li class="hover:text-white"><a href="#StrutturaProgetto">Struttura progetto</a></li>
-							<li class="hover:text-white"><a href="#DescrizioneCore">Descrizione main</a></li>
+							<li class="hover:text-white"><a href="#DescrizioneMain">Descrizione main</a></li>
 							<li class="hover:text-white"><a href="#DescrizioneCore">Descrizione core system</a></li>
 							<li class="hover:text-white"><a href="#DescrizioneAgent">Descrizione agent system</a></li>
-							<li class="hover:text-white"><a href="#DescrizioneObject">Descrizione object behaviour system</a></li>
+							<li class="hover:text-white"><a href="#DescrizioneObject">Descrizione object behaviour
+									system</a></li>
 						</ul>
 					</ul>
 				</div>
@@ -46,7 +48,7 @@
 
 				<!-- Back to top button absolute in the bottom right corner -->
 
-				<a href="#top" class="absolute bottom-0 right-0 mb-4 mr-4">
+				<a href="#top" class=" bottom-0 right-0 mb-4 mr-4 fixed z-90">
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
 						stroke="currentColor">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -56,69 +58,97 @@
 
 				<!-- Descrizione gioco -->
 
-				<div id="#DescrizioneGioco" class="flex flex-col space-y-4 my-8">
+				<div id="DescrizioneGioco" class="flex flex-col space-y-4 my-8">
 					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px]">Descrizione gioco</h2>
 					<p class="my-8 dark:text-gray-400 sm:text-xl">
-						<img src="./media/video/WorldHardestGame.gif" alt="The World's Hardest Game" class="float-right w-90 m-4" />
-						Navy Buffalo è un gioco arcade ispirato a <a class="dark: text-red-500">The World's Hardest Game</a>,
-						gioco 2D sviluppato nel Marzo 2008 da <b>Snubby Land</b>, in cui il giocatore nel controllare i movimenti 
-						di un quadrato deve risolvere una serie di "puzzle" evitando i nemici. 
+						<img src="./media/video/WorldHardestGame.gif" alt="The World's Hardest Game"
+							class="float-right w-90 m-4" />
+						Navy Buffalo è un gioco arcade ispirato a <a class="dark: text-red-500">The World's Hardest
+							Game</a>,
+						gioco 2D sviluppato nel Marzo 2008 da <b>Snubby Land</b>, in cui il giocatore nel controllare i
+						movimenti
+						di un quadrato deve risolvere una serie di "puzzle" evitando i nemici.
 						<br>
-						Prendendo spunto da questo gioco, Navy Buffalo è un gioco arcade in cui il giocatore controllando 
-						un <a class="dark: text-blue-500">cubo</a> deve accumulare il maggior numero di punti (identificati da
-						delle <a class="dark: text-green-500">sfere</a>) evitando i nemici (identificati da dei 
-						<a class="dark: text-red-500">cilindri</a>) che potrebbero apparire con l'avanzare della partita. 
-						Per dare un tocco di originalità al gioco, Navy Buffalo introduce la possibilità di raccogliere 
-						<a class="dark: text-green-300">buff</a> e <a class="dark: text-red-400">debuff</a>, che permettono di
+						Prendendo spunto da questo gioco, Navy Buffalo è un gioco arcade in cui il giocatore
+						controllando
+						un <a class="dark: text-blue-500">cubo</a> deve accumulare il maggior numero di punti
+						(identificati da
+						delle <a class="dark: text-green-500">sfere</a>) evitando i nemici (identificati da dei
+						<a class="dark: text-red-500">cilindri</a>) che potrebbero apparire con l'avanzare della
+						partita.
+						Per dare un tocco di originalità al gioco, viene introdotta la possibilità di raccogliere
+						<a class="dark: text-green-300">buff</a> e <a class="dark: text-red-400">debuff</a>, che
+						permettono di
 						ottenere un vantaggio o un svantaggio in base alla situazione.
 						<br>
-						Rispetto al gioco originale, Navy Buffalo azzera la componente "puzzle" e si concentra nel proporre
+						Rispetto al gioco originale, Navy Buffalo azzera la componente "puzzle" e si concentra nel
+						proporre
 						una sfida di velocità e precisione in un <b>ambiente 3D</b>.
 					</p>
 				</div>
 
 				<!-- Descrizione funzionamento gioco -->
 
-				<div id="#DescrizioneFunzionamentoGioco" class="flex flex-col space-y-4 my-8">
-					<h2 class="text-xl font-semibold sm:text-xl border-b-[1px]">Descrizione del funzionamento del gioco </h2>
+				<div id="DescrizioneFunzionamentoGioco" class="flex flex-col space-y-4 my-8">
+					<h2 class="text-xl font-semibold sm:text-xl border-b-[1px]">Descrizione del funzionamento del gioco
+					</h2>
 					<p class="my-8 dark:text-gray-400 sm:text-xl">
 						Il gioco ad inizio di ogni partita si presenta con la seguente struttura: <br>
 					</p>
 					<ul class="my-8 dark:text-gray-400 sm:text-xl list-disc list-inside">
-						<li>Il giocatore è rappresentato da un <a class="dark: text-blue-500">cubo</a> posizionato al centro della mappa. </li>
-						<li>Una sfera di colore <a class="dark: text-green-500">verde</a> rappresenta l'oggetto da raccogliere per ottenere punti. </li>
-						<li>Una serie di cubi di colore <a class="dark: text-green-300">verde</a>  rappresentano i buff/debuff che possono essere raccolti per ottenere vantaggi/svantaggi. </li>
+						<li>Il giocatore è rappresentato da un <a class="dark: text-blue-500">cubo</a> posizionato al
+							centro della mappa. </li>
+						<li>Una sfera di colore <a class="dark: text-green-500">verde</a> rappresenta l'oggetto da
+							raccogliere per ottenere punti. </li>
+						<li>Una serie di cubi di colore <a class="dark: text-green-300">verde</a> rappresentano i
+							buff/debuff che possono essere raccolti per ottenere vantaggi/svantaggi. </li>
 					</ul>
 					<p class="my-8 dark:text-gray-400 sm:text-xl">
-						Fino a quando il giocatore non compie alcuna azione il cubo rimane fermo al centro della mappa e risulta essere <b>inattivo</b> (trasparenza attiva),
-						appena il giocatore compie un movimento il cubo cambia il suo stato e diventando <b>attivo</b> (trasparenza non attiva). <br>
-						Quando il cubo è <b>attivo</b> il giocatore può muoverlo sfruttando i controlli WASD o i bottoni presenti a destra della schermata di gioco e 
+						Fino a quando il giocatore non compie alcuna azione il cubo rimane fermo al centro della mappa e
+						risulta essere <b>inattivo</b> (trasparenza attiva),
+						appena il giocatore compie un movimento il cubo cambia il suo stato e diventando <b>attivo</b>
+						(trasparenza non attiva). <br>
+						Quando il cubo è <b>attivo</b> il giocatore può muoverlo sfruttando i controlli WASD o i bottoni
+						presenti a destra della schermata di gioco e
 						può raccogliere gli elementi presenti nella mappa. <br>
-						La raccolta avviene quando il giocatore collide con un oggetto ed in base al tipo di oggetto raccolto si ottengono effetti differenti:
+						La raccolta avviene quando il giocatore collide con un oggetto ed in base al tipo di oggetto
+						raccolto si ottengono effetti differenti:
 					</p>
 					<ul class="my-8 dark:text-gray-400 sm:text-xl list-disc list-inside">
-						<li>Se il giocatore raccoglie una sfera di colore <a class="dark: text-green-500">verde</a> ottiene punti, dopo la raccolta la sfera viene spostata in una posizione casuale. </li>
-						<li>Se il giocatore raccoglie un cubo di colore <a class="dark: text-green-300">verde</a> ottiene un buff alla velocità di movimento, dopo la raccolta il cubo viene spostato in una posizione casuale e viene scelto randomicamente se il cubo sarà un buff o un debuff. </li>
-						<li>Se il giocatore raccoglie un cubo di colore <a class="dark: text-red-400">rosso</a> ottiene un debuff alla velocità di movimento, dopo la raccolta il cubo viene spostato in una posizione casuale e viene scelto randomicamente se il cubo sarà un buff o un debuff. </li>
+						<li>Se il giocatore raccoglie una sfera di colore <a class="dark: text-green-500">verde</a>
+							ottiene punti, dopo la raccolta la sfera viene spostata in una posizione casuale. </li>
+						<li>Se il giocatore raccoglie un cubo di colore <a class="dark: text-green-300">verde</a>
+							ottiene un buff alla velocità di movimento, dopo la raccolta il cubo viene spostato in una
+							posizione casuale e viene scelto randomicamente se il cubo sarà un buff o un debuff. </li>
+						<li>Se il giocatore raccoglie un cubo di colore <a class="dark: text-red-400">rosso</a> ottiene
+							un debuff alla velocità di movimento, dopo la raccolta il cubo viene spostato in una
+							posizione casuale e viene scelto randomicamente se il cubo sarà un buff o un debuff. </li>
 					</ul>
 					<div class="flex flex-row">
-						<img src="./media/image/000_InitGame.png" alt="Stato iniziale della partita" class="w-1/2 m-4 self-center" />
-						<img src="./media/image/001_InizioGame.png" alt="Stato iniziale della partita" class="w-1/2 m-4 self-center" />
+						<img src="./media/image/000_InitGame.png" alt="Stato iniziale della partita"
+							class="w-1/2 m-4 self-center" />
+						<img src="./media/image/001_InizioGame.png" alt="Stato iniziale della partita"
+							class="w-1/2 m-4 self-center" />
 					</div>
 					<p class="my-8 dark:text-gray-400 sm:text-xl">
-						Con il progredire della partita vengono aggiunti alla mappa dei cilindri di colore <a class="dark: text-red-500">rosso</a> che rappresentano i nemici che il giocatore deve evitare, 
+						Con il progredire della partita vengono aggiunti alla mappa dei cilindri di colore <a
+							class="dark: text-red-500">rosso</a> che rappresentano i nemici che il giocatore deve
+						evitare,
 						se non vuole perdere la partita. <br>
-						I nemici si muovono lungo direzioni facilmente intuibili, ma che possono variare in base alle collisioni con gli altri elementi presenti nella mappa, come ad esempio i buff/debuff. <br>
+						I nemici si muovono lungo direzioni facilmente intuibili, ma che possono variare in base alle
+						collisioni con gli altri elementi presenti nella mappa, come ad esempio i buff/debuff. <br>
 					</p>
 				</div>
 
 				<!-- Sviluppo -->
 
-				<div class="flex flex-col space-y-4 my-8 dark:text-gray-400">
+				<div id="DescrizioneApplicazione" class="flex flex-col space-y-4 my-8 dark:text-gray-400">
 					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px] dark:text-white">Sviluppo</h2>
 					<p class="my-8 sm:text-xl">
-						Il progetto è stato realizzato per il corso di Computer Graphics del CdL Magistrale in Informatica (curriculum A) presso l'università di Bologna. <br>
-						Sulla base di quanto esposto nella sezione precedente, il progetto è stato sviluppato cercando di rispettare le seguenti milestone:
+						Il progetto è stato realizzato per il corso di Computer Graphics del CdL Magistrale in
+						Informatica (curriculum A) presso l'università di Bologna. <br>
+						Sulla base di quanto esposto nella sezione precedente, il progetto è stato sviluppato cercando
+						di rispettare le seguenti milestone:
 					</p>
 					<ul class="my-8 sm:text-xl list-disc list-inside ml-6">
 						<li>Implementazione di un sistema di inserimento di elementi nella scena.</li>
@@ -132,38 +162,45 @@
 						<li>Test del gioco da parte di un gruppo di utenti.</li>
 					</ul>
 					<p class="my-8 sm:text-xl">
-						Per lo sviluppo del progetto, come da richiesta non sono state utilizzate librerie non viste a lezione come Three.js, ma sono state utilizzate le seguenti tecnologie:
+						Per lo sviluppo del progetto, come da richiesta non sono state utilizzate librerie non viste a
+						lezione come Three.js, ma sono state utilizzate le seguenti tecnologie:
 					</p>
-					<b class= sm:text-xl"> Linguaggi di programmazione</b>
+					<b class=sm:text-xl"> Linguaggi di programmazione</b>
 					<ul class="my-8 sm:text-xl list-disc list-inside ml-6">
 						<li>Javascript (ES6)</li>
 						<li>Html 5</li>
 						<li>Tailwind CSS 3.1.8</li>
 					</ul>
-					<b class= sm:text-xl"> Programmi </b>
+					<b class=sm:text-xl"> Programmi </b>
 					<ul class="my-8 sm:text-xl list-disc list-inside ml-6">
 						<li>Blender 3.3.0</li>
 					</ul>
 					<p class="my-8 sm:text-xl">
-						Nelle seguenti sezioni verranno descritte le varie parti del progetto, con particolare attenzione alle parti più complesse.
+						Nelle seguenti sezioni verranno descritte le varie parti del progetto, con particolare
+						attenzione alle parti più complesse.
 					</p>
 				</div>
 
 				<!-- Struttura progetto -->
 
-				<div class="flex flex-col space-y-4 my-8 dark:text-gray-400">
-					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px] dark:text-white">Struttura progetto</h2>
+				<div id="StrutturaProgetto" class="flex flex-col space-y-4 my-8 dark:text-gray-400">
+					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px] dark:text-white">Struttura progetto
+					</h2>
 					<p class="my-8  sm:text-xl">
-						Per la realizzazione del progetto, si è cercato di utilizzare un approccio il più modulare possibile, andando 
-						di fatto a definire una serie di classi e di relativi oggetti che si occupano di una specifica funzione. <br>
+						Per la realizzazione del progetto, si è cercato di utilizzare un approccio il più modulare
+						possibile, andando
+						di fatto a definire una serie di classi e di relativi oggetti che si occupano di una specifica
+						funzione. <br>
 						La struttura del progetto è la seguente:
 					</p>
 					<lu class="my-8 sm:text-xl list-disc list-inside ml-6">
 						<li> <b> JS </b> </li>
-						<li class="ml-6"> main.js, file che si occupa di gestire la logica di inizializzazione del gioco.</li>
+						<li class="ml-6"> main.js, file che si occupa di gestire la logica di inizializzazione del
+							gioco.</li>
 						<li class="ml-6"> <b> JSCourse </b> </li>
-						<li class="ml-12"> Cartella che contiene tutte le librerie fornite dal corso di Computer Graphics.</li>
-						
+						<li class="ml-12"> Cartella che contiene tutte le librerie fornite dal corso di Computer
+							Graphics.</li>
+
 						<li class="ml-6"> <b> JSProject </b> </li>
 						<li class="ml-12"> <b> Agent </b> </li>
 						<li class="ml-[72px]"> CameraAgent.js </li>
@@ -179,29 +216,34 @@
 						<li class="ml-12"> Core.js </li>
 						<li class="ml-12"> MeshLoader.js </li>
 						<li class="ml-12"> Scene.js </li>
-						
+
 					</lu>
 					<p class="my-8 dark:text-gray-400 sm:text-xl">
 						Nello specifico le differenti interagiscono secondo il seguente schema:
 					</p>
 					<div class="flex flex-row justify-center">
-						<img src="./media/image/Structure.png" alt="Schema funzionamento" class="w-1/2 m-4 self-center" />
+						<img src="./media/image/Structure.png" alt="Schema funzionamento"
+							class="w-1/2 m-4 self-center" />
 					</div>
 				</div>
 
 				<!-- Descrizione main -->
 
-				<div class="flex flex-col space-y-4 my-8 dark:text-gray-400">
+				<div id="DescrizioneMain" class="flex flex-col space-y-4 my-8 dark:text-gray-400">
 					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px] dark:text-white">Descrizione main</h2>
 					<p class="my-8 sm:text-xl">
 						Il file main.js rappresenta il puntod di partenza del codice per la creazione del gioco. <br>
-						Mediante tale file vengono inizializzate le diverse componenti e vengono lanciati gli script necessari per il corretto funzionamento del gioco.
+						Mediante tale file vengono inizializzate le diverse componenti e vengono lanciati gli script
+						necessari per il corretto funzionamento del gioco.
 						Nello specifico vengono effettuate le seguenti operazioni:
 					</p>
 					<ul class="my-8 sm:text-xl list-disc list-inside ml-6">
-						<li> Inizializzazione della scena con l'inizializzazione degli elementi caratterizzanti (identificativo, percorso del modello, impostazioni di render, etc.) di ogni singolo oggetto che dovrà essere renderizzato</li>
+						<li> Inizializzazione della scena con l'inizializzazione degli elementi caratterizzanti
+							(identificativo, percorso del modello, impostazioni di render, etc.) di ogni singolo oggetto
+							che dovrà essere renderizzato</li>
 						<li> Inizializzazione del meccanismo di rendering di cui è incaricato il file Core.js</li>
-						<li> Inizializzazione dei diversi agenti che si occupano di gestire le diverse funzioni del gioco (gestione della camera, gestione delle collisioni, gestione del player, etc.)</li>
+						<li> Inizializzazione dei diversi agenti che si occupano di gestire le diverse funzioni del
+							gioco (gestione della camera, gestione delle collisioni, gestione del player, etc.)</li>
 						<li> Caricamento dei diversi modelli necessari per la creazione del gioco</li>
 						<li> Avvio del ciclo di rendering</li>
 					</ul>
@@ -209,28 +251,34 @@
 
 				<!-- Descrizione core system -->
 
-				<div class="flex flex-col space-y-4 my-8 dark:text-gray-400">
-					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px] dark:text-white">Descrizione core system</h2>
+				<div id="DescrizioneCore" class="flex flex-col space-y-4 my-8 dark:text-gray-400">
+					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px] dark:text-white">Descrizione core
+						system</h2>
 					<p class="my-8 sm:text-xl">
-						Il file Core.js si occupa di gestire il meccanismo di rendering ed aggiornamento delle informazioni del gioco, in particolare:
+						Il file Core.js si occupa di gestire il meccanismo di rendering ed aggiornamento delle
+						informazioni del gioco, in particolare:
 					</p>
-					<ul class="my-8 sm:text-xl list-disc list-inside ml-6"> 
-						<li> Inizializzazione dei programmi GLSL per l'elaborazione dei vertex-shader e dei fragment-shader</li>
+					<ul class="my-8 sm:text-xl list-disc list-inside ml-6">
+						<li> Inizializzazione dei programmi GLSL per l'elaborazione dei vertex-shader e dei
+							fragment-shader</li>
 						<li> Inizializzazione dei canvas di rendering</li>
 						<li> Mantenimento del ciclo di rendering</li>
 					</ul>
 					<p class="my-8 sm:text-xl">
-						In particolare per il corretto funzionamento del gioco si è deciso di implementare il seguente ciclo di aggiornamento delle informazioni di gioco e di rendering del gioco.
+						In particolare per il corretto funzionamento del gioco si è deciso di implementare il seguente
+						ciclo di aggiornamento delle informazioni di gioco e di rendering del gioco.
 					</p>
 					<div class="flex flex-row justify-center">
-						<img src="./media/image/CycleRender.png" alt="Schema funzionamento" class="w-[40%] m-4 self-center" />
+						<img src="./media/image/CycleRender.png" alt="Schema funzionamento"
+							class="w-[40%] m-4 self-center" />
 					</div>
 				</div>
 
 				<!-- Descrizione agent system -->
 
-				<div class="flex flex-col space-y-4 my-8 dark:text-gray-400">
-					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px] dark:text-white">Descrizione agent system</h2>
+				<div id="DescrizioneAgent" class="flex flex-col space-y-4 my-8 dark:text-gray-400">
+					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px] dark:text-white">Descrizione agent
+						system</h2>
 					<p class="my-8 sm:text-xl">
 						Gli agenti sono i componenti che si occupano di gestire le diverse funzioni del gioco. <br>
 						Per lo sviluppo del gioco sono stati implementati i seguenti agenti:
@@ -240,63 +288,164 @@
 						<li> CollisionAgent.js </li>
 						<li> PlayerAgent.js </li>
 					</ul>
+					<br>
 					<p class="my-8 sm:text-xl">
-						Il CameraAgent.js si occupa di gestire la camera di gioco la quale è stata studiata per muoversi lungo la superficie di un'ipotetica 
-						sfera che racchiude l'arena di gioco. <br>
-						L'utente attraverso i controlli implementati è in grado di spostare la camera e di conseguenza la vista del gioco. <br>
+						<b class="font-semibold dark:text-white"> CameraAgent.js </b> <br>
+						Il CameraAgent.js si occupa di gestire la camera di gioco, la quale è stata studiata per
+						muoversi
+						lungo la superficie di un'ipotetica sfera che racchiude l'arena di gioco. <br>
+						L'utente attraverso i controlli implementati è in grado di spostare la camera e di conseguenza
+						la vista del gioco. <br>
 					</p>
 					<div class="flex flex-row justify-center">
-						<img src="./media/video/zoom.gif" alt="Stato iniziale della partita" class="w-[40%] m-4 self-center" />
-						<img src="./media/video/rotation.gif" alt="Stato iniziale della partita" class="w-[40%] m-4 self-center" />
+						<img src="./media/video/zoom.gif" alt="Stato iniziale della partita"
+							class="w-[40%] m-4 self-center" />
+						<img src="./media/video/rotation.gif" alt="Stato iniziale della partita"
+							class="w-[40%] m-4 self-center" />
 					</div>
 					<p class="my-8 sm:text-xl">
+						Rispetto a quando richiesto dalle specifiche del progetto, il movimento della camera è stato
+						progettato per essere fruibile attraverso diversi dispositivi come tastiera e touch.
+						Infatto sono stati implementati i diversi listener per la gestione dei diversi eventi, come
+						ad esempio <b>touchstart</b>, <b>touchend </b>, <b>touchmove</b>, <b>keydown</b>, <b>keyup</b> e
+						diversi bottoni di richiamo.
+						Da notare che per gli eventi di tipo <b>touch</b> è stato implementato un sistema di rilevamento
+						del pich-in e del pinch-out per lo zoom della camera. <br>
+					</p>
+					<p class="my-8 sm:text-xl">
+						<b class="font-semibold dark:text-white"> CollisionAgent.js </b> <br>
 						Il CollisionAgent.js si occupa di gestire le collisioni tra gli oggetti presenti nel gioco.
-						Per lo sviluppo del gioco è stato implementato un sistema di collisioni basato su un sistema di mapping tra la 
-						rappresentazione 3D e la rappresentazione 2D. Sulla base di questo mapping è possibile determinare se due oggetti
-						si sovrappongono o meno attraverso una serie di funzioni di appoggio. <br>
+						Per lo sviluppo del gioco è stato implementato un sistema di collisioni basato su un sistema di
+						mapping tra la rappresentazione 3D e una ipotetica rappresentazione 2D. Sulla base di questo
+						mapping è
+						possibile determinare se due oggetti si sovrappongono o meno attraverso una serie di funzioni di
+						appoggio. <br>
 					</p>
 					<div class="flex flex-row justify-center">
-						<img src="./media/image/typeOfCollision.png" alt="Stato iniziale della partita" class="w-[50%] m-4 self-center" />
+						<img src="./media/image/typeOfCollision.png" alt="Stato iniziale della partita"
+							class="w-[50%] m-4 self-center" />
 					</div>
 					<div class="flex flex-row justify-center">
-						<img src="./media/video/collisionGeneral.gif" alt="Stato iniziale della partita" class="w-[40%] m-4 self-center" />
-						<img src="./media/video/enemyCollision.gif" alt="Stato iniziale della partita" class="w-[40%] m-4 self-center" />
+						<img src="./media/video/collisionGeneral.gif" alt="Stato iniziale della partita"
+							class="w-[40%] m-4 self-center" />
+						<img src="./media/video/enemyCollision.gif" alt="Stato iniziale della partita"
+							class="w-[40%] m-4 self-center" />
 					</div>
 					<p class="my-8 sm:text-xl">
+						Nello specifico sono state implementate le seguenti funzioni di appoggio:
+					</p>
+					<ul class="my-8 sm:text-xl list-disc list-inside ml-6">
+						<li> checkOverlapCircleSquare(...), funzione che determina se un cerchio e un quadrato si
+							sovrappongono.</li>
+						<li> checkOverlapSquareSquare(...), funzione che determina se due quadrati si sovrappongono.
+						</li>
+						<li> checkOverlapCircleCircle(...), funzione che determina se due cerchi si sovrappongono. </li>
+					</ul>
+					<p class="my-8 sm:text-xl">
+						Tutte le funzioni sopra elencate necessitano delle informazioni relative alla posizione del
+						centro del
+						oggetto e delle sue dimensioni (raggio o dimensione lato). <br>
+					</p>
+					<p class="my-8 sm:text-xl">
+						<b class="font-semibold dark:text-white"> PlayerAgent.js </b> <br>
 						Il PlayerAgent.js si occupa di gestire il movimento del giocatore. <br>
-						Il sistema di movimento è stato pensato per impedire il più possibile il movimento del giocatore lungo l'asse verticale 
-						ed orizzontale. Infatti tali assi di movimento sono disponibili solo ad inizio partita e solo se il giocatore decide 
-						di muoversi lungo i limiti dell'arena di gioco. <br>
+						Il sistema di movimento è stato pensato per impedire il più possibile il movimento del giocatore
+						lungo l'asse verticale ed orizzontale. Infatti tali assi di movimento sono disponibili solo ad
+						inizio partita e solo se il giocatore decide di muoversi lungo i limiti dell'arena di gioco.
+						<br>
 					</p>
 					<div class="flex flex-row justify-center">
-						<img src="./media/video/axisMovement.gif" alt="Stato iniziale della partita" class="w-[30%] m-4 self-center" />
-						<img src="./media/video/borderMovement.gif" alt="Stato iniziale della partita" class="w-[30%] m-4 self-center" />
-						<img src="./media/video/playerMovement.gif" alt="Stato iniziale della partita" class="w-[30%] m-4 self-center" />
+						<img src="./media/video/axisMovement.gif" alt="Stato iniziale della partita"
+							class="w-[30%] m-4 self-center" />
+						<img src="./media/video/borderMovement.gif" alt="Stato iniziale della partita"
+							class="w-[30%] m-4 self-center" />
+						<img src="./media/video/playerMovement.gif" alt="Stato iniziale della partita"
+							class="w-[30%] m-4 self-center" />
 					</div>
+					<p class="my-8 sm:text-xl">
+						Rispetto a quando richiesto dalle specifiche del progetto, il movimento del giocatore è stato
+						progettato per essere fruibile attraverso diversi dispositivi come tastiera e touch.
+						Infatto sono stati implementati i diversi listener per la gestione dei diversi eventi, come
+						ad esempio <b>touchstart</b>, <b>touchend </b>, <b>keydown</b> e <b>keyup</b>.
+					</p>
 				</div>
 
 				<!-- Descrizione object behaviour system -->
 
-				<div class="flex flex-col space-y-4 my-8 dark:text-gray-400">
-					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px] dark:text-white">Descrizione object behaviour system</h2>
+				<div id="DescrizioneObject" class="flex flex-col space-y-4 my-8 dark:text-gray-400">
+					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px] dark:text-white">Descrizione object
+						behaviour system</h2>
 					<p class="my-8  sm:text-xl">
-						Ogni oggetto del gioco è caratterizzato da un comportamento che ne determina il suo funzionamento. 
-						Di base ogni oggetto eredità una serie di funzionalità e caratterische dalla classe ObjectBehaviour. <br>
+						Ogni oggetto del gioco è caratterizzato da un comportamento che ne determina il suo
+						funzionamento.
+						Di base ogni oggetto eredità una serie di funzionalità e caratterische dalla classe
+						ObjectBehaviour. <br>
 						Le classi che estendono ObjectBehaviour sono le seguenti:
 					</p>
 					<ul class="my-8 sm:text-xl list-disc list-inside ml-6">
-						<li> PlayerBehaviour.js, caratterizzato da una serie di funzioni per il meccanismi di movimento e di gestione e di reset della posizione.</li>
-						<li> EnemyBehaviour.js, caratterizzato da una serie di funzioni per il meccanismi di movimento, di rimbalzo e di generazione.</li>
-						<li> PointBehaviour.js, caratterizzato da una serie di funzioni per il meccanismi di animazione e generazione della posizione.</li>
-						<li> ModifierBehaviour.js, caratto da una serie di funzioni per il meccanismi di variazione del proprio stato (buffer o debuffer) e enerazione della posizione.</li>
+						<li> <b>PlayerBehaviour.js</b>, caratterizzato da una serie di funzioni per il meccanismi di
+							movimento
+							e di gestione e di reset della posizione.</li>
+						<li> <b>EnemyBehaviour.js</b>, caratterizzato da una serie di funzioni per il meccanismi di
+							movimento,
+							di rimbalzo e di generazione.</li>
+						<li> <b>PointBehaviour.js</b>, caratterizzato da una serie di funzioni per il meccanismi di
+							animazione
+							e generazione della posizione.</li>
+						<li> <b>ModifierBehaviour.js</b>, caratto da una serie di funzioni per il meccanismi di
+							variazione del
+							proprio stato (buffer o debuffer) e generazione della posizione.</li>
 					</ul>
 					<p class="my-8 sm:text-xl">
-						In molte delle classi è stato utilizzato il sistema di gestione della trasparenza in diversi modi. <br>
-						Per esempio, in EnemyBehaviour.js, è stato utilizzato il sistema di trasparenza per gestire il meccanismo di generazione degli 
-						oggetti, mentre in PlayerBehaviour.js è stato utilizzato come identificativo dello stato del giocatore. <br>
+						Rispetto a quanto detto gli aspetti più interessanti riguardano gli effeti di <b>trasparenza</b>
+						e di <b>animazione</b>. <br>
+					</p>
+					<p class="my-8 sm:text-xl">
+						<b class="font-semibold dark:text-white"> Transparenza </b> <br>
+						In molte delle classi è stato utilizzato il sistema di gestione della trasparenza in diversi
+						modi. <br>
+						Per esempio, in EnemyBehaviour.js, è stato utilizzato il sistema di trasparenza per gestire il
+						meccanismo di generazione degli oggetti (spawning routine) oppure per l'identificazione dello
+						stato del giocatore nel PlayerBehaviour.js. <br>
+						In tutti questi casi è stato utilizzato il sistema di gestione della componente alpha del colore
+						(RGBA), la quale può assumere un valore compreso tra 0 (oggetto completamente invisibile) e 1
+						(oggetto completamente visibile). <br>
+						Di base il buffer alpha è allocato autonomamente, per abilitarlo e permettere la gestione della
+						componente alpha del colore, è necessario chiamare la funzione <b>enable(gl.BLEND)</b> sul
+						contesto 3D (ovviamente per riportare la situazione a quella iniziale è necessario chiamare la
+						funzione <b>disable(gl.BLEND)</b>). <br>
+						Per gestire la componente alpha del colore è stato utilizzato il sistema di gestione degli
+						shader, in particolare il fragment shader, al quale è stato aggiunto l'attributo "uniform float
+						uAlpha", utile per passare il valore alpha del colore del pixel. Una volta aggiunto l'attributo,
+						è stato necessario modificare il codice del fragment shader, in particolare la funzione main, in
+						modo da moltiplicare il colore del pixel per il valore di alpha e passarlo al colore del pixel.
+						Attraverso la funzione di render del contesto 3D è stato possibile passare il valore di alpha al
+						fragment shader ed ottenere il risultato desiderato. <br>
+
+						<b>NOTA</b>: Per permettere una corretta gestione della trasparenza è stato necessario
+						modificare l'ordine di render dei vari oggetti. In modo da renderizzare prima gli oggetti con
+						alpha maggiore e poi quelli con alpha minore. <br>
+					</p>
+					<p class="my-8 sm:text-xl">
+						<b class="font-semibold dark:text-white"> Animazione </b> <br>
+						Dal punto di vista tecnico, molte classi utilizzano il sistema di animazione per gestire
+						il movimento degli oggetti, ma solo la classe PointBehaviour.js utilizza il sistema di
+						animazione per gestire l'animazione di inattività (idle animation). <br>
+						Nel gestire il movimento si è ragionato nello sfruttare al meglio il calcolo del tempo
+						della funzione di render del contesto 3D. Utilizzando tale valore è stato possibile
+						ottenere un movimento fluido e continuo attraverso l'applicazione di una funzione periodica
+						come la funzione seno. <br>
+						Per gestire la rotazione dell'oggetto è stato necessario utilizzare la matrice di rotazione
+						per il calcolo della nuova posizione dell'oggetto. <br>
+					</p>
+					<p class="my-8 sm:text-xl">
+						<b class="font-semibold dark:text-white"> Texture alternative </b> <br>
+						Menzione speciale va fatta per la funzionalità di texture alternative. Questa funzionalità
+						consente di cambiare la texture di un oggetto in base allo stato di una checkbox. <br>
+						L'implementazione di questa funzionalità è stata fatta attraverso una ricarica dei diversi 
+						oggetti con un cambiamento nella texture di riferimento. <br>
 					</p>
 				</div>
-
 			</div>
 		</section>
 	</div>
