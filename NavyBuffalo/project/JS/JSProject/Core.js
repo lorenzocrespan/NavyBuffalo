@@ -262,7 +262,6 @@ export function render(time = 0) {
 					break;
 				default:
 					elem.render(
-						time,
 						program[1],
 						program[0],
 						actCamera,

@@ -20,14 +20,8 @@ export const typeCamera = {
 };
 
 export class Camera {
-	constructor(
-		typeCamera,
-		cameraControlsEnabled,
-		position,
-		up,
-		target,
-		fieldOfView
-	) {
+
+	constructor(typeCamera, cameraControlsEnabled, position, up, target, fieldOfView) {
 		this.typeCamera = typeCamera;
 		this.position = position;
 		this.up = up;
@@ -67,10 +61,6 @@ export class Camera {
 		if (angleY < degToRad(45)) angleY += 0.01;
 	}
 
-	radiusModify(radius) {
-		return radius * Math.cos(angleY);
-	}
-
 	resetCamera() {
 		updateCamera = true;
 		this.smoothReset();
@@ -86,8 +76,8 @@ export class Camera {
 		if (leftRotation) this.smoothLeftRotation();
 		if (rightRotation) this.smoothRightRotation();
 		if (this.cameraControlsEnabled & updateCamera) {
-			this.position[0] = this.radiusModify(radius) * Math.cos(angleX);
-			this.position[1] = this.radiusModify(radius) * Math.sin(angleX);
+			this.position[0] = radius * Math.cos(angleY) * Math.cos(angleX);
+			this.position[1] = radius * Math.cos(angleY) * Math.sin(angleX);
 			this.position[2] = radius * Math.sin(angleY);
 		}
 		updateCamera = false;
@@ -110,43 +100,73 @@ export class Camera {
 	}
 }
 
+/**
+ * Sets the camera controls for the canvas.
+ * 
+ * @param {HTMLCanvasElement} canvas Canvas element to add event listeners to.
+ */
 export function setCameraControls(canvas) {
-	// Button camera controls.
+	// Button camera controls for mouse and touch.
+	document.getElementById("zoomCameraArrowUp").addEventListener("touchstart", function () {
+		zoomIn = true;
+		updateCamera = true;
+	});
+	document.getElementById("zoomCameraArrowUp").addEventListener("touchend", function () {
+		zoomIn = false;
+		updateCamera = false;
+	});
+	document.getElementById("zoomCameraArrowDown").addEventListener("touchstart", function () {
+		zoomOut = true;
+		updateCamera = true;
+	});
+	document.getElementById("zoomCameraArrowDown").addEventListener("touchend", function () {
+		zoomOut = false;
+		updateCamera = false;
+	});
+	document.getElementById("rotateLeftCamera").addEventListener("touchstart", function () {
+		leftRotation = true;
+		updateCamera = true;
+	});
+	document.getElementById("rotateLeftCamera").addEventListener("touchend", function () {
+		leftRotation = false;
+		updateCamera = false;
+	});
+	document.getElementById("rotateRightCamera").addEventListener("touchstart", function () {
+		rightRotation = true;
+		updateCamera = true;
+	});
+	document.getElementById("rotateRightCamera").addEventListener("touchend", function () {
+		rightRotation = false;
+		updateCamera = false;
+	});
 	document.getElementById("zoomCameraArrowUp").addEventListener("mousedown", function () {
 		zoomIn = true;
 		updateCamera = true;
 	});
-
 	document.getElementById("zoomCameraArrowUp").addEventListener("mouseup", function () {
 		zoomIn = false;
 		updateCamera = false;
 	});
-
 	document.getElementById("zoomCameraArrowDown").addEventListener("mousedown", function () {
 		zoomOut = true;
 		updateCamera = true;
 	});
-
 	document.getElementById("zoomCameraArrowDown").addEventListener("mouseup", function () {
 		zoomOut = false;
 		updateCamera = false;
 	});
-
 	document.getElementById("rotateLeftCamera").addEventListener("mousedown", function () {
 		leftRotation = true;
 		updateCamera = true;
 	});
-
 	document.getElementById("rotateLeftCamera").addEventListener("mouseup", function () {
 		leftRotation = false;
 		updateCamera = false;
 	});
-
 	document.getElementById("rotateRightCamera").addEventListener("mousedown", function () {
 		rightRotation = true;
 		updateCamera = true;
 	});
-
 	document.getElementById("rotateRightCamera").addEventListener("mouseup", function () {
 		rightRotation = false;
 		updateCamera = false;
@@ -158,11 +178,9 @@ export function setCameraControls(canvas) {
 		(oldX = event.pageX), (oldY = event.pageY);
 		return false;
 	});
-
 	canvas.addEventListener("mouseup", function (event) {
 		drag = false;
 	});
-
 	canvas.addEventListener("mousemove", function (event) {
 		if (!drag) return false;
 		deltaY = (-(event.pageY - oldY) * 2 * Math.PI) / canvas.height;
@@ -177,7 +195,6 @@ export function setCameraControls(canvas) {
 	});
 
 	// Arrow keys zoom in and out camera controls.
-
 	window.addEventListener("keydown", function (event) {
 		switch (event.key) {
 			case "ArrowUp":
@@ -192,7 +209,6 @@ export function setCameraControls(canvas) {
 		}
 		updateCamera = true;
 	});
-
 	window.addEventListener("keyup", function (event) {
 		switch (event.key) {
 			case "ArrowUp":
@@ -204,9 +220,66 @@ export function setCameraControls(canvas) {
 		}
 		updateCamera = false;
 	});
+
+	// Touch camera controls.
+	canvas.addEventListener("touchstart", function (event) {
+		event.preventDefault();
+		drag = true;
+		oldX = event.touches[0].pageX;
+		oldY = event.touches[0].pageY;
+		return false;
+	}
+	);
+	canvas.addEventListener("touchend", function (event) {
+		drag = false;
+	}
+	);
+	canvas.addEventListener("touchmove", function (event) {
+		if (!drag) return false;
+		deltaY = (-(event.touches[0].pageY - oldY) * 2 * Math.PI) / canvas.height;
+		deltaX = (-(event.touches[0].pageX - oldX) * 2 * Math.PI) / canvas.width;
+		angleX += deltaX;
+		angleY -= deltaY;
+		if (angleY > degToRad(75)) angleY = degToRad(75);
+		if (angleY < degToRad(25)) angleY = degToRad(25);
+		oldY = event.touches[0].pageY;
+		oldX = event.touches[0].pageX;
+		updateCamera = true;
+	}
+	);
+
+	// Touch zoom in and out camera with pinch-to-zoom.
+	canvas.addEventListener("touchstart", function (event) {
+		if (event.touches.length == 2) {
+			event.preventDefault();
+			zoomIn = true;
+		}
+	}
+	);
+	canvas.addEventListener("touchend", function (event) {
+		if (event.touches.length == 1) {
+			zoomIn = false;
+		}
+	}
+	);
+	canvas.addEventListener("touchmove", function (event) {
+		if (event.touches.length == 2) {
+			event.preventDefault();
+			zoomIn = true;
+		} else {
+			zoomIn = false;
+		}
+	}
+	);
 }
 
-// Convert degrees to radians.
+/**
+ * Convert degrees to radians.
+ *
+ * @param {number} d The number of degrees.
+ * 
+ * @return {number} The number of radians.
+ */
 function degToRad(d) {
 	return (d * Math.PI) / 180;
 }

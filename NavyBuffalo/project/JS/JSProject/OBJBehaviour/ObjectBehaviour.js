@@ -16,8 +16,14 @@ export class ObjectBehaviour {
 		this.computePosition();
 	}
 
+	/**
+	 * Prototype method to reset object data.
+	 */
 	resetData() { }
 
+	/**
+	 * Compute object mesh position based on object position.
+	 */
 	computePosition() {
 		for (let i = 0; i < this.mesh.positions.length; i += 3) {
 			this.mesh.positions[i] += parseFloat(this.position.z);
@@ -26,7 +32,16 @@ export class ObjectBehaviour {
 		}
 	}
 
-	render(time, gl, program, camera, isScreen) {
+	/**
+	 * Render function for object.
+	 * 
+	 * @param {WebGLRenderingContext} gl Context for rendering
+	 * @param {WebGLProgram} program  Program for rendering
+	 * @param {Camera} camera Camera object for rendering
+	 * @param {boolean} isScreen Main screen or side screen identifier
+	 *
+	 */
+	render(gl, program, camera, isScreen) {
 		let positionLocation = gl.getAttribLocation(program, "a_position");
 		let normalLocation = gl.getAttribLocation(program, "a_normal");
 		let texcoordLocation = gl.getAttribLocation(program, "a_texcoord");
@@ -50,11 +65,11 @@ export class ObjectBehaviour {
 		gl.uniform1f(gl.getUniformLocation(program, "uAlpha"), 1);
 		gl.enableVertexAttribArray(positionLocation);
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.positionBuffer);
-		const size = 3; // 3 components per iteration
-		const type = gl.FLOAT; // the data is 32bit floats
-		const normalize = false; // don't normalize the data
-		const stride = 0; // 0 = move forward size * sizeof(type) each iteration to get the next position
-		const offset = 0; // start at the beginning of the buffer
+		const size = 3; 
+		const type = gl.FLOAT; 
+		const normalize = false;
+		const stride = 0; 
+		const offset = 0; 
 		gl.vertexAttribPointer(positionLocation, size, type, normalize, stride, offset);
 		gl.enableVertexAttribArray(normalLocation);
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.normalsBuffer);
@@ -70,28 +85,22 @@ export class ObjectBehaviour {
 		let viewWorldPositionLocation = gl.getUniformLocation(program, "u_viewWorldPosition");
 		gl.uniformMatrix4fv(viewMatrixLocation, false, camera.viewMatrix());
 		gl.uniformMatrix4fv(projectionMatrixLocation, false, camera.projectionMatrix(gl));
-
 		// set the light position
-		gl.uniform3fv(lightWorldDirectionLocation, m4.normalize([-1, 3, 7]));
-
+		gl.uniform3fv(lightWorldDirectionLocation, m4.normalize(lightPosition));
 		// set the camera/view position
 		gl.uniform3fv(viewWorldPositionLocation, camera.position);
-
 		// Tell the shader to use texture unit 0 for diffuseMap
 		gl.uniform1i(textureLocation, 0);
-
 		let vertNumber = this.mesh.numVertices;
-		drawScene(0, this.mesh);
-
+		drawScene(this.mesh);
 		// Draw the scene.
-		function drawScene(time, mesh) {
+		function drawScene(mesh) {
 			if (isScreen) gl.bindTexture(gl.TEXTURE_2D, mesh.mainTexture);
 			else gl.bindTexture(gl.TEXTURE_2D, mesh.sideTexture);
-			gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
+			gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 			let matrix = m4.identity();
 			gl.uniformMatrix4fv(matrixLocation, false, matrix);
-
 			gl.drawArrays(gl.TRIANGLES, 0, vertNumber);
 		}
 	}
