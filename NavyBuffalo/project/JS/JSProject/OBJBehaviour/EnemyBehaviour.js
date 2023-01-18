@@ -15,7 +15,7 @@ export class EnemyBehaviour extends ObjectBehaviour {
 
 	constructor(alias, mesh, offsets) {
 		super(alias, mesh, offsets);
-		this.speed = originSpeed;
+		this.speed = originSpeed + 0.03;
 		this.angle = Math.random() * 2 * Math.PI;
 		this.vector = {
 			x: Math.cos(this.angle),
@@ -65,7 +65,7 @@ export class EnemyBehaviour extends ObjectBehaviour {
 	 * Reset enemy data.
 	 */
 	resetData() {
-		this.speed = originSpeed;
+		this.speed = originSpeed + 0.03;
 		this.isSpawning = false;
 		this.isVisible = false;
 	}

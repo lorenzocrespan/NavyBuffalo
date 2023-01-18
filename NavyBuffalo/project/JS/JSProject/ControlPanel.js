@@ -40,7 +40,7 @@ export function resetPlayerScore() {
 
 export let spawnThreshold = 10;
 
-export let countEnemies = 5;
+export let countEnemies = 6;
 export let countPoints = 1;
 export let countModifiers = 3;
 
@@ -70,7 +70,7 @@ export let arenaSide = 9;
 
 export let originSpeed = 0.070;
 export let minSpeed = 0.040;
-export let maxSpeed = 0.100;
+export let maxSpeed = 0.150;
 
 /**
  * Ambient light data
