@@ -30,7 +30,9 @@ export class Camera {
 		this.fieldOfView = fieldOfView;
 		this.cameraControlsEnabled = cameraControlsEnabled;
 	}
-
+	/**
+	 * Function to reduce the radius of the camera position.
+	 */
 	smoothZoomIn() {
 		if (radius > minRadius) {
 			radius -= 0.1;
@@ -38,6 +40,9 @@ export class Camera {
 		}
 	}
 
+	/**
+	 * Function to increase the radius of the camera position.
+	 */
 	smoothZoomOut() {
 		if (radius < maxRadius) {
 			radius += 0.1;
@@ -45,16 +50,25 @@ export class Camera {
 		}
 	}
 
+	/**
+	 * Function to rotate the camera to the left.
+	 */
 	smoothLeftRotation() {
 		angleX -= 0.01;
 		updateCamera = true;
 	}
 
+	/**
+	 * Function to rotate the camera to the right.
+	 */
 	smoothRightRotation() {
 		angleX += 0.01;
 		updateCamera = true;
 	}
 
+	/**
+	 * Function to move the camera to the original position.
+	 */
 	smoothReset() {
 		if (angleX > degToRad(180)) angleX -= 0.01;
 		if (angleX < degToRad(180)) angleX += 0.01;
@@ -62,6 +76,9 @@ export class Camera {
 		if (angleY < degToRad(45)) angleY += 0.01;
 	}
 
+	/**
+	 * Function to reset the camera to the original position.
+	 */
 	resetCamera() {
 		updateCamera = true;
 		this.smoothReset();
@@ -70,6 +87,9 @@ export class Camera {
 		if (angleX == degToRad(180) && angleY == degToRad(45)) isResetCamera = false;
 	}
 
+	/**
+	 * Function to move the camera.
+	 */
 	moveCamera() {
 		if (isResetCamera) this.resetCamera();
 		if (zoomIn) this.smoothZoomIn();
@@ -77,6 +97,7 @@ export class Camera {
 		if (leftRotation) this.smoothLeftRotation();
 		if (rightRotation) this.smoothRightRotation();
 		if (this.cameraControlsEnabled & updateCamera) {
+			// Compute the camera's new position.
 			this.position[0] = radius * Math.cos(angleY) * Math.cos(angleX);
 			this.position[1] = radius * Math.cos(angleY) * Math.sin(angleX);
 			this.position[2] = radius * Math.sin(angleY);
@@ -84,17 +105,25 @@ export class Camera {
 		updateCamera = false;
 	}
 
-	// Compute the camera's matrix using look at.
+	/**
+	 * Compute the camera's matrix using look at.
+	 */
 	cameraMatrix() {
 		return m4.lookAt(this.position, this.target, this.up);
 	}
 
-	// Make a view matrix from the camera matrix.
+	/**
+	 * Make a view matrix from the camera matrix.
+	 */
 	viewMatrix() {
 		return m4.inverse(this.cameraMatrix());
 	}
 
-	// Compute the projection matrix
+	/**
+	 * Compute the projection matrix
+	 * 
+	 * @param {WebGLRenderingContext} gl WebGL context.
+	 */
 	projectionMatrix(gl) {
 		let aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
 		return m4.perspective(this.fieldOfView, aspect, 1, 2000);
