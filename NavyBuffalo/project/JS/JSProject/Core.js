@@ -181,9 +181,13 @@ export function initProgramRender() {
 	glMainScreen.useProgram(mainProgram);
 	glSideScreen.useProgram(sideProgram);
 
+	// Activate the culling, the depth test and the blending
+	glMainScreen.enable(glSideScreen.CULL_FACE);
+	glMainScreen.enable(glMainScreen.CULL_FACE);
 	glSideScreen.enable(glSideScreen.DEPTH_TEST);
 	glMainScreen.enable(glMainScreen.DEPTH_TEST);
 	glMainScreen.enable(glMainScreen.BLEND);
+	// Set the blending function
 	glMainScreen.blendFunc(glMainScreen.SRC_ALPHA, glMainScreen.ONE_MINUS_SRC_ALPHA);
 
 	// List of list of programs

@@ -33,6 +33,7 @@
 							<li class="hover:text-white"><a href="#DescrizioneObject">Descrizione object behaviour
 									system</a></li>
 						</ul>
+						<li class="hover:text-white"><a href="#Riferimenti">Riferimenti</a></li>
 					</ul>
 				</div>
 
@@ -100,8 +101,9 @@
 							centro della mappa. </li>
 						<li>Una sfera di colore <a class="dark: text-green-500">verde</a> rappresenta l'oggetto da
 							raccogliere per ottenere punti. </li>
-						<li>Una serie di cubi di colore <a class="dark: text-green-300">verde</a> rappresentano i
-							buff/debuff che possono essere raccolti per ottenere vantaggi/svantaggi. </li>
+						<li>Una serie di cubi di colore <a class="dark: text-green-300">verde</a> o <a
+								class="dark: text-red-400">rossi</a> rappresentano i buff/debuff che possono essere
+							raccolti per ottenere vantaggi/svantaggi. </li>
 					</ul>
 					<p class="my-8 dark:text-gray-400 sm:text-xl">
 						Fino a quando il giocatore non compie alcuna azione il cubo rimane fermo al centro della mappa e
@@ -232,7 +234,7 @@
 				<div id="DescrizioneMain" class="flex flex-col space-y-4 my-8 dark:text-gray-400">
 					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px] dark:text-white">Descrizione main</h2>
 					<p class="my-8 sm:text-xl">
-						Il file main.js rappresenta il puntod di partenza del codice per la creazione del gioco. <br>
+						Il file main.js rappresenta il punto di partenza del codice per la creazione del gioco. <br>
 						Mediante tale file vengono inizializzate le diverse componenti e vengono lanciati gli script
 						necessari per il corretto funzionamento del gioco.
 						Nello specifico vengono effettuate le seguenti operazioni:
@@ -240,12 +242,12 @@
 					<ul class="my-8 sm:text-xl list-disc list-inside ml-6">
 						<li> Inizializzazione della scena con l'inizializzazione degli elementi caratterizzanti
 							(identificativo, percorso del modello, impostazioni di render, etc.) di ogni singolo oggetto
-							che dovrà essere renderizzato</li>
-						<li> Inizializzazione del meccanismo di rendering di cui è incaricato il file Core.js</li>
+							che dovrà essere renderizzato.</li>
+						<li> Inizializzazione del meccanismo di rendering di cui è incaricato il file Core.js.</li>
 						<li> Inizializzazione dei diversi agenti che si occupano di gestire le diverse funzioni del
-							gioco (gestione della camera, gestione delle collisioni, gestione del player, etc.)</li>
-						<li> Caricamento dei diversi modelli necessari per la creazione del gioco</li>
-						<li> Avvio del ciclo di rendering</li>
+							gioco (gestione della camera, gestione delle collisioni, gestione del player, etc.).</li>
+						<li> Caricamento dei diversi modelli necessari per la creazione del gioco.</li>
+						<li> Avvio del ciclo di rendering.</li>
 					</ul>
 				</div>
 
@@ -260,9 +262,9 @@
 					</p>
 					<ul class="my-8 sm:text-xl list-disc list-inside ml-6">
 						<li> Inizializzazione dei programmi GLSL per l'elaborazione dei vertex-shader e dei
-							fragment-shader</li>
-						<li> Inizializzazione dei canvas di rendering</li>
-						<li> Mantenimento del ciclo di rendering</li>
+							fragment-shader.</li>
+						<li> Inizializzazione dei canvas di rendering.</li>
+						<li> Mantenimento del ciclo di rendering.</li>
 					</ul>
 					<p class="my-8 sm:text-xl">
 						In particolare per il corretto funzionamento del gioco si è deciso di implementare il seguente
@@ -272,6 +274,15 @@
 						<img src="./media/image/CycleRender.png" alt="Schema funzionamento"
 							class="w-[40%] m-4 self-center" />
 					</div>
+					<p class="my-8 sm:text-xl">
+						Da notare che nella fase di inizializzazione dei due canvas di rendering, vengono attivate 
+						le diverse funzioni di webgl per un'ottimizzazione del codice, come ad esempio la funzione
+						<b>gl.enable(gl.DEPTH_TEST)</b> che permette di attivare il test di profondità per
+						ottenere un'ottimizzazione del rendering, la funzione <b>gl.enable(gl.CULL_FACE)</b>
+						che permette di attivare il culling delle facce non visibili ed infine la funzione
+						<b>gl.enable(gl.BLEND)</b> che permette di attivare il blending per ottenere un'ottimizzazione
+						della trasparenza.
+					</p>
 				</div>
 
 				<!-- Descrizione agent system -->
@@ -450,6 +461,9 @@
 						come la funzione seno. <br>
 						Per gestire la rotazione dell'oggetto è stato necessario utilizzare la matrice di rotazione
 						per il calcolo della nuova posizione dell'oggetto. <br>
+						Da notare che ad ogni aggiornamento della posizione dell'oggetto è stato necessario aggiornare
+						anche i dati relativi alle normali dell'oggetto, per permettere una corretta gestione della
+						luce. <br>
 					</p>
 					<p class="my-8 sm:text-xl">
 						<b class="font-semibold dark:text-white"> Texture alternative </b> <br>
@@ -457,7 +471,28 @@
 						consente di cambiare la texture di un oggetto in base allo stato di una checkbox. <br>
 						L'implementazione di questa funzionalità è stata fatta attraverso una ricarica dei diversi
 						oggetti con un cambiamento nella texture di riferimento. <br>
+						
+						<b>NOTA</b>: Come da richiesta del progetto, è stata inserita la presenza di un oggetto
+						che presenta come <b>texture una immagine dell'autore</b> del progetto. Tale texture è 
+						visualizzata solo se la <b>checkbox è selezionata</b>. <br>
 					</p>
+					<div class="flex flex-row justify-center">
+						<img src="./media/image/AlternativeTexture.png" alt="Stato iniziale della partita"
+							class="w-[60%] m-4 self-center" />
+					</div>
+				</div>
+				<!-- Riferimenti -->
+
+				<div id="Riferimenti" class="flex flex-col space-y-4 my-8 dark:text-gray-400">
+					<h2 class="text-2xl font-semibold sm:text-2xl border-b-[1px] dark:text-white">Riferimenti</h2>
+					<p class="my-8  sm:text-xl">
+						Per lo sviluppo del progetto sono stati utilizzati i seguenti riferimenti:
+					</p>
+					<ul class="my-8 sm:text-xl list-disc list-inside ml-6">
+						<li> <b>Funzioni OpenGL</b>: <a href="https://learnopengl.com/" class="text-white">learnopengl.com/</a> </li>
+						<li> <b>Camera</b>: <a href="https://webglfundamentals.org/webgl/lessons/webgl-3d-camera.html" class="text-white">webglfundamentals.org/webgl/lessons/webgl-3d-camera.html</a> </li>
+						<li> <b>O'Reilly</b>: <a href="https://www.oreilly.com/search/?q=webgl&type=*" class="text-white">www.oreilly.com/search/?q=webgl&type=*</a> </li>
+					</ul>
 				</div>
 			</div>
 		</section>
